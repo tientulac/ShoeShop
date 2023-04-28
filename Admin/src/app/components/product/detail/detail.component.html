@@ -1,0 +1,28 @@
+<form class="form-inline">
+    <div class="form-group">
+        <textarea class="form-control"  [(ngModel)]="_detail" id="exampleFormControlTextarea1" rows="2" [ngModelOptions]="{standalone: true}"></textarea>
+      </div>
+    <button class="btn btn-primary mb-2" (click)="addDetail()">Thêm mô tả</button>
+</form>
+<div class="table-responsive table-hover table-sales">
+    <nz-table #basicTable [nzData]="dataDetail">
+        <thead>
+            <tr>
+                <th>Mô tả</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of basicTable.data">
+                <td>{{data.detail}}</td>
+                <td>
+                    <button class="btn btn-sm btn-outline-danger" placement="left"
+                        style="margin-right: 0.5rem;" nzType="dashed"
+                        (click)="showConfirm(data.product_detail_id)">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>

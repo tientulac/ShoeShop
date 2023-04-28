@@ -1,0 +1,154 @@
+<div class="content">
+    <div class="panel-header bg-primary-gradient">
+        <div class="page-inner py-5">
+            <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                <div>
+                    <h2 class="text-white pb-2 fw-bold">Sản phẩm</h2>
+                    <h5 class="text-white op-7 mb-2">Trang chủ/Admin/Sản phẩm</h5>
+                </div>
+                <div class="ml-md-auto py-2 py-md-0">
+                    <a href="javascript:void(0)" class="btn btn-secondary btn-round"
+                        (click)="showAddModal('Add', null)">Thêm mới</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-inner mt--5">
+        <div class="row mt--2">
+            <div class="col-md-12">
+                <div class="card full-height">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-responsive table-hover table-sales">
+                                    <input type="text" style="float: right; margin-bottom: 10px;" placeholder="tìm kiếm nhanh..." [(ngModel)]="searchString" [ngModelOptions]="{standalone: true}">
+                                    <nz-table #basicTable [nzData]="listProduct">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Số lượng trong kho</th>
+                                                <th>Danh mục</th>
+                                                <th>Thương hiệu</th>
+                                                <th>Tên sản phẩm</th>
+                                                <th>Size</th>
+                                                <th>Xuất xứ</th>
+                                                <th>Giá tiền</th>
+                                                <th>Trạng thái</th>
+                                                <th>Hành động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let data of basicTable.data | filter:searchString">
+                                                <td>{{ data.product_id }}</td>
+                                                <td>{{ data.amount }}</td>
+                                                <td>{{ data.category_name }}</td>
+                                                <td>{{ data.brand_name }}</td>
+                                                <td>{{ data.product_name }}</td>
+                                                <td>{{ data.size }}</td>
+                                                <td>{{ data.origin }}</td>
+                                                <td>{{ data.price | number }}</td>
+                                                <td
+                                                    [style]="data.status == 1 ? 'font-weight: bold; color: green' : 'font-weight: bold;color:yellow'">
+                                                    {{data.status == 1 ? 'Mới' : 'Cũ'}}</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-warning" placement="left"
+                                                        style="margin-right: 0.5rem;"
+                                                        (click)="showAddModal('Update', data)">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-danger" placement="left"
+                                                        style="margin-right: 0.5rem;" nzType="dashed"
+                                                        (click)="showConfirm(data.product_id)">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-secondary" placement="left"
+                                                        style="margin-right: 0.5rem;" nzType="dashed"
+                                                        (click)="showImageModal(data.product_id)">
+                                                        <i class="fa fa-image"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-primary" placement="left"
+                                                        style="margin-right: 0.5rem;" nzType="dashed"
+                                                        (click)="showDetailModal(data.product_id)">
+                                                        <i class="fa fa-eye"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-success" placement="left"
+                                                        style="margin-right: 0.5rem;" nzType="dashed"
+                                                        (click)="showColorModal(data.product_id)">
+                                                        <i class="fa fa-palette"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </nz-table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<nz-modal [(nzVisible)]="isDisplay" [nzTitle]="titleModal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <ng-container *nzModalContent>
+        <form class="form-horizontal" [formGroup]="AddForm">
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="row col-md-10">Tên sản phẩm</label>
+                    <input type="text" class="form-control" formControlName="product_name" placeholder="nhập...">
+                </div>
+                <label class="col-md-12">Danh mục</label>
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn danh mục" formControlName="category_id">
+                    <nz-option *ngFor="let c of listCate" [nzLabel]="c.category_name" [nzValue]="c.category_id">
+                        {{c.category_name}}</nz-option>
+                </nz-select>
+                <label class="col-md-12">Thương hiệu</label>
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn thương hiệu" formControlName="brand_id">
+                    <nz-option *ngFor="let c of listBrand" [nzLabel]="c.brand_name" [nzValue]="c.brand_id"></nz-option>
+                </nz-select>
+                <div class="col-md-12">
+                    <label class="row col-md-10">Số lượng kho</label>
+                    <input type="number" class="form-control" formControlName="amount" placeholder="nhập...">
+                </div>
+                <div class="col-md-12">
+                    <label class="rowcol-md-10">Xuất xứ</label>
+                    <input type="text" class="form-control" formControlName="origin" placeholder="nhập...">
+                </div>
+                <div class="col-md-12">
+                    <label class="row col-md-10">Giá tiền</label>
+                    <input type="number" class="form-control" formControlName="price" placeholder="nhập...">
+                </div>
+                <div class="col-md-12">
+                    <label class="row col-md-10">Size (Kích cỡ)</label>
+                    <input type="text" class="form-control" formControlName="size" placeholder="nhập...">
+                </div>
+                <!-- <label class="col-md-12">Size</label>
+                <nz-select [(ngModel)]="multipleValue" [nzSize]="size" nzMode="multiple" nzPlaceHolder="Chọn size"
+                    [ngModelOptions]="{standalone: true}">
+                    <nz-option *ngFor="let option of listOfOption" [nzLabel]="option" [nzValue]="option"></nz-option>
+                </nz-select>
+                <label class="col-md-12">{{sizeUpdate}}</label> -->
+            </div>
+        </form>
+    </ng-container>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isDisplayImage" [nzTitle]="titleModal" (nzOnCancel)="handleCancel()">
+    <ng-container *nzModalContent>
+        <app-image [id_input]="selected_ID"></app-image>
+    </ng-container>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isDisplayDetail" [nzTitle]="titleModal" (nzOnCancel)="handleCancel()">
+    <ng-container *nzModalContent>
+        <app-detail [id_input]="selected_ID"></app-detail>
+    </ng-container>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isDisplayColor" [nzTitle]="titleModal" (nzOnCancel)="handleCancel()">
+    <ng-container *nzModalContent>
+        <app-color [id_input]="selected_ID"></app-color>
+    </ng-container>
+</nz-modal>

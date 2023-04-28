@@ -1,0 +1,30 @@
+<form class="form-inline">
+    <div class="form-group mx-sm-3 mb-2">
+      <input type="text" class="form-control" [(ngModel)]="img_link" placeholder="Paste Image link in here..." [ngModelOptions]="{standalone: true}">
+    </div>
+    <button class="btn btn-primary mb-2" (click)="addImage()">Thêm ảnh</button>
+</form>
+<div class="table-responsive table-hover table-sales">
+    <nz-table #basicTable [nzData]="dataImage">
+        <thead>
+            <tr>
+                <th>Link</th>
+                <th>Ảnh</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of basicTable.data">
+                <td><a href="{{data.image}}">link</a></td>
+                <td><img width="50px" height="50px" src="{{data.image}}" alt=""></td>
+                <td>
+                    <button class="btn btn-sm btn-outline-danger" placement="left"
+                        style="margin-right: 0.5rem;" nzType="dashed"
+                        (click)="showConfirm(data.product_image_id)">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>
