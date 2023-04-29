@@ -107,9 +107,9 @@
 
           <div class="product-info">
             <h2 class="product-title h5 mb-0"><a routerLink="/product-single/{{p.product_id}}"
-                (click)="passingData(p)">{{p.product_name}}</a></h2>
+                (click)="passingData(p)">Giày {{p.brand_name}} {{p.product_name}} [{{p.product_id}}]</a></h2>
             <span class="price">
-              {{p.price | number}}
+              {{p.price | number}} VNĐ
             </span>
           </div>
         </div>

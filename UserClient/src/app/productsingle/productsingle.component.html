@@ -42,28 +42,30 @@
         
         <div class="col-md-7">
           <div class="single-product-details mt-5 mt-lg-0">
-            <h2>{{product?.product_name}}</h2>
-            <div class="sku_wrapper mb-4">
-              ID: <span class="text-muted">{{product?.product_id}} </span>
+            <h2>Giày {{product?.brand_name}} {{product?.product_name}} [{{product?.product_id}}]</h2>
+
+            <h3 class="product-price mb-2">{{product?.price | number}} &nbsp;<del>{{(product?.price + product?.price/2) | number}}</del>VNĐ</h3>
+
+            <div class="sku_wrapper font-weight-bold mb-2">
+              Mã sản phẩm: <span class="text-muted">{{product?.product_id}} </span>
             </div>
-  
+            <div class="sku_wrapper font-weight-bold mb-2">
+              Thương hiệu: <span class="text-muted">{{product?.brand_name}} </span>
+            </div>
+           <div class="row">
+            <div class="sku_wrapper font-weight-bold mb-2 col-6">
+              Danh mục: <span class="text-muted">{{product?.category_name}} </span>
+            </div>
+            <div class="font-weight-bold mb-2 col-6">
+              <a href="#" style="color: black; margin-left: 100px;"><i class="tf-ion-social-pinterest"></i> Biểu đồ kích cỡ</a>
+            </div>
+           </div>
             <hr>
             
-            <h3 class="product-price">{{product?.price | number}} &nbsp;<del>{{(product?.price + product?.price/2) | number}}</del>VNĐ</h3>
-            
-            <p class="product-description my-4 " *ngFor="let d of listPDetail">
-              {{d.detail}}
+            <p class="product-description my-4 font-weight-bold" *ngFor="let d of listPDetail">
+              Mô tả: {{d.detail}}
             </p>
-  
-            <form class="cart" action="#" method="post">
-              <div class="quantity d-flex align-items-center">
-                <input [ngModelOptions]="{standalone: true}" [(ngModel)]="countP" type="number" id="#" class="input-text qty text form-control w-25 mr-3" step="1" min="1" max="9" name="quantity" value="1" title="Qty" size="4" >
-                <a href="javascript:void(0)" (click)="addToCart(product)" class="btn btn-main btn-small">Thêm vào giỏ</a>
-              </div>
-            </form>
-  
-            
-            <div class="product-size d-flex align-items-center mt-4">
+            <div class="product-size d-flex align-items-center">
               <span class="font-weight-bold text-capitalize product-meta-title">Màu sắc:</span>
 
               <div class="form-check" *ngFor="let s of listPColor; let i=index" style="margin-right: 10px;">
@@ -74,19 +76,27 @@
                 </div>
               </div>
   
-            <div class="product-size d-flex align-items-center mt-4">
+            <div class="product-size d-flex align-items-center mt-2">
               <span class="font-weight-bold text-capitalize product-meta-title">Kích cỡ:</span>
-              <select class="form-control"  [ngModelOptions]="{standalone: true}" [(ngModel)]="sizePick">
+              <select class="form-control" style="width: 100px; border-radius: 5px; height: 40px;"  [ngModelOptions]="{standalone: true}" [(ngModel)]="sizePick">
                 <option value="">size</option>
                 <option *ngFor="let s of listSize" value="{{s}}">{{s}}</option>
               </select>
             </div>
+
+            <form class="cart mt-4" action="#" method="post">
+              <div class="quantity d-flex align-items-center">
+                <input [ngModelOptions]="{standalone: true}" [(ngModel)]="countP" type="number" id="#" class="input-text qty text form-control w-25 mr-3" step="1" min="1" max="9" name="quantity" value="1" title="Qty" size="4" >
+                <a href="javascript:void(0)" (click)="addToCart(product)" class="btn btn-main btn-small" style="border-radius: 5px;">Thêm vào giỏ</a>
+                <a href="javascript:void(0)" routerLink="/checkout" class="btn btn-dark btn-small" style="border-radius: 5px; margin-left: 5px;">Mua ngay</a>
+              </div>
+            </form>
+  
+            
+            
   
             <div class="products-meta mt-4">
-              <div class="product-category d-flex align-items-center">
-                <span class="font-weight-bold text-capitalize product-meta-title">Danh mục :</span>
-                <a routerLink="/shop/{{product?.category_id}}">{{product?.category_name}}</a>
-              </div>
+
   
               <div class="product-share mt-5">
                 <ul class="list-inline">
@@ -237,7 +247,7 @@
             <span class="onsale">Giảm giá</span>
   
             <div class="product-info">
-              <h2 class="product-title h5 mb-0"><a routerLink="/product-single">{{p.product_name}}</a></h2>
+              <h2 class="product-title h5 mb-0"><a routerLink="/product-single">Giày {{p.brand_name}} {{p.product_name}} [{{p.product_id}}]</a></h2>
               <span class="price">
                 {{p.price | number}} VNĐ
               </span>

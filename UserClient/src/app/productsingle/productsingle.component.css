@@ -21,3 +21,7 @@
 .rating-list li.selected {
     color: #ffd700;
 }
+.qty{
+    border-radius: 5px;
+    width: 80px !important;
+}
