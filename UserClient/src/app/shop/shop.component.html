@@ -48,7 +48,6 @@
         </div>
 
         <div class="row">
-
           <div class="col-lg-4 col-12 col-md-6 col-sm-6 mb-5" *ngFor="let p of listProductFilter | filter:searchString | paginate: {
             itemsPerPage: 6,
             currentPage: page,
@@ -66,9 +65,16 @@
               </div>
 
               <div class="product-info">
-                <h2 class="product-title h5 mb-0"><a routerLink="/product-single">{{p.product_name}}</a></h2>
+                <h2 class="product-title h4 mb-0"><a routerLink="/product-single/{{p.product_id}}"
+                    (click)="passingData(p)">{{p.product_name}}</a></h2>
                 <span class="price">
-                  {{p.price| number}}
+                  <del>Giá gốc: {{p.price + p.price*0.5 | number}} đ</del>
+                </span><br>
+                <span class="price" style="color: red;">
+                  Giảm: {{p.price*0.5 | number}} đ
+                </span><br>
+                <span class="price">
+                  Chỉ còn: {{p.price | number}} đ
                 </span>
               </div>
             </div>
@@ -132,7 +138,7 @@
             <div class="custom-control custom-checkbox" *ngFor="let s of listSizeFilter">
               <input type="checkbox" class="custom-control-input" id="size{{s.id}}" [(ngModel)]="s.checked"
                 [ngModelOptions]="{standalone: true}">
-              <label class="custom-control-label" for="size{{s.id}}">{{s.size}} {{s.name}}</label>
+              <label class="custom-control-label" for="size{{s.id}}">{{s.name}}</label>
             </div>
           </section>
 

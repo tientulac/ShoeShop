@@ -10,10 +10,13 @@ import { BaseComponent } from '../base/base.component';
 })
 export class ProductComponent extends BaseComponent implements OnInit {
 
-  listOfOption: any = ['S','M','L','XL','XXL'];
+  listOfOption: any = ['41','42','43','44','45'];
+  listOfSelectedValue = [];
+
   size: NzSelectSizeType = 'default';
   multipleValue = [];
   sizeUpdate: any = '';
+  newSize: any;
 
   selectedIndex: any;
 
@@ -92,6 +95,7 @@ export class ProductComponent extends BaseComponent implements OnInit {
         status: !dataEdit ? 1 : dataEdit.status,
         size: !dataEdit ? '' : dataEdit.size,
       });
+      this.listOfSelectedValue = dataEdit.size.split(",") ?? [];
     }
     else {
       this.AddForm.reset();
@@ -127,7 +131,7 @@ export class ProductComponent extends BaseComponent implements OnInit {
       product_name: this.AddForm.value.product_name,
       status: this.AddForm.value.status,
       price: this.AddForm.value.price,
-      size: this.AddForm.value.size,
+      size: this.listOfSelectedValue.join(','),
     }
     this.productService.save(req).subscribe(
       (res) => {
@@ -154,5 +158,9 @@ export class ProductComponent extends BaseComponent implements OnInit {
     this.isDisplayImage = false;
     this.isDisplayDetail = false;
     this.isDisplayColor = false;
+  }
+
+  addSize() {
+    this.listOfOption.push(this.newSize);
   }
 }

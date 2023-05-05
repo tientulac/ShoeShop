@@ -42,6 +42,7 @@ export class SignupComponent extends BaseComponent implements OnInit {
     this.accService.register(req).subscribe(
       (res) => {
         if (res) {
+          setTimeout(()=>this.router.navigate(['/']), 1000);
           this.toastr.success('Đăng kí thành công. Bạn có thể đăng nhập tài khoản ngay bây giờ !');
         }
         else {

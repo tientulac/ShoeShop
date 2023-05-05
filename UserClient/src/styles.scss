@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 // custom text
+
 .text-upper {
     text-transform: uppercase;
 }
@@ -52,5 +53,5 @@ label {
 
 @import 'ngx-toastr/toastr';
 @import 'ngx-toastr/toastr-bs4-alert';
-
+@import "../node_modules/@ng-select/ng-select/themes/material.theme.css";
 @import "~bootstrap/dist/css/bootstrap.css"

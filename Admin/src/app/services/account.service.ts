@@ -40,4 +40,13 @@ export class AccountService {
         })
       );
   }
+
+  getDataPosition(): Observable<any> {
+    return this.http.get<any>('https://provinces.open-api.vn/api/?depth=3')
+      .pipe(
+        map((z) => {
+          return z;
+        })
+      )
+  }
 }

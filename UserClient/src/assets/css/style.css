@@ -1043,12 +1043,12 @@ a.text-primary:hover {
 }
 
 .product-info {
-  text-align: center;
+  text-align: left;
 }
 
 .product-info .price {
   color: #777;
-  font-size: 18px;
+  font-size: 15px;
   font-family: "Source Sans Pro", sans-serif;
 }
 

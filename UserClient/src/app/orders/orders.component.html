@@ -31,7 +31,8 @@
         <div class="container">
           <input style="margin: 20px 0" type="text" placeholder="Tìm kiếm nhanh..." class="form-control"
             [(ngModel)]="searchString">
-            <button class="btn btn-sm-primary" (click)="exportOrder()" style="float: right;">Export <i class="fa fa-print"></i></button>
+          <button class="btn btn-sm-primary" (click)="exportOrder()" style="float: right;">Export <i
+              class="fa fa-print"></i></button>
         </div>
 
         <div class="col-12 col-md-12 col-sm-12 col-lg-12">
@@ -43,6 +44,8 @@
                 <th scope="col">Trạng thái</th>
                 <th scope="col">Người nhận</th>
                 <th scope="col">Địa chỉ</th>
+                <th scope="col">Thời gian hủy</th>
+                <th scope="col">Cập nhật gần đây</th>
                 <th scope="col">Hành động</th>
               </tr>
             </thead>
@@ -54,17 +57,25 @@
               }; let i=index">
                 <th scope="row">#{{o.order_id}}</th>
                 <td>{{o.created_at | date: 'dd/MM/yyyy'}}</td>
-                <td [style]="o.status == 1 ? 'font-weight: bold; color: green' : 'font-weight: bold;color:red'">
-                  {{o.status == 1 ? 'Đang vận chuyển' : 'Đã huỷ'}}</td>
+                <td
+                  [style]="
+                  o.status == 0 ? 'font-weight: bold; color: #c7c726' : 
+                  o.status == 1 ? 'font-weight: bold; color: green' : 
+                  o.status == 2 ? 'font-weight: bold; color: green' : 
+                  o.status == 3 ? 'font-weight: bold; color: green' : 
+                  'font-weight: bold;color:red'">
+                  {{o.status == 0 ? 'Chờ xác nhận' : o.status == 1 ? 'Chờ lấy hàng' : o.status == 2 ? 'Đang giao' : o.status == 3 ? 'Giao thành công' : 'Đã huỷ'}}</td>
                 <td>{{o.full_name}}</td>
                 <td>{{o.address}}</td>
+                <td>{{o.deleted_at | date: 'dd/MM/yyyy hh:aa:mm'}}</td>
+                <td>{{o.updated_at | date: 'dd/MM/yyyy hh:aa:mm'}}</td>
                 <td style="text-align: center;">
                   <a href="javascript:void(0)" placement="left" style="margin-right: 0.5rem; color:blue" nzType="dashed"
                     (click)="open(o)" data-toggle="modal" data-target="#myModal">
                     <i class="fa fa-eye"></i>
                   </a>&nbsp;&nbsp;&nbsp;
-                  <a href="javascript:void(0)" placement="left" style="margin-right: 0.5rem; color:red" nzType="dashed"
-                    (click)="cancleOrder(o.order_id)" >
+                  <a *ngIf="o.status <= 1" href="javascript:void(0)" placement="left" style="margin-right: 0.5rem; color:red" nzType="dashed"
+                    (click)="cancleOrder(o.order_id)">
                     <i class="fa fa-ban"></i>
                   </a>
               </tr>

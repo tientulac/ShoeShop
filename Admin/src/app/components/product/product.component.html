@@ -21,7 +21,9 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive table-hover table-sales">
-                                    <input type="text" style="float: right; margin-bottom: 10px;" placeholder="tìm kiếm nhanh..." [(ngModel)]="searchString" [ngModelOptions]="{standalone: true}">
+                                    <input type="text" style="float: right; margin-bottom: 10px;"
+                                        placeholder="tìm kiếm nhanh..." [(ngModel)]="searchString"
+                                        [ngModelOptions]="{standalone: true}">
                                     <nz-table #basicTable [nzData]="listProduct">
                                         <thead>
                                             <tr>
@@ -120,10 +122,26 @@
                     <label class="row col-md-10">Giá tiền</label>
                     <input type="number" class="form-control" formControlName="price" placeholder="nhập...">
                 </div>
-                <div class="col-md-12">
+                <!-- <div class="col-md-12">
                     <label class="row col-md-10">Size (Kích cỡ)</label>
                     <input type="text" class="form-control" formControlName="size" placeholder="nhập...">
+                </div> -->
+                <label class="col-md-10">Size (Kích cỡ)</label>
+                <nz-select [nzMaxTagPlaceholder]="tagPlaceHolder" nzMode="multiple" formControlName="size"
+                    nzPlaceHolder="Please select" [(ngModel)]="listOfSelectedValue">
+                    <nz-option *ngFor="let item of listOfOption" [nzLabel]="item" [nzValue]="item"></nz-option>
+                </nz-select>
+                <div class="col-md-12">
+                    <form class="form-inline">
+                        <div class="form-group" style="padding-left: 0;">
+                            <label for="inputPassword2" class="sr-only">Thêm size</label>
+                            <input type="text" class="form-control" [(ngModel)]="newSize" name="newSize" id="inputPassword2" placeholder="size">
+                        </div>
+                        <button (click)="addSize()" class="btn btn-primary mb-2">Thêm size</button>
+                    </form>
                 </div>
+                <ng-template #tagPlaceHolder let-selectedList>and {{ selectedList.length }} more selected</ng-template>
+                
                 <!-- <label class="col-md-12">Size</label>
                 <nz-select [(ngModel)]="multipleValue" [nzSize]="size" nzMode="multiple" nzPlaceHolder="Chọn size"
                     [ngModelOptions]="{standalone: true}">

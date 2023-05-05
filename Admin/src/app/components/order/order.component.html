@@ -17,15 +17,20 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive table-hover table-sales">
-                                    <input type="text" style="float: right; margin-bottom: 10px;" placeholder="tìm kiếm nhanh..." [(ngModel)]="searchString" [ngModelOptions]="{standalone: true}">
+                                    <input type="text" style="float: right; margin-bottom: 10px;"
+                                        placeholder="tìm kiếm nhanh..." [(ngModel)]="searchString"
+                                        [ngModelOptions]="{standalone: true}">
                                     <nz-table #basicTable [nzData]="listOrder">
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
                                                 <th>Địa chỉ</th>
                                                 <th>Trạng thái</th>
+                                                <th>Khách hàng</th>
                                                 <th>Loại thanh toán</th>
                                                 <th>Ngày đặt</th>
+                                                <th>Thời gian cập nhật</th>
+                                                <th>Thời gian hủy</th>
                                                 <th>Tài khoản</th>
                                                 <th>Hành động</th>
                                             </tr>
@@ -34,15 +39,43 @@
                                             <tr *ngFor="let data of basicTable.data | filter:searchString">
                                                 <td>{{ data.order_id }}</td>
                                                 <td>{{ data.address }}</td>
-                                                <td [style]="data.status == 1 ? 'font-weight: bold; color: green' : 'font-weight: bold;color:red'">{{data.status == 1 ? 'Đang vận chuyển' : 'Đã huỷ'}}</td>
-                                                <td [style]="data.type_payment == 1 ? 'font-weight: bold; color: green' : 'font-weight: bold;color:yellow'">{{data.status == 1 ? 'Tiền mặt' : 'Chuyển khoản'}}</td>
+                                                <td
+                                                    [style]="
+                                                    data.status == 0 ? 'font-weight: bold; color: #c7c726' : 
+                                                    data.status == 1 ? 'font-weight: bold; color: green' : 
+                                                    data.status == 2 ? 'font-weight: bold; color: green' : 
+                                                    data.status == 3 ? 'font-weight: bold; color: green' : 
+                                                    'font-weight: bold;color:red'">
+                                                    {{data.status == 0 ? 'Chờ xác nhận' : data.status == 1 ? 'Chờ lấy
+                                                    hàng' :
+                                                    data.status == 2 ? 'Đang giao' : data.status == 3 ? 'Giao thành
+                                                    công' :
+                                                    'Đã huỷ'}}</td>
+                                                <td>{{data.full_name}}</td>
+                                                <td
+                                                    [style]="data.type_payment == 1 ? 'font-weight: bold; color: green' : 'font-weight: bold;color:yellow'">
+                                                    {{data.status == 1 ? 'Tiền mặt' : 'Chuyển khoản'}}</td>
                                                 <td>{{ data.created_at | date: 'dd/MM/yyyy hh:mm:aa'}}</td>
+                                                <td>{{ data.updated_at | date: 'dd/MM/yyyy hh:mm:aa'}}</td>
+                                                <td>{{ data.deleted_at | date: 'dd/MM/yyyy hh:mm:aa'}}</td>
                                                 <td>{{ data.account_id }}</td>
                                                 <td>
                                                     <button class="btn btn-sm btn-outline-danger" placement="left"
-                                                        style="margin-right: 0.1rem;" nzType="dashed" (click)="showConfirm(data.order_id)">
+                                                        style="margin-right: 0.5rem;" nzType="dashed"
+                                                        (click)="showConfirm(data.order_id)">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </button>
+                                                    <a nz-dropdown [nzDropdownMenu]="menu">
+                                                        <button class="btn btn-sm btn-outline-warning" placement="left"
+                                                            style="margin-right: 0.1rem;" nzType="dashed">
+                                                            <i class="fas fa-pencil-alt"></i>
+                                                        </button>
+                                                    </a>
+                                                    <nz-dropdown-menu #menu="nzDropdownMenu">
+                                                        <ul nz-menu nzSelectable>
+                                                            <li *ngFor="let status of statusOrder" (click)="confirmStatus(data, status)" nz-menu-item>{{status.name}}</li>
+                                                        </ul>
+                                                    </nz-dropdown-menu>
                                                 </td>
                                             </tr>
                                         </tbody>

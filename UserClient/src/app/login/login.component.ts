@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('UserInfo', JSON.stringify(z.data));
           this.appService.login();
           this.toastr.success('Đăng nhập thành công !');
-          setTimeout(window.location.reload.bind(window.location), 250);
+          setTimeout(()=>this.router.navigate(['/']), 1000);
         } else {
           this.toastr.warning('Thông tin đăng nhập không chính xác !');
           localStorage.removeItem('UserInfo');

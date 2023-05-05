@@ -9,11 +9,22 @@ import { BaseComponent } from '../components/base/base.component';
 export class HomeComponent extends BaseComponent implements OnInit {
 
   //Slider settings
-  slideConfig = {"slidesToShow": 1, "slidesToScroll": 1} ;
+  slideConfig = { "slidesToShow": 1, "slidesToScroll": 1 };
   lstColor: any;
   lstSize: any;
   lstProductSeller: any;
   lstProductNew: any;
+  options: string[] = ['One', 'Two', 'Three'];
+  cars = [
+    { id: 1, name: 'Volvo' },
+    { id: 2, name: 'Saab' },
+    { id: 3, name: 'Opel' },
+    { id: 4, name: 'Audi' },
+  ];
+
+  selectedPrice!: any;
+  selectedBrand!: any;
+  selectedCate!: any;
 
   ngOnInit(): void {
     this.getListCate();
@@ -21,6 +32,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
     this.getProductImage();
     this.getProductColor();
     this.getListProductSeller();
+    this.getListBrand();
   }
 
   passingData(prod: any) {
@@ -35,11 +47,24 @@ export class HomeComponent extends BaseComponent implements OnInit {
       (res) => {
         if (res.data.length > 0) {
           this.lstProductSeller = res.data.sort((a: any, b: any) => (a.amount > b.amount) ? 1 : -1);
-          this.lstProductSeller = this.lstProductSeller.slice(0,5);
+          this.lstProductSeller = this.lstProductSeller.slice(0, 5);
           this.lstProductNew = res.data.sort((a: any, b: any) => (a.product_id < b.product_id) ? 1 : -1);
-          this.lstProductNew = this.lstProductNew.slice(0,5);
+          this.lstProductNew = this.lstProductNew.slice(0, 5);
         }
       }
     )
+  }
+
+  filter() {
+    var req = {
+      fitlerPrice: this.selectedPrice,
+      brand_id: this.selectedBrand,
+      category_id: this.selectedCate
+    }
+    this.productService.getByFilter(req).subscribe(
+      (res) => {
+        this.listProduct = res.data;
+      }
+    );
   }
 }

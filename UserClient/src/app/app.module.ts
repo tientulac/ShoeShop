@@ -33,6 +33,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommentComponent } from './comment/comment.component';
 import { BlogComponent } from './blog/blog.component';
 import { BlogDetailComponent } from './blog-detail/blog-detail.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { NgOption, NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -70,7 +72,9 @@ import { BlogDetailComponent } from './blog-detail/blog-detail.component';
     ToastrModule.forRoot(),
     NgxPaginationModule,
     NgbModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatAutocompleteModule,
+    NgSelectModule,
   ],
   providers: [
     CookieService,

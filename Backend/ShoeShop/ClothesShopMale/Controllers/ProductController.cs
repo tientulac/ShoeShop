@@ -21,7 +21,8 @@ namespace ClothesShopMale.Controllers
                 return new ResponseBase<List<ProductDTO>>
                 {
                     data = (from a in db.Products
-                            select new ProductDTO {
+                            select new ProductDTO
+                            {
                                 product_id = a.product_id,
                                 amount = a.amount,
                                 brand_id = a.brand_id,
@@ -37,6 +38,68 @@ namespace ClothesShopMale.Controllers
                                 category_name = db.Categories.Where(x => x.category_id == a.category_id).FirstOrDefault().category_name ?? "",
                                 brand_name = db.Brands.Where(x => x.brand_id == a.brand_id).FirstOrDefault().brand_name ?? "",
                             }).ToList(),
+                    status = 200
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseBase<List<ProductDTO>>
+                {
+                    status = 500
+                };
+            }
+        }
+
+        [HttpPost]
+        [Route("api/v1/productByFilter")]
+        public ResponseBase<List<ProductDTO>> GetByFitler(FilterProduct req)
+        {
+            try
+            {
+                var list = (from a in db.Products
+                            select new ProductDTO
+                            {
+                                product_id = a.product_id,
+                                amount = a.amount,
+                                brand_id = a.brand_id,
+                                category_id = a.category_id,
+                                origin = a.origin,
+                                price = a.price,
+                                product_name = a.product_name,
+                                size = a.size,
+                                status = a.status,
+                                created_at = a.created_at,
+                                updated_at = a.updated_at,
+                                deleted_at = a.deleted_at,
+                                category_name = db.Categories.Where(x => x.category_id == a.category_id).FirstOrDefault().category_name ?? "",
+                                brand_name = db.Brands.Where(x => x.brand_id == a.brand_id).FirstOrDefault().brand_name ?? "",
+                            });
+                if (!string.IsNullOrEmpty(req.fitlerPrice))
+                {
+                    if (req.fitlerPrice.Equals("gt500"))
+                    {
+                        list = list.Where(x => x.price > 500000);
+                    }
+                    if (req.fitlerPrice.Equals("lt500"))
+                    {
+                        list = list.Where(x => x.price < 500000);
+                    }
+                    if (req.fitlerPrice.Equals("gt1000"))
+                    {
+                        list = list.Where(x => x.price > 1000000);
+                    }
+                }
+                if (req.brand_id > 0)
+                {
+                    list = list.Where(x => x.brand_id == req.brand_id);
+                }
+                if (req.category_id > 0)
+                {
+                    list = list.Where(x => x.category_id == req.category_id);
+                }
+                return new ResponseBase<List<ProductDTO>>
+                {
+                    data = list.ToList(),
                     status = 200
                 };
             }
@@ -126,7 +189,8 @@ namespace ClothesShopMale.Controllers
                 var count = 0;
                 if (data.Count > 0)
                 {
-                    data.ForEach(x => {
+                    data.ForEach(x =>
+                    {
                         var size = x.Split(',');
                         listString.AddRange(size);
                     });
@@ -137,7 +201,8 @@ namespace ClothesShopMale.Controllers
                     foreach (var str in listString.Distinct())
                     {
                         count++;
-                        listResult.Add(new SizeDTO {
+                        listResult.Add(new SizeDTO
+                        {
                             id = count,
                             name = str,
                             size = str

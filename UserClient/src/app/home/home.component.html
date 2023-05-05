@@ -1,5 +1,6 @@
 <ngx-slick-carousel class="main-slider slider" [config]="slideConfig">
-  <div ngxSlickItem class="slider-item " style="background-image:url('https://lh6.googleusercontent.com/E0AUdY8fGxxcy9Yr4aEkAuJj1HWX-sYhsGpKziEypyFNXNNcg7ZOz6VyqBvxdqIpz3x10s_DUUn8TGw2Ie3DwKnrM8qjQEWtqZNDKnoTE4uMRu1wYRMR_GDbqUz8TyKqMvyRAxyz')">
+  <div ngxSlickItem class="slider-item "
+    style="background-image:url('https://lh6.googleusercontent.com/E0AUdY8fGxxcy9Yr4aEkAuJj1HWX-sYhsGpKziEypyFNXNNcg7ZOz6VyqBvxdqIpz3x10s_DUUn8TGw2Ie3DwKnrM8qjQEWtqZNDKnoTE4uMRu1wYRMR_GDbqUz8TyKqMvyRAxyz')">
     <div class="container">
       <div class="row">
         <div class="col-lg-6 col-12 offset-lg-6 offset-md-6">
@@ -89,7 +90,37 @@
 
 
     <div class="row">
-      <input type="text" placeholder="Tìm kiếm nhanh..." class="form-control" [(ngModel)]="searchString" style="margin-bottom: 20px;">
+      <div class="col-md-4">
+        <label style="font-weight: bold;">Giá tiền</label>
+        <ng-select [(ngModel)]="selectedPrice" placeholder="Lọc theo giá" (change)="filter()">
+          <ng-option value="">Tất cả</ng-option>
+          <ng-option value="gt500">Lớn hơn 500,000 VNĐ</ng-option>
+          <ng-option value="lt500">Nhỏ hơn 500,000 VNĐ</ng-option>
+          <ng-option value="gt1000">Lớn hơn 1,000,000 VNĐ</ng-option>
+        </ng-select>
+      </div>
+      <div class="col-md-4">
+        <label style="font-weight: bold;">Thương hiệu</label>
+        <ng-select [(ngModel)]="selectedBrand" placeholder="Lọc theo thương hiệu" (change)="filter()">
+          <ng-option value="">Tất cả</ng-option>
+          <ng-option *ngFor="let b of listBrand" [value]="b.brand_id">{{b.brand_name}}</ng-option>
+        </ng-select>
+      </div>
+      <div class="col-md-4">
+        <label style="font-weight: bold;">Danh mục</label>
+        <ng-select [(ngModel)]="selectedCate" placeholder="Lọc theo danh mục" (change)="filter()">
+          <ng-option value="">Tất cả</ng-option>
+          <ng-option *ngFor="let b of listCate" [value]="b.category_id">{{b.category_name}}</ng-option>
+        </ng-select>
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <div class="col-md-12">
+        <input type="text" placeholder="Tìm kiếm nhanh..." class="form-control" [(ngModel)]="searchString"
+          style="margin-bottom: 20px;">
+      </div>
       <div class="col-lg-3 col-12 col-md-6 col-sm-6 mb-5" *ngFor="let p of listProduct | filter:searchString | paginate: {
                 itemsPerPage: 8,
                 currentPage: page,
@@ -106,10 +137,16 @@
           </div>
 
           <div class="product-info">
-            <h2 class="product-title h5 mb-0"><a routerLink="/product-single/{{p.product_id}}"
+            <h2 class="product-title h4 mb-0"><a routerLink="/product-single/{{p.product_id}}"
                 (click)="passingData(p)">{{p.product_name}}</a></h2>
             <span class="price">
-              {{p.price | number}}
+              <del>Giá gốc: {{p.price + p.price*0.5 | number}} đ</del>
+            </span><br>
+            <span class="price" style="color: red;">
+              Giảm: {{p.price*0.5 | number}} đ
+            </span><br>
+            <span class="price">
+              Chỉ còn: {{p.price | number}} đ
             </span>
           </div>
         </div>

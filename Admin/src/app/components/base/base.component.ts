@@ -93,6 +93,18 @@ export class BaseComponent {
   listDiscount: any = [];
   listAccount: any = [];
   listBlog: any = [];
+  listPosition: any = [];
+  listTown: any = [];
+  listDistrict: any = [];
+  listCity: any = [];
+
+  getPosition() {
+    this.accountService.getDataPosition().subscribe(
+      (res: any) => {
+        this.listPosition = res;
+      }
+    );
+  }
 
   getInfo() {
     var infoUser = localStorage.getItem('UserInfo');

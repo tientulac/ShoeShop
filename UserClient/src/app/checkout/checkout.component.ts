@@ -33,7 +33,7 @@ export class CheckoutComponent extends BaseComponent implements OnInit {
         note: this.note,
         order_item: JSON.stringify(this.cartInfo),
         type_payment: 1,
-        status: 1,
+        status: 0,
         account_id: JSON.parse(JSON.parse(JSON.stringify(localStorage.getItem('UserInfo')))).account_id,
       }
       this.orderService.insert(req).subscribe(

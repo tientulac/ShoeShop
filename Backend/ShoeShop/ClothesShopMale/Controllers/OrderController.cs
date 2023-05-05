@@ -63,7 +63,7 @@ namespace ClothesShopMale.Controllers
             try
             {
                 var ord = db.Orders.Where(x => x.order_id == id).FirstOrDefault();
-                ord.status = 2;
+                ord.status = 3;
                 ord.deleted_at = DateTime.Now;
                 db.SubmitChanges();
                 return new ResponseBase<bool>
@@ -86,8 +86,33 @@ namespace ClothesShopMale.Controllers
         {
             try
             {
-                var acc = db.Orders.Where(x => x.order_id == id).FirstOrDefault();
-                db.Orders.DeleteOnSubmit(acc);
+                var ord = db.Orders.Where(x => x.order_id == id).FirstOrDefault();
+                ord.status = 4;
+                ord.deleted_at = DateTime.Now;
+                db.SubmitChanges();
+                return new ResponseBase<bool>
+                {
+                    status = 200
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseBase<bool>
+                {
+                    status = 500
+                };
+            }
+        }
+
+        [HttpGet]
+        [Route("api/v1/order/updateStatus/{id}/{status}")]
+        public ResponseBase<bool> UpdateStatus(int id = 0, int status = 0)
+        {
+            try
+            {
+                var ord = db.Orders.Where(x => x.order_id == id).FirstOrDefault();
+                ord.status = status;
+                ord.updated_at = DateTime.Now;
                 db.SubmitChanges();
                 return new ResponseBase<bool>
                 {

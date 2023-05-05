@@ -17,11 +17,17 @@ export class AccountComponent extends BaseComponent implements OnInit {
     admin: new FormControl(null),
     active: new FormControl(null),
     role_code: new FormControl(null),
+    town: new FormControl(null),
+    district: new FormControl(null),
+    city: new FormControl(null),
+    user_name: new FormControl(null),
+    password: new FormControl(null),
   })
 
   ngOnInit(): void {
     this.getListAccount();
     this.getListRole();
+    this.getPosition();
   }
 
   showConfirm(id: any): void {
@@ -59,7 +65,11 @@ export class AccountComponent extends BaseComponent implements OnInit {
         admin: !dataEdit ? '' : dataEdit.admin,
         active: !dataEdit ? '' : dataEdit.active,
         role_code: !dataEdit ? '' : dataEdit.role_code,
+        city: !dataEdit ? '' : dataEdit.city,
+        town: !dataEdit ? '' : dataEdit.town,
+        district: !dataEdit ? '' : dataEdit.district,
       });
+      this.selectCity();
     }
     else {
       this.AddForm.reset();
@@ -76,6 +86,11 @@ export class AccountComponent extends BaseComponent implements OnInit {
       admin: this.AddForm.value.admin,
       active: this.AddForm.value.active,
       role_code: this.AddForm.value.role_code,
+      city: this.AddForm.value.city,
+      town: this.AddForm.value.town,
+      district: this.AddForm.value.district,
+      user_name: this.AddForm.value.user_name,
+      password: this.AddForm.value.password,
     }
     this.accountService.save(req).subscribe(
       (res) => {
@@ -94,5 +109,13 @@ export class AccountComponent extends BaseComponent implements OnInit {
   handleCancel(): void {
     console.log('Button cancel clicked!');
     this.isDisplay = false;
+  }
+
+  selectCity() {
+    this.listDistrict = this.listPosition.filter((x: any) => x.name == this.AddForm.value.city)[0].districts ?? null;
+  }
+
+  selectDistrict() {
+    this.listTown = this.listDistrict.filter((x: any) => x.name == this.AddForm.value.district)[0].wards;
   }
 }

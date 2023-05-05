@@ -30,4 +30,14 @@ export class OrderService {
         })
       );
   }
+
+  updateStatus(id: any, status: any): Observable<any> {
+    return this.http
+      .get<any>(this.appConfig.API + `api/v1/order/updateStatus/${id}/${status}`)
+      .pipe(
+        map((z) => {
+          return z;
+        })
+      );
+  }
 }

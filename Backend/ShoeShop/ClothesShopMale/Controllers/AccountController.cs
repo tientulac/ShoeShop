@@ -97,6 +97,9 @@ namespace ClothesShopMale.Controllers
                     acc.active = req.active;
                     acc.admin = req.admin;
                     acc.email = req.email;
+                    acc.town = req.town;
+                    acc.district = req.district;
+                    acc.city = req.city;
                     db.SubmitChanges();
                 }
                 else
@@ -137,6 +140,9 @@ namespace ClothesShopMale.Controllers
                                phone = a.phone,
                                role_code = a.role_code,
                                email = a.email,
+                               town = a.town,
+                               district = a.district,
+                               city = a.city,
                                token = createToken(a.user_name)
                            }).FirstOrDefault();
                 if (acc.account_id > 0)

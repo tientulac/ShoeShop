@@ -6,6 +6,10 @@
                     <h2 class="text-white pb-2 fw-bold">Tài khoản</h2>
                     <h5 class="text-white op-7 mb-2">Trang chủ/Admin/Tài khoản</h5>
                 </div>
+                <div class="ml-md-auto py-2 py-md-0">
+                    <a href="javascript:void(0)" class="btn btn-secondary btn-round"
+                        (click)="showAddModal('Add', null)">Thêm mới</a>
+                </div>
             </div>
         </div>
     </div>
@@ -17,7 +21,9 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive table-hover table-sales">
-                                    <input type="text" style="float: right; margin-bottom: 10px;" placeholder="tìm kiếm nhanh..." [(ngModel)]="searchString" [ngModelOptions]="{standalone: true}">
+                                    <input type="text" style="float: right; margin-bottom: 10px;"
+                                        placeholder="tìm kiếm nhanh..." [(ngModel)]="searchString"
+                                        [ngModelOptions]="{standalone: true}">
                                     <nz-table #basicTable [nzData]="listAccount">
                                         <thead>
                                             <tr>
@@ -41,18 +47,20 @@
                                                 <td style="font-weight: bold; color:red" *ngIf="!data.admin">X</td>
                                                 <td style="font-weight: bold; color:green" *ngIf="data.active">V</td>
                                                 <td style="font-weight: bold; color:red" *ngIf="!data.active">X</td>
-                                                <td>{{ data.address }}</td>
+                                                <td>{{ data.town }} - {{ data.district }} - {{ data.city }}</td>
                                                 <td>{{ data.phone }}</td>
                                                 <td>{{ data.full_name }}</td>
                                                 <td>{{ data.email }}</td>
                                                 <td>{{ data.role_code }}</td>
                                                 <td>
                                                     <button class="btn btn-sm btn-outline-warning" placement="left"
-                                                        style="margin-right: 0.5rem;" (click)="showAddModal('Update', data)">
+                                                        style="margin-right: 0.5rem;"
+                                                        (click)="showAddModal('Update', data)">
                                                         <i class="fas fa-edit"></i>
                                                     </button>
                                                     <button class="btn btn-sm btn-outline-danger" placement="left"
-                                                        style="margin-right: 0.1rem;" nzType="dashed" (click)="showConfirm(data.account_id)">
+                                                        style="margin-right: 0.1rem;" nzType="dashed"
+                                                        (click)="showConfirm(data.account_id)">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </button>
                                                 </td>
@@ -72,38 +80,57 @@
 
 <nz-modal [(nzVisible)]="isDisplay" [nzTitle]="titleModal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
     <ng-container *nzModalContent>
-        <form class="form-horizontal" [formGroup]="AddForm">       
+        <form class="form-horizontal" [formGroup]="AddForm">
             <div class="row">
-              <div class="col-md-12">
-                <label class="col-md-10 require">Địa chỉ</label>
-                  <input type="text" class="form-control" formControlName="address" placeholder="nhập...">   
-              </div>
-              <div class="col-md-12">
-                <label class="col-md-10">SĐT</label>
-                <input type="text" class="form-control" formControlName="phone" placeholder="nhập...">
-              </div>
-              <div class="col-md-12">
-                <label class="col-md-10">Họ tên</label>
-                <input type="text" class="form-control" formControlName="full_name" placeholder="nhập...">
-              </div>
-              <div class="col-md-12">
-                <label class="col-md-10">Email</label>
-                <input type="text" class="form-control" formControlName="email" placeholder="nhập...">
-              </div>
-              <label class="col-md-12">Quyền</label>
-              <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select role" formControlName="role_code">
-                  <nz-option *ngFor="let c of listRole" [nzLabel]="c.role_name" [nzValue]="c.role_code">
-                      {{c.role_name}}</nz-option>
-              </nz-select>
-             <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-6"><input type="checkbox" formControlName="admin">  Admin</div>
+                <div class="col-md-6" *ngIf="!(selected_ID > 0)">
+                    <label class="row col-md-10 require">UserName</label>
+                    <input type="text" class="form-control" formControlName="user_name" placeholder="nhập...">
                 </div>
-                <div class="row">
-                    <div class="col-md-6"><input type="checkbox" formControlName="active">  Active</div>
+                <div class="col-md-6" *ngIf="!(selected_ID > 0)">
+                    <label class="row col-md-10 require">Password</label>
+                    <input type="password" class="form-control" formControlName="password" placeholder="nhập...">
                 </div>
-             </div>
+                <label class="col-md-12">Tỉnh</label>
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn tỉnh" formControlName="city" (ngModelChange)="selectCity()">
+                    <nz-option *ngFor="let c of listPosition" [nzLabel]="c.name" [nzValue]="c.name">
+                        {{c.name}}</nz-option>
+                </nz-select>
+                <label class="col-md-12">Huyện</label>
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn huyện" formControlName="district" (ngModelChange)="selectDistrict()">
+                    <nz-option *ngFor="let c of listDistrict" [nzLabel]="c.name" [nzValue]="c.name">
+                        {{c.name}}</nz-option>
+                </nz-select>
+                <label class="col-md-12">Xã</label>
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn xã" formControlName="town">
+                    <nz-option *ngFor="let c of listTown" [nzLabel]="c.name" [nzValue]="c.name">
+                        {{c.name}}</nz-option>
+                </nz-select>
+                <div class="col-md-12">
+                    <label class="row col-md-10">SĐT</label>
+                    <input type="text" class="form-control" formControlName="phone" placeholder="nhập...">
+                </div>
+                <div class="col-md-12">
+                    <label class="row col-md-10">Họ tên</label>
+                    <input type="text" class="form-control" formControlName="full_name" placeholder="nhập...">
+                </div>
+                <div class="col-md-12">
+                    <label class="row col-md-10">Email</label>
+                    <input type="text" class="form-control" formControlName="email" placeholder="nhập...">
+                </div>
+                <label class="col-md-12">Quyền</label>
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select role" formControlName="role_code">
+                    <nz-option *ngFor="let c of listRole" [nzLabel]="c.role_name" [nzValue]="c.role_code">
+                        {{c.role_name}}</nz-option>
+                </nz-select>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6"><input type="checkbox" formControlName="admin"> Admin</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6"><input type="checkbox" formControlName="active"> Active</div>
+                    </div>
+                </div>
             </div>
-          </form>
-      </ng-container>
+        </form>
+    </ng-container>
 </nz-modal>

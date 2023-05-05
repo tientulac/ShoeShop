@@ -21,6 +21,16 @@ export class ProductService {
       );
   }
 
+  getByFilter(req: any): Observable<any> {
+    return this.http
+      .post<any>(this.appConfig.API + 'api/v1/productByFilter', req)
+      .pipe(
+        map((z) => {
+          return z;
+        })
+      );
+  }
+
   getImage(): Observable<any> {
     return this.http
       .get<any>(this.appConfig.API + 'api/v1/productattribute/image')
@@ -138,7 +148,7 @@ export class ProductService {
         map((z) => {
           return z;
         })
-    );
+      );
   }
 
   getListSize(): Observable<any> {
@@ -148,6 +158,6 @@ export class ProductService {
         map((z) => {
           return z;
         })
-    );
+      );
   }
 }

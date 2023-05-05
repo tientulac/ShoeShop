@@ -44,7 +44,9 @@
           <div class="single-product-details mt-5 mt-lg-0">
             <h2>{{product?.product_name}}</h2>
             <div class="sku_wrapper mb-4">
-              ID: <span class="text-muted">{{product?.product_id}} </span>
+              Mã sản phẩm: <span class="text-muted">SP_{{product?.product_id}} </span><br>
+              Thương hiệu: <span class="text-muted">{{product?.brand_name}} </span><br>
+              Loại sản phẩm: <span class="text-muted">{{product?.category_name}} </span>
             </div>
   
             <hr>
@@ -83,11 +85,6 @@
             </div>
   
             <div class="products-meta mt-4">
-              <div class="product-category d-flex align-items-center">
-                <span class="font-weight-bold text-capitalize product-meta-title">Danh mục :</span>
-                <a routerLink="/shop/{{product?.category_id}}">{{product?.category_name}}</a>
-              </div>
-  
               <div class="product-share mt-5">
                 <ul class="list-inline">
                   <li class="list-inline-item">
