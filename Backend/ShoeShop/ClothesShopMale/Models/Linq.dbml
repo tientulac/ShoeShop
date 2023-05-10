@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="ClothesShop" Class="LinqDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=DESKTOP-TOPTJLQ;Initial Catalog=ClothesShop;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="ClothesShopConnectionString" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="ShoeShop" Class="LinqDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=DESKTOP-TOPTJLQ;Initial Catalog=ShoeShop;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="ShoesShopConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Role" Member="Roles">
     <Type Name="Role">
       <Column Name="role_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -65,22 +65,6 @@
       <Column Name="updated_at" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Product" Member="Products">
-    <Type Name="Product">
-      <Column Name="product_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="amount" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="brand_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="category_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="origin" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="price" Type="System.Double" DbType="Float" CanBeNull="true" />
-      <Column Name="product_name" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="size" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="status" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="created_at" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="updated_at" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="deleted_at" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.ProductColor" Member="ProductColors">
     <Type Name="ProductColor">
       <Column Name="product_color_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -130,6 +114,47 @@
       <Column Name="town" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="district" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="city" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.OrderInfo" Member="OrderInfos">
+    <Type Name="OrderInfo">
+      <Column Name="order_infor_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="phone" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="cusomter_type" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="order_code" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="seller" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="phone_seller" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="id_city" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="id_district" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="id_ward" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="address" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="coupon" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="total" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="payment_type" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="bought_type" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="waiting" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="note" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="data_cart" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="created_at" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="updated_at" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="deleted_at" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Product" Member="Products">
+    <Type Name="Product">
+      <Column Name="product_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="amount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="brand_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="category_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="origin" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="price" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="product_name" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="size" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="created_at" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="updated_at" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="deleted_at" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="product_code" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

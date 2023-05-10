@@ -14,6 +14,7 @@ import { DashboardComponent } from '../portals/portal-admin/dashboard/dashboard.
 import { ManagementPageComponent } from '../portals/portal-admin/management-page/management-page.component';
 import { NonAuthGuard } from '../utils/guards/non-auth.guard';
 import { BlogsComponent } from '../components/blogs/blogs.component';
+import { ShoppingComponent } from '../components/shopping/shopping.component';
 
 const routes: Routes = [
   {
@@ -79,6 +80,10 @@ const routes: Routes = [
       {
         path: 'blog',
         component: BlogsComponent, 
+      },
+      {
+        path: 'shopping',
+        component: ShoppingComponent, 
       },
     ]
   },

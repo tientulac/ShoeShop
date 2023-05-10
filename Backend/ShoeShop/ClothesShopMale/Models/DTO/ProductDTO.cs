@@ -9,5 +9,6 @@ namespace ClothesShopMale.Models.DTO
     {
         public string category_name { get; set; }
         public string brand_name { get; set; }
+        public string color { get; set; }
     }
 }

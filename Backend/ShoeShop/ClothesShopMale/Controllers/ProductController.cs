@@ -35,8 +35,10 @@ namespace ClothesShopMale.Controllers
                                 created_at = a.created_at,
                                 updated_at = a.updated_at,
                                 deleted_at = a.deleted_at,
+                                product_code = a.product_code,
                                 category_name = db.Categories.Where(x => x.category_id == a.category_id).FirstOrDefault().category_name ?? "",
                                 brand_name = db.Brands.Where(x => x.brand_id == a.brand_id).FirstOrDefault().brand_name ?? "",
+                                color = db.ProductColors.FirstOrDefault(x => x.product_id == a.product_id).color != null ? db.ProductColors.FirstOrDefault(x => x.product_id == a.product_id).color : "" 
                             }).ToList(),
                     status = 200
                 };
@@ -71,6 +73,7 @@ namespace ClothesShopMale.Controllers
                                 created_at = a.created_at,
                                 updated_at = a.updated_at,
                                 deleted_at = a.deleted_at,
+                                product_code = a.product_code,
                                 category_name = db.Categories.Where(x => x.category_id == a.category_id).FirstOrDefault().category_name ?? "",
                                 brand_name = db.Brands.Where(x => x.brand_id == a.brand_id).FirstOrDefault().brand_name ?? "",
                             });
@@ -130,6 +133,7 @@ namespace ClothesShopMale.Controllers
                     product.size = req.size;
                     product.status = req.status;
                     product.updated_at = DateTime.Now;
+                    product.product_code = req.product_code;
                     db.SubmitChanges();
                 }
                 else

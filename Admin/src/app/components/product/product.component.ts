@@ -10,9 +10,9 @@ import { BaseComponent } from '../base/base.component';
 })
 export class ProductComponent extends BaseComponent implements OnInit {
 
-  listOfOption: any = ['41','42','43','44','45'];
+  listOfOption: any = ['41', '42', '43', '44', '45'];
   listOfSelectedValue = [];
-
+  SKU_code: any;
   size: NzSelectSizeType = 'default';
   multipleValue = [];
   sizeUpdate: any = '';
@@ -95,6 +95,7 @@ export class ProductComponent extends BaseComponent implements OnInit {
         status: !dataEdit ? 1 : dataEdit.status,
         size: !dataEdit ? '' : dataEdit.size,
       });
+      this.SKU_code = dataEdit.product_code;
       this.listOfSelectedValue = dataEdit.size.split(",") ?? [];
     }
     else {
@@ -102,6 +103,7 @@ export class ProductComponent extends BaseComponent implements OnInit {
       this.AddForm.patchValue({
         status: 1,
       });
+      this.SKU_code = btoa(Math.random().toString()).slice(0, 5);
     }
   }
 
@@ -119,7 +121,7 @@ export class ProductComponent extends BaseComponent implements OnInit {
     this.isDisplayColor = true;
     this.selected_ID = id;
   }
-  
+
   handleOk(): void {
     var req = {
       product_id: this.selected_ID,
@@ -129,6 +131,7 @@ export class ProductComponent extends BaseComponent implements OnInit {
       gender: this.AddForm.value.gender,
       origin: this.AddForm.value.origin,
       product_name: this.AddForm.value.product_name,
+      product_code: this.SKU_code,
       status: this.AddForm.value.status,
       price: this.AddForm.value.price,
       size: this.listOfSelectedValue.join(','),
@@ -148,9 +151,9 @@ export class ProductComponent extends BaseComponent implements OnInit {
     this.isDisplayImage = false;
   }
 
-  onItemChange(value: any){
-    console.log(" Value is : ", value );
- }
+  onItemChange(value: any) {
+    console.log(" Value is : ", value);
+  }
 
   handleCancel(): void {
     console.log('Button cancel clicked!');

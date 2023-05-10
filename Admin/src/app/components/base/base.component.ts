@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder } from '@angular/forms';
+import { AbstractControl, FormBuilder, UntypedFormBuilder } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -17,17 +17,18 @@ import { DiscountService } from 'src/app/services/discount.service';
 import { AccountService } from 'src/app/services/account.service';
 import { ExcelServicesService } from 'src/app/services/excel.service';
 import { BlogService } from 'src/app/services/blog.service';
+import { PositionService } from 'src/app/services/position.service';
 
 const formatDate = (date: string | number | Date) => {
   var d = new Date(date),
-      month = '' + (d.getMonth() + 2),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
+    month = '' + (d.getMonth() + 2),
+    day = '' + d.getDate(),
+    year = d.getFullYear();
 
-  if (month.length < 2) 
-      month = '0' + month;
-  if (day.length < 2) 
-      day = '0' + day;
+  if (month.length < 2)
+    month = '0' + month;
+  if (day.length < 2)
+    day = '0' + day;
 
   return [year, month, day].join('-');
 }
@@ -39,6 +40,26 @@ const removeSpaces = (control: AbstractControl) => {
   return null;
 }
 
+export interface OrderInfo {
+  order_infor_id: number;
+  phone: string;
+  cusomter_type: string;
+  order_code: string;
+  seller: string;
+  phone_seller: string;
+  id_city: number | null;
+  id_district: number | null;
+  id_ward: number | null;
+  address: string;
+  coupon: number | '';
+  total: number | null;
+  payment_type: number | null;
+  bought_type: string;
+  waiting: boolean | null;
+  note: string;
+  data_cart: string | '';
+}
+
 @Component({
   selector: 'app-base',
   templateUrl: './base.component.html',
@@ -47,6 +68,7 @@ const removeSpaces = (control: AbstractControl) => {
 
 export class BaseComponent {
 
+  orderInfo!: any;
   Data: any;
   selected_ID: any;
   searchString: any;
@@ -61,6 +83,10 @@ export class BaseComponent {
   isDisplayImage: boolean = false;
   isDisplayDetail: boolean = false;
   isDisplayColor: boolean = false;
+  date: any = new Date();
+  product_code: any;
+  productFilter: any;
+  listProductCart: any = [];
 
   constructor(
     public titleService: Title,
@@ -79,7 +105,9 @@ export class BaseComponent {
     public discountService: DiscountService,
     public accountService: AccountService,
     public excelService: ExcelServicesService,
-    public blogService: BlogService
+    public blogService: BlogService,
+    public positionService: PositionService,
+    private fb: UntypedFormBuilder,
   ) { }
 
   listCate: any = [];
@@ -97,6 +125,56 @@ export class BaseComponent {
   listTown: any = [];
   listDistrict: any = [];
   listCity: any = [];
+  listWard: any;
+  citySelected: any;
+  districtSelected: any;
+  townSelected: any;
+
+  refreshOrderInfo() {
+    return this.orderInfo = {
+      order_infor_id: 0,
+      phone: '',
+      cusomter_type: '',
+      order_code: '',
+      seller: '',
+      phone_seller: '',
+      id_city: null,
+      id_district: null,
+      id_ward: null,
+      address: '',
+      coupon: null,
+      total: 0,
+      payment_type: null,
+      bought_type: 'Tại cửa hàng',
+      waiting: null,
+      note: '',
+      data_cart: ''
+    }
+  }
+
+  getListCity() {
+    this.positionService.getListCity().subscribe(
+      (res: any) => {
+        this.listCity = res.data;
+      }
+    );
+  }
+
+  getListDistrict(req: any) {
+    this.positionService.getListDistrict(req).subscribe(
+      (res: any) => {
+        this.listDistrict = res.data;
+      }
+    );
+  }
+
+  getListWard(req: any) {
+    this.positionService.getListWard(req).subscribe(
+      (res: any) => {
+        this.listWard = res.data;
+      }
+    );
+  }
 
   getPosition() {
     this.accountService.getDataPosition().subscribe(
@@ -108,17 +186,17 @@ export class BaseComponent {
 
   getInfo() {
     var infoUser = localStorage.getItem('UserInfo');
-    return infoUser; 
+    return infoUser;
   }
 
   makeRandomeCode(length: any) {
-      var result           = '';
-      var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      var charactersLength = characters.length;
-      for ( var i = 0; i < length; i++ ) {
-          result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      }
-      return result;
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
   }
 
   getListCate = () => {
@@ -176,7 +254,7 @@ export class BaseComponent {
       }
     )
   };
-  
+
 
   getListRole = () => {
     this.roleService.getList().subscribe(

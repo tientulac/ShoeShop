@@ -31,6 +31,7 @@
                                                 <th>Số lượng trong kho</th>
                                                 <th>Danh mục</th>
                                                 <th>Thương hiệu</th>
+                                                <th>Mã sản phẩm</th>
                                                 <th>Tên sản phẩm</th>
                                                 <th>Size</th>
                                                 <th>Xuất xứ</th>
@@ -45,6 +46,7 @@
                                                 <td>{{ data.amount }}</td>
                                                 <td>{{ data.category_name }}</td>
                                                 <td>{{ data.brand_name }}</td>
+                                                <td>{{ data.product_code }}</td>
                                                 <td>{{ data.product_name }}</td>
                                                 <td>{{ data.size }}</td>
                                                 <td>{{ data.origin }}</td>
@@ -98,6 +100,11 @@
         <form class="form-horizontal" [formGroup]="AddForm">
             <div class="row">
                 <div class="col-md-12">
+                    <label class="row col-md-10">Mã sản phẩm</label>
+                    <input type="text" class="form-control" [(ngModel)]="SKU_code" placeholder="nhập..." disabled
+                        [ngModelOptions]="{standalone: true}">
+                </div>
+                <div class="col-md-12">
                     <label class="row col-md-10">Tên sản phẩm</label>
                     <input type="text" class="form-control" formControlName="product_name" placeholder="nhập...">
                 </div>
@@ -135,13 +142,14 @@
                     <form class="form-inline">
                         <div class="form-group" style="padding-left: 0;">
                             <label for="inputPassword2" class="sr-only">Thêm size</label>
-                            <input type="text" class="form-control" [(ngModel)]="newSize" name="newSize" id="inputPassword2" placeholder="size">
+                            <input type="text" class="form-control" [(ngModel)]="newSize" name="newSize"
+                                id="inputPassword2" placeholder="size">
                         </div>
                         <button (click)="addSize()" class="btn btn-primary mb-2">Thêm size</button>
                     </form>
                 </div>
                 <ng-template #tagPlaceHolder let-selectedList>and {{ selectedList.length }} more selected</ng-template>
-                
+
                 <!-- <label class="col-md-12">Size</label>
                 <nz-select [(ngModel)]="multipleValue" [nzSize]="size" nzMode="multiple" nzPlaceHolder="Chọn size"
                     [ngModelOptions]="{standalone: true}">
