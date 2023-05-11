@@ -18,6 +18,7 @@ import { AccountService } from 'src/app/services/account.service';
 import { ExcelServicesService } from 'src/app/services/excel.service';
 import { BlogService } from 'src/app/services/blog.service';
 import { PositionService } from 'src/app/services/position.service';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 const formatDate = (date: string | number | Date) => {
   var d = new Date(date),
@@ -108,6 +109,7 @@ export class BaseComponent {
     public blogService: BlogService,
     public positionService: PositionService,
     private fb: UntypedFormBuilder,
+    public notification: NzNotificationService,
   ) { }
 
   listCate: any = [];
@@ -129,6 +131,9 @@ export class BaseComponent {
   citySelected: any;
   districtSelected: any;
   townSelected: any;
+  sizeInput: any;
+  colorInput: any;
+  listOrderInfo: any = [];
 
   refreshOrderInfo() {
     return this.orderInfo = {
@@ -151,11 +156,34 @@ export class BaseComponent {
       data_cart: ''
     }
   }
+  listDistrictData: any = [];
+  listWardData: any = [];
+
+  // getDataPosition(_province_id: any, _district_id: any) {
+  //   this.positionService.getListDistrict({ province_id: _province_id }).subscribe(
+  //     (res: any) => {
+  //       this.listDistrictData = res.data;
+  //       this.positionService.getListWard({ district_id: _district_id }).subscribe(
+  //         (res: any) => {
+  //           this.listWardData = res.data;
+  //         }
+  //       );
+  //     }
+  //   );
+  // }
 
   getListCity() {
     this.positionService.getListCity().subscribe(
       (res: any) => {
         this.listCity = res.data;
+      }
+    );
+  }
+
+  getListOrderInfo(req: any) {
+    this.orderService.getOrderInfor(req).subscribe(
+      (res: any) => {
+        this.listOrderInfo = res.data;
       }
     );
   }
@@ -219,6 +247,25 @@ export class BaseComponent {
     this.orderService.getList().subscribe(
       (res) => {
         this.listOrder = res.data;
+        if (this.listOrder.length > 0) {
+          this.listOrder.forEach((x: any) => {
+            this.positionService.getListCity().subscribe(
+              (res: any) => {
+                x.city_name = res.data.filter((c: any) => c.ProvinceID == x.id_city)[0].ProvinceName;
+                this.positionService.getListDistrict({ province_id: x.id_city }).subscribe(
+                  (res: any) => {
+                    x.district_name = res.data.filter((d: any) => d.DistrictID == x.id_district)[0].DistrictName;
+                    this.positionService.getListWard({ district_id: x.id_district }).subscribe(
+                      (res: any) => {
+                        x.ward_name = res.data.filter((w: any) => w.WardCode == x.id_ward.toString())[0].WardName;
+                      }
+                    );
+                  }
+                );
+              }
+            );
+          });
+        }
       }
     )
   }

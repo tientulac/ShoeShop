@@ -11,6 +11,7 @@ export class OrdersComponent extends BaseComponent implements OnInit {
   orderByAccount: any;
   account_id: any;
   listOrderItem: any;
+  orderDetail: any;
 
   ngOnInit(): void {
     this.account_id = JSON.parse(JSON.parse(JSON.stringify(localStorage.getItem('UserInfo')))).account_id;
@@ -21,12 +22,32 @@ export class OrdersComponent extends BaseComponent implements OnInit {
     this.orderService.getList().subscribe(
       (res) => {
         this.orderByAccount = res.data.filter((x: any) => x.account_id == this.account_id);
+        if (this.orderByAccount.length > 0) {
+          this.orderByAccount.forEach((x: any) => {
+            this.positionService.getListCity().subscribe(
+              (res: any) => {
+                x.city_name = res.data.filter((c: any) => c.ProvinceID == x.id_city)[0].ProvinceName;
+                this.positionService.getListDistrict({ province_id: x.id_city }).subscribe(
+                  (res: any) => {
+                    x.district_name = res.data.filter((d: any) => d.DistrictID == x.id_district)[0].DistrictName;
+                    this.positionService.getListWard({district_id: x.id_district}).subscribe(
+                      (res: any) => {
+                        x.ward_name = res.data.filter((w: any) => w.WardCode == x.id_ward.toString())[0].WardName;
+                      }
+                    );
+                  }
+                );
+              }
+            );
+          })
+        }
       }
     )
   }
 
   closeResult: any;
   open(Data: any) {
+    this.orderDetail = Data;
     this.selected_ID = Data.order_id;
     this.submitted = false;
     this.titleModal = 'Chi tiết đơn hàng';
@@ -68,7 +89,7 @@ export class OrdersComponent extends BaseComponent implements OnInit {
     for (let i = 0; i <= this.orderByAccount.length; i++) {
       mywindow?.document.write(`
           <tr>
-            <th scope="row">`+ (i+1) + `</th>
+            <th scope="row">`+ (i + 1) + `</th>
             <td style="text-align:center">`+ this.orderByAccount[i]?.created_at + `</td>
             <td style="text-align:center">`+ (this.orderByAccount[i]?.status == 1 ? 'Đang vận chuyển' : 'Đã huỷ') + `</td>
             <td style="text-align:center">`+ this.orderByAccount[i]?.full_name + `</td>

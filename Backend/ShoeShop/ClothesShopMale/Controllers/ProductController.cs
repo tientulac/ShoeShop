@@ -117,7 +117,7 @@ namespace ClothesShopMale.Controllers
 
         [HttpPost]
         [Route("api/v1/product")]
-        public ResponseBase<Product> Save(Product req)
+        public ResponseBase<Product> Save(ProductDTO req)
         {
             try
             {
@@ -135,12 +135,35 @@ namespace ClothesShopMale.Controllers
                     product.updated_at = DateTime.Now;
                     product.product_code = req.product_code;
                     db.SubmitChanges();
+                    var colors = db.ProductColors.Where(x => x.product_id == req.product_id);
+                    db.ProductColors.DeleteAllOnSubmit(colors);
+                    db.ProductColors.InsertOnSubmit(new ProductColor()
+                    {
+                        product_id = req.product_id,
+                        color = req.color
+                    });
+                    db.SubmitChanges();
                 }
                 else
                 {
-                    req.created_at = DateTime.Now;
-                    req.status = 1;
-                    db.Products.InsertOnSubmit(req);
+                    var _product = new Product();
+                    _product.amount = req.amount;
+                    _product.brand_id = req.brand_id;
+                    _product.category_id = req.category_id;
+                    _product.origin = req.origin;
+                    _product.price = req.price;
+                    _product.product_name = req.product_name;
+                    _product.size = req.size;
+                    _product.status = req.status;
+                    _product.created_at = DateTime.Now;
+                    _product.product_code = req.product_code;
+                    _product.status = 1;
+                    db.Products.InsertOnSubmit(_product);
+                    db.SubmitChanges();
+                    db.ProductColors.InsertOnSubmit(new ProductColor() { 
+                        product_id = _product.product_id,
+                        color = req.color
+                    });
                     db.SubmitChanges();
                 }
                 return new ResponseBase<Product>

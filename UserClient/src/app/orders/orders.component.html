@@ -66,7 +66,7 @@
                   'font-weight: bold;color:red'">
                   {{o.status == 0 ? 'Chờ xác nhận' : o.status == 1 ? 'Chờ lấy hàng' : o.status == 2 ? 'Đang giao' : o.status == 3 ? 'Giao thành công' : 'Đã huỷ'}}</td>
                 <td>{{o.full_name}}</td>
-                <td>{{o.address}}</td>
+                <td>{{o.city_name}} - {{o.district_name}} - {{o.ward_name}}</td>
                 <td>{{o.deleted_at | date: 'dd/MM/yyyy hh:aa:mm'}}</td>
                 <td>{{o.updated_at | date: 'dd/MM/yyyy hh:aa:mm'}}</td>
                 <td style="text-align: center;">
@@ -108,6 +108,9 @@
         </div>
         <div class="modal-body">
           <div class="col-12 col-md-12 col-sm-12 col-lg-12">
+            <h5>Giá: {{orderDetail?.total ?? 0 | number}} VNĐ</h5>
+            <h5>Phí ship: {{orderDetail?.fee_ship ?? 0 | number}} VNĐ</h5>
+            <h5>Tổng tiền: {{orderDetail?.fee_ship ?? 0 | number}} VNĐ</h5>
             <table class="table table-bordered">
               <thead>
                 <tr>
@@ -129,7 +132,7 @@
                   <th scope="row">#{{oi.id}}</th>
                   <td>{{oi.product_name}}</td>
                   <td>{{oi.count}}</td>
-                  <td>{{oi.price | number}}</td>
+                  <td>{{oi.price | number}} VNĐ</td>
                   <td><img src="{{oi.image}}" alt="" style="width: 50px;height:50px"></td>
                   <td>{{oi.size}}</td>
                   <td><input disabled type="color" value="{{oi.color}}"></td>

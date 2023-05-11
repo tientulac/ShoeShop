@@ -33,7 +33,7 @@ export class OrderService {
 
   updateStatus(id: any, status: any): Observable<any> {
     return this.http
-      .get<any>(this.appConfig.API + `api/v1/order/updateStatus/${id}/${status}`)
+      .get<any>(this.appConfig.API + `api/v1/Order/updateStatus/${id}/${status}`)
       .pipe(
         map((z) => {
           return z;
@@ -43,7 +43,7 @@ export class OrderService {
 
   createOrderInfor(req: any): Observable<any> {
     return this.http
-      .post<any>(this.appConfig.API + `api/v1/order/orderInfor`, req)
+      .post<any>(this.appConfig.API + `api/v1/orderInfor`, req)
       .pipe(
         map((z) => {
           return z;
@@ -51,9 +51,9 @@ export class OrderService {
       );
   }
 
-  getOrderInfor(): Observable<any> {
+  getOrderInfor(req: any): Observable<any> {
     return this.http
-      .get<any>(this.appConfig.API + `api/v1/order/orderInfor`)
+      .post<any>(this.appConfig.API + `api/v1/orderInfor/filter`, req)
       .pipe(
         map((z) => {
           return z;

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../../base/base.component';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-new',
@@ -55,7 +56,6 @@ export class CreateNewComponent extends BaseComponent implements OnInit {
 
   selectWard() {
     this.orderInfo.id_ward = this.townSelected;
-    alert(this.townSelected);
   }
 
   addToCart(): boolean {
@@ -91,6 +91,7 @@ export class CreateNewComponent extends BaseComponent implements OnInit {
       (res: any) => {
         if (res.status == 200) {
           this.toastr.success('Thành công !');
+          this.refreshOrderInfo();
         }
         else {
           this.toastr.warning('Thất bại !');

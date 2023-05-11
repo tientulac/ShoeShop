@@ -75,11 +75,11 @@
                                                         (click)="showDetailModal(data.product_id)">
                                                         <i class="fa fa-eye"></i>
                                                     </button>
-                                                    <button class="btn btn-sm btn-outline-success" placement="left"
+                                                    <!-- <button class="btn btn-sm btn-outline-success" placement="left"
                                                         style="margin-right: 0.5rem;" nzType="dashed"
                                                         (click)="showColorModal(data.product_id)">
                                                         <i class="fa fa-palette"></i>
-                                                    </button>
+                                                    </button> -->
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -129,16 +129,24 @@
                     <label class="row col-md-10">Giá tiền</label>
                     <input type="number" class="form-control" formControlName="price" placeholder="nhập...">
                 </div>
+                <div class="col-md-12">
+                    <label class="row col-md-6">Size (Kích cỡ)</label>
+                    <input type="text" class="form-control"  [(ngModel)]="sizeInput" placeholder="nhập..." [ngModelOptions]="{standalone: true}">
+                </div>
+                <div class="col-md-12">
+                    <label class="row col-md-6">Màu sắc</label>
+                    <input type="color" [(ngModel)]="colorInput" [ngModelOptions]="{standalone: true}">
+                </div>
                 <!-- <div class="col-md-12">
                     <label class="row col-md-10">Size (Kích cỡ)</label>
                     <input type="text" class="form-control" formControlName="size" placeholder="nhập...">
                 </div> -->
-                <label class="col-md-10">Size (Kích cỡ)</label>
-                <nz-select [nzMaxTagPlaceholder]="tagPlaceHolder" nzMode="multiple" formControlName="size"
+                <!-- <label class="col-md-10">Size (Kích cỡ)</label> -->
+                <!-- <nz-select [nzMaxTagPlaceholder]="tagPlaceHolder" nzMode="multiple" formControlName="size"
                     nzPlaceHolder="Please select" [(ngModel)]="listOfSelectedValue">
                     <nz-option *ngFor="let item of listOfOption" [nzLabel]="item" [nzValue]="item"></nz-option>
-                </nz-select>
-                <div class="col-md-12">
+                </nz-select> -->
+                <!-- <div class="col-md-12">
                     <form class="form-inline">
                         <div class="form-group" style="padding-left: 0;">
                             <label for="inputPassword2" class="sr-only">Thêm size</label>
@@ -148,7 +156,7 @@
                         <button (click)="addSize()" class="btn btn-primary mb-2">Thêm size</button>
                     </form>
                 </div>
-                <ng-template #tagPlaceHolder let-selectedList>and {{ selectedList.length }} more selected</ng-template>
+                <ng-template #tagPlaceHolder let-selectedList>and {{ selectedList.length }} more selected</ng-template> -->
 
                 <!-- <label class="col-md-12">Size</label>
                 <nz-select [(ngModel)]="multipleValue" [nzSize]="size" nzMode="multiple" nzPlaceHolder="Chọn size"

@@ -49,22 +49,6 @@
       <Column Name="status" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Orders" Member="Orders">
-    <Type Name="Order">
-      <Column Name="order_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="account_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="address" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="created_at" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="deleted_at" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="full_name" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="note" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="order_item" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="phone" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="status" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="type_payment" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="updated_at" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.ProductColor" Member="ProductColors">
     <Type Name="ProductColor">
       <Column Name="product_color_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -155,6 +139,27 @@
       <Column Name="updated_at" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="deleted_at" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="product_code" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Orders" Member="Orders">
+    <Type Name="Order">
+      <Column Name="order_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="account_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="address" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="created_at" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="deleted_at" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="full_name" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="note" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="order_item" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="phone" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="type_payment" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="updated_at" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="fee_ship" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="id_city" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="id_district" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="id_ward" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="total" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

@@ -38,9 +38,9 @@
                                         <tbody>
                                             <tr *ngFor="let data of basicTable.data | filter:searchString">
                                                 <td>{{ data.order_id }}</td>
-                                                <td>{{ data.address }}</td>
-                                                <td
-                                                    [style]="
+                                                <td>{{data.city_name}} - {{data.district_name}} - {{data.ward_name}}
+                                                </td>
+                                                <td [style]="
                                                     data.status == 0 ? 'font-weight: bold; color: #c7c726' : 
                                                     data.status == 1 ? 'font-weight: bold; color: green' : 
                                                     data.status == 2 ? 'font-weight: bold; color: green' : 
@@ -65,7 +65,8 @@
                                                         (click)="showConfirm(data.order_id)">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </button>
-                                                    <a nz-dropdown [nzDropdownMenu]="menu">
+                                                    <a nz-dropdown [nzDropdownMenu]="menu"
+                                                        style="margin-right: 0.5rem;">
                                                         <button class="btn btn-sm btn-outline-warning" placement="left"
                                                             style="margin-right: 0.1rem;" nzType="dashed">
                                                             <i class="fas fa-pencil-alt"></i>
@@ -73,9 +74,15 @@
                                                     </a>
                                                     <nz-dropdown-menu #menu="nzDropdownMenu">
                                                         <ul nz-menu nzSelectable>
-                                                            <li *ngFor="let status of statusOrder" (click)="confirmStatus(data, status)" nz-menu-item>{{status.name}}</li>
+                                                            <li *ngFor="let status of statusOrder"
+                                                                (click)="confirmStatus(data, status)" nz-menu-item>
+                                                                {{status.name}}</li>
                                                         </ul>
                                                     </nz-dropdown-menu>
+                                                    <button class="btn btn-sm btn-outline-primary" placement="left"
+                                                        nzType="dashed" (click)="showDetail(data)">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -90,3 +97,44 @@
         </div>
     </div>
 </div>
+
+<nz-modal [(nzVisible)]="isDisplay" nzTitle="Giỏ hàng" (nzOnCancel)="handleCancel()" [nzWidth]="1000">
+    <ng-container *nzModalContent>
+        <ul class="summary-prices list-unstyled mb-4">
+            <li class="d-flex justify-content-between">
+                <span>Tạm tính:</span>
+                <span class="h5">{{orderInfo.total | number}} VNĐ</span>
+            </li>
+            <li class="d-flex justify-content-between">
+                <span>Phí vận chuyển:</span>
+                <span class="h5">{{orderInfo.fee_ship | number}} VNĐ</span>
+            </li>
+            <li class="d-flex justify-content-between">
+                <span>Thành tiền</span>
+                <span class="h5">{{orderInfo.total + orderInfo.fee_ship | number}} VNĐ</span>
+            </li>
+        </ul>
+        <nz-table #basicTable [nzData]="listProductCart">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Sản phẩm</th>
+                    <th>Size</th>
+                    <th>Màu sắc</th>
+                    <th>Đơn giá</th>
+                    <th>Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of basicTable.data; let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{data.product_name}}</td>
+                    <td>{{data.size}}</td>
+                    <td><input type="color" value="{{data.color}}" disabled></td>
+                    <td>{{data.price}}</td>
+                    <td>{{data.total}}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </ng-container>
+</nz-modal>

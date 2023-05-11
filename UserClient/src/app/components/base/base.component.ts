@@ -16,17 +16,18 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { CommentService } from 'src/app/services/comment.service';
 import { BlogComponent } from 'src/app/blog/blog.component';
 import { BlogService } from 'src/app/services/blog.service';
+import { PositionService } from 'src/app/services/position.service';
 
 const formatDate = (date: string | number | Date) => {
   var d = new Date(date),
-      month = '' + (d.getMonth() + 2),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
+    month = '' + (d.getMonth() + 2),
+    day = '' + d.getDate(),
+    year = d.getFullYear();
 
-  if (month.length < 2) 
-      month = '0' + month;
-  if (day.length < 2) 
-      day = '0' + day;
+  if (month.length < 2)
+    month = '0' + month;
+  if (day.length < 2)
+    day = '0' + day;
 
   return [year, month, day].join('-');
 }
@@ -73,11 +74,14 @@ export class BaseComponent {
   confirmChangePassword: any;
   email: any;
   listComment: any;
-
+  citySelected: any;
+  districtSelected: any;
+  townSelected: any;
   page: number = 1;
   count: number = 0;
   tableSize: number = 7;
   tableSizes: any = [3, 6, 9, 12];
+  feeShip: any = 0;
 
   constructor(
     public titleService: Title,
@@ -95,7 +99,8 @@ export class BaseComponent {
     public modalService: NgbModal,
     public Acc: AccService,
     public commentService: CommentService,
-    public blogService: BlogService
+    public blogService: BlogService,
+    public positionService: PositionService,
   ) { }
 
   listCate: any = [];
@@ -109,8 +114,11 @@ export class BaseComponent {
   listBlog: any = [];
   listSize: any = [];
   listSizeFilter: any = [];
-  
-  dissmissModal(){
+  listCity: any;
+  listDistrict: any;
+  listWard: any;
+
+  dissmissModal() {
     this.modalService.dismissAll('');
   }
 
@@ -147,7 +155,7 @@ export class BaseComponent {
     var img = this.listImage.filter((x: any) => x.product_id == p_id)[0]?.image ?? 'https://www.berchielli.co.uk/wp-content/themes/barberry/images/placeholder.jpg';
     return img;
   }
-  
+
   getListCate = () => {
     this.categoryService.getList().subscribe(
       (res) => {
@@ -204,7 +212,7 @@ export class BaseComponent {
       }
     )
   };
-  
+
   getListComment = () => {
     this.commentService.getList().subscribe(
       (res) => {
@@ -225,6 +233,30 @@ export class BaseComponent {
     this.productService.getListSize().subscribe(
       (res) => {
         this.listSizeFilter = res.data;
+      }
+    );
+  }
+
+  getListCity() {
+    this.positionService.getListCity().subscribe(
+      (res: any) => {
+        this.listCity = res.data;
+      }
+    );
+  }
+
+  getListDistrict(req: any) {
+    this.positionService.getListDistrict(req).subscribe(
+      (res: any) => {
+        this.listDistrict = res.data;
+      }
+    );
+  }
+
+  getListWard(req: any) {
+    this.positionService.getListWard(req).subscribe(
+      (res: any) => {
+        this.listWard = res.data;
       }
     );
   }

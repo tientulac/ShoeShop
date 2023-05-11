@@ -63,7 +63,7 @@ namespace ClothesShopMale.Controllers
             try
             {
                 var ord = db.Orders.Where(x => x.order_id == id).FirstOrDefault();
-                ord.status = 3;
+                ord.status = 4;
                 ord.deleted_at = DateTime.Now;
                 db.SubmitChanges();
                 return new ResponseBase<bool>

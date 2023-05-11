@@ -7,6 +7,7 @@ import { BaseComponent } from '../base/base.component';
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss']
 })
+
 export class CategoryComponent extends BaseComponent implements OnInit {
 
   code_random: any;

@@ -11,15 +11,31 @@ namespace ClothesShopMale.Controllers
     {
         private LinqDataContext db = new LinqDataContext();
 
-        [HttpGet]
-        [Route("api/v1/orderInfor")]
-        public ResponseBase<List<OrderInfo>> GetList()
+        [HttpPost]
+        [Route("api/v1/orderInfor/filter")]
+        public ResponseBase<List<OrderInfo>> GetList(FilterOrderInfo req)
         {
             try
             {
+                var list = db.OrderInfos.ToList();
+                if (req != null)
+                {
+                    if (!String.IsNullOrEmpty(req.order_code))
+                    {
+                        list = list.Where(x => x.order_code.ToLower().Contains(req.order_code)).ToList();
+                    }
+                    if (req.from_date != null)
+                    {
+                        list = list.Where(x => x.created_at >= req.from_date).ToList();
+                    }
+                    if (req.to_date != null)
+                    {
+                        list = list.Where(x => x.created_at <= req.to_date).ToList();
+                    }
+                }
                 return new ResponseBase<List<OrderInfo>>
                 {
-                    data = db.OrderInfos.ToList(),
+                    data = list,
                     status = 200
                 };
             }
@@ -38,9 +54,28 @@ namespace ClothesShopMale.Controllers
         {
             try
             {
-                req.created_at = DateTime.Now;
-                db.OrderInfos.InsertOnSubmit(req);
-                db.SubmitChanges();
+                if (req.order_infor_id > 0)
+                {
+                    var order = db.OrderInfos.Where(x => x.order_infor_id == req.order_infor_id).FirstOrDefault();
+                    order.phone = req.phone;
+                    order.cusomter_type = req.cusomter_type;
+                    order.seller = req.seller;
+                    order.phone_seller = req.seller;
+                    order.id_city = req.id_city;
+                    order.id_district = req.id_district;
+                    order.id_ward = req.id_ward;
+                    order.address = req.address;
+                    order.waiting = req.waiting;
+                    order.note = req.note;
+                    order.updated_at = DateTime.Now;
+                    db.SubmitChanges();
+                }
+                else
+                {
+                    req.created_at = DateTime.Now;
+                    db.OrderInfos.InsertOnSubmit(req);
+                    db.SubmitChanges();
+                }
                 return new ResponseBase<OrderInfo>
                 {
                     data = req,

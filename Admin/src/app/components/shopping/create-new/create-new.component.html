@@ -72,7 +72,7 @@
                                                     [(ngModel)]="townSelected" nzPlaceHolder="Chọn xã"
                                                     (ngModelChange)="selectWard()">
                                                     <nz-option *ngFor="let c of listWard" [nzLabel]="c.WardName"
-                                                        [nzValue]="c.WardID">
+                                                        [nzValue]="c.WardCode">
                                                         {{c.WardName}}</nz-option>
                                                 </nz-select>
                                             </div>

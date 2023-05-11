@@ -62,4 +62,21 @@ export class OrderComponent extends BaseComponent implements OnInit {
       }
     });
   }
+
+  showDetail(hd: any) {
+    this.isDisplay = true;
+    this.orderInfo = hd;
+    this.listProductCart = JSON.parse(hd.order_item);
+  }
+
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isDisplay = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isDisplay = false;
+  }
+
 }

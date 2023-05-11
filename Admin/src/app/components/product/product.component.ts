@@ -11,7 +11,7 @@ import { BaseComponent } from '../base/base.component';
 export class ProductComponent extends BaseComponent implements OnInit {
 
   listOfOption: any = ['41', '42', '43', '44', '45'];
-  listOfSelectedValue = [];
+  // listOfSelectedValue = [];
   SKU_code: any;
   size: NzSelectSizeType = 'default';
   multipleValue = [];
@@ -83,6 +83,7 @@ export class ProductComponent extends BaseComponent implements OnInit {
     this.titleModal = title;
     this.selected_ID = 0;
     if (dataEdit != null) {
+      console.log(dataEdit);
       this.selected_ID = dataEdit.product_id;
       this.AddForm.patchValue({
         amount: !dataEdit ? '' : dataEdit.amount,
@@ -93,13 +94,17 @@ export class ProductComponent extends BaseComponent implements OnInit {
         product_name: !dataEdit ? '' : dataEdit.product_name,
         price: !dataEdit ? '' : dataEdit.price,
         status: !dataEdit ? 1 : dataEdit.status,
-        size: !dataEdit ? '' : dataEdit.size,
+        size: dataEdit.size ?? '',
       });
+      this.sizeInput = dataEdit.size ?? '';
+      this.colorInput = dataEdit.color ?? '';
       this.SKU_code = dataEdit.product_code;
-      this.listOfSelectedValue = dataEdit.size.split(",") ?? [];
+      // this.listOfSelectedValue = dataEdit.size.split(",") ?? [];
     }
     else {
       this.AddForm.reset();
+      this.sizeInput = '';
+      this.colorInput = '';
       this.AddForm.patchValue({
         status: 1,
       });
@@ -134,7 +139,8 @@ export class ProductComponent extends BaseComponent implements OnInit {
       product_code: this.SKU_code,
       status: this.AddForm.value.status,
       price: this.AddForm.value.price,
-      size: this.listOfSelectedValue.join(','),
+      size: this.sizeInput,
+      color: this.colorInput
     }
     this.productService.save(req).subscribe(
       (res) => {
