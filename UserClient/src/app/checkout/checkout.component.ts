@@ -44,7 +44,7 @@ export class CheckoutComponent extends BaseComponent implements OnInit {
         type_payment: 1,
         status: 0,
         account_id: JSON.parse(JSON.parse(JSON.stringify(localStorage.getItem('UserInfo')))).account_id,
-        fee_ship: this.totalPrice + this.feeShip,
+        fee_ship: this.feeShip,
         id_city: this.citySelected,
         id_district: this.districtSelected,
         id_ward: this.townSelected,
@@ -85,16 +85,16 @@ export class CheckoutComponent extends BaseComponent implements OnInit {
     //   width: 15
     // };
     this.positionService.getShipPayment({
-      "service_id": 53321,
-      "insurance_value": this.totalPrice,
+      "service_id": 100039,
+      // "insurance_value": this.totalPrice,
       "coupon": null,
       "from_district_id": 1542,
       "to_district_id": this.districtSelected,
       "to_ward_code": this.townSelected,
-      "height": 15,
-      "length": 15,
-      "weight": 1000,
-      "width": 15
+      "height": 5,
+      "length": 5,
+      "weight": 100,
+      "width": 5
     }).subscribe(
       (res: any) => {
         this.feeShip = res.data.total;
