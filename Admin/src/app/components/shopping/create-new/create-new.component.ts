@@ -33,6 +33,7 @@ export class CreateNewComponent extends BaseComponent implements OnInit {
     this.tabs.push(
       tab
     );
+    this.refreshOrderInfo();
     this.orderInfo.order_code = `HD${this.date.getDate()}${this.date.getMonth() + 1}${this.date.getFullYear()}${Math.random()}`;
     this.index = this.tabs.length - 1;
   }

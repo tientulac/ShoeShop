@@ -1,12 +1,12 @@
 <section class="content-header" style="padding:0.5%  !important">
     <div class="row mb-2">
         <div class="col-md-6">
-            <button nz-button [nzType]="'primary'" style="float: left;" (click)="newTab()"><span><i
+            <button nz-button [nzType]="'primary'" class="btn btn-primary h-100" style="float: left;" (click)="newTab()"><span><i
                         class="fas fa-plus"></i>&nbsp;Tạo
                     mới hóa đơn</span></button>
         </div>
         <div class="col-md-6">
-            <button nz-button [nzType]="'primary'" style="float: right;"><span><i class="fas fa-edit"></i>&nbsp;QR
+            <button nz-button [nzType]="'primary'" class="btn btn-primary h-100" style="float: right;"><span><i class="fas fa-edit"></i>&nbsp;QR
                     Code cho sản phẩm</span></button>
         </div>
     </div>
@@ -26,32 +26,30 @@
                                         <h4 class="text-center">Thông tin khách hàng</h4>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label class="col-md-12">Số điện thoại</label>
+                                                <label class="col-md-12 mb-1">Số điện thoại</label>
                                                 <input type="text" class="form-control" placeholder="nhập..."
                                                     [(ngModel)]="orderInfo.phone">
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="col-md-12">Khách hàng</label>
+                                                <label class="col-md-12 mb-1">Khách hàng</label>
                                                 <input type="text" class="form-control" placeholder="nhập..."
                                                     [(ngModel)]="orderInfo.cusomter_type">
                                             </div>
-                                            <div class="col-md-12">
-                                                <label class="col-md-12">Mã HĐ</label>
+                                            <div class="col-md-12 mt-2">
+                                                <label class="col-md-12 mb-1">Mã HĐ</label>
                                                 <input type="text" class="form-control" placeholder="nhập..." readonly
                                                     [value]="orderInfo.order_code">
                                             </div>
-                                            <div class="col-md-6">
-                                                <label class="col-md-12">Người bán</label>
+                                            <div class="col-md-6 mt-2">
+                                                <label class="col-md-12 mb-1">Người bán</label>
                                                 <input type="text" class="form-control" placeholder="nhập..."
                                                     [(ngModel)]="orderInfo.seller">
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="col-md-12">Số điện thoại</label>
-                                                <input type="text" class="form-control" placeholder="nhập..."
-                                                    [(ngModel)]="orderInfo.phone_seller">
+                                                <input type="text" class="form-control d-none" placeholder="nhập...">
                                             </div>
-                                            <div class="col-md-6">
-                                                <label class="col-md-12">Tỉnh/ Thành phố</label>
+                                            <div class="col-md-6 mt-2">
+                                                <label class="col-md-12 mb-1">Tỉnh/ Thành phố</label>
                                                 <nz-select style="width: 100%;" nzShowSearch nzAllowClear
                                                     [(ngModel)]="citySelected" nzPlaceHolder="Chọn tỉnh"
                                                     (ngModelChange)="selectCity()">
@@ -59,7 +57,7 @@
                                                         [nzValue]="c.ProvinceID">
                                                         {{c.ProvinceName}}</nz-option>
                                                 </nz-select>
-                                                <label class="col-md-12">Quận/ Huyện</label>
+                                                <label class="col-md-12 mt-2 mb-1">Quận/ Huyện</label>
                                                 <nz-select style="width: 100%;" nzShowSearch nzAllowClear
                                                     [(ngModel)]="districtSelected" nzPlaceHolder="Chọn huyện"
                                                     (ngModelChange)="selectDistrict()">
@@ -67,7 +65,7 @@
                                                         [nzValue]="c.DistrictID">
                                                         {{c.DistrictName}}</nz-option>
                                                 </nz-select>
-                                                <label class="col-md-12">Xã</label>
+                                                <label class="col-md-12 mt-2 mb-1">Xã</label>
                                                 <nz-select style="width: 100%;" nzShowSearch nzAllowClear
                                                     [(ngModel)]="townSelected" nzPlaceHolder="Chọn xã"
                                                     (ngModelChange)="selectWard()">
@@ -77,30 +75,30 @@
                                                 </nz-select>
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="col-md-12">Địa chỉ chi tiết</label>
+                                                <label class="col-md-12 mb-2">Địa chỉ chi tiết</label>
                                                 <textarea nz-input placeholder="nhập..."
                                                     [nzAutosize]="{ minRows: 7, maxRows: 8 }"
                                                     [(ngModel)]="orderInfo.address"></textarea>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 mt-3">
                                                 <label class="col-md-12">Khuyến mãi</label>
                                                 <nz-input-group nzAddOnAfter="%" placeholder="nhập...">
                                                     <input type="number" nz-input [(ngModel)]="orderInfo.coupon" />
                                                 </nz-input-group>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 mt-3">
                                                 <label class="col-md-12">Tổng tiền</label>
                                                 <nz-input-group nzAddOnAfter="VNĐ" placeholder="nhập...">
                                                     <input type="text" nz-input [(ngModel)]="totalPayment" disabled />
                                                 </nz-input-group>
                                             </div>
-                                            <div class="col-md-6">
-                                                <label class="col-md-12">Phương thức mua hàng</label>
+                                            <div class="col-md-6 mt-2">
+                                                <label class="col-md-12 mb-2">Phương thức mua hàng</label>
                                                 <input type="text" class="form-control" [value]="orderInfo.bought_type"
                                                     disabled>
                                             </div>
-                                            <div class="col-md-6">
-                                                <label class="col-md-12">Phương thức thanh toán</label>
+                                            <div class="col-md-6 mt-2">
+                                                <label class="col-md-12 mb-2">Phương thức thanh toán</label>
                                                 <nz-select style="width: 100%;" nzShowSearch nzAllowClear
                                                     [(ngModel)]="orderInfo.payment_type" nzPlaceHolder="Chọn">
                                                     <nz-option nzLabel="Tiền mặt" [nzValue]="1">Tiền mặt</nz-option>
@@ -108,17 +106,17 @@
                                                         khoản</nz-option>
                                                 </nz-select>
                                             </div>
-                                            <div class="col-md-12">
+                                            <div class="col-md-12 mt-2">
                                                 <label nz-checkbox [(ngModel)]="orderInfo.waiting">Chờ thanh
                                                     toán</label>
                                             </div>
-                                            <div class="col-md-12">
+                                            <div class="col-md-12 mt-3">
                                                 <label class="col-md-12">Ghi chú</label>
                                                 <textarea nz-input placeholder="nhập..." [(ngModel)]="orderInfo.note"
                                                     [nzAutosize]="{ minRows: 5, maxRows: 8 }"></textarea>
                                             </div>
                                             <div class="col-md-12" style="margin-top: 10px;">
-                                                <button (click)="createOrder()" style="float: right;" nz-button
+                                                <button (click)="createOrder()" class="btn btn-primary h-100" style="float: right;" nz-button
                                                     nzType="default" nzPrimary>Tạo
                                                     hóa đơn</button>
                                             </div>

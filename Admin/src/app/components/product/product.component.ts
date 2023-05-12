@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzSelectSizeType } from 'ng-zorro-antd/select';
 import { BaseComponent } from '../base/base.component';
 
@@ -17,6 +17,10 @@ export class ProductComponent extends BaseComponent implements OnInit {
   multipleValue = [];
   sizeUpdate: any = '';
   newSize: any;
+
+  selectedPrice!: any;
+  selectedBrand!: any;
+  selectedCate!: any;
 
   selectedIndex: any;
 
@@ -39,13 +43,13 @@ export class ProductComponent extends BaseComponent implements OnInit {
   ];
 
   AddForm = new FormGroup({
-    amount: new FormControl(null),
-    brand_id: new FormControl(null),
-    category_id: new FormControl(null),
+    amount: new FormControl(null, [Validators.required, Validators.pattern(/^\d+$/), Validators.min(1)]),
+    brand_id: new FormControl(null, [Validators.required]),
+    category_id: new FormControl(null, [Validators.required]),
     gender: new FormControl(null),
-    origin: new FormControl(null),
-    price: new FormControl(0),
-    product_name: new FormControl(''),
+    origin: new FormControl(null, [Validators.required]),
+    price: new FormControl(0, [Validators.required, Validators.pattern(/^\d+$/), Validators.min(1)]),
+    product_name: new FormControl('', [Validators.required]),
     size: new FormControl(''),
     status: new FormControl(1),
   })
@@ -83,7 +87,6 @@ export class ProductComponent extends BaseComponent implements OnInit {
     this.titleModal = title;
     this.selected_ID = 0;
     if (dataEdit != null) {
-      console.log(dataEdit);
       this.selected_ID = dataEdit.product_id;
       this.AddForm.patchValue({
         amount: !dataEdit ? '' : dataEdit.amount,
@@ -128,20 +131,25 @@ export class ProductComponent extends BaseComponent implements OnInit {
   }
 
   handleOk(): void {
+    if (this.AddForm.invalid) {
+      this.AddForm.markAllAsTouched();
+      return;
+    }
     var req = {
       product_id: this.selected_ID,
+      product_code: this.SKU_code,
       amount: this.AddForm.value.amount,
       brand_id: this.AddForm.value.brand_id,
       category_id: this.AddForm.value.category_id,
       gender: this.AddForm.value.gender,
       origin: this.AddForm.value.origin,
       product_name: this.AddForm.value.product_name,
-      product_code: this.SKU_code,
       status: this.AddForm.value.status,
       price: this.AddForm.value.price,
       size: this.sizeInput,
       color: this.colorInput
     }
+
     this.productService.save(req).subscribe(
       (res) => {
         if (res.status == 200) {
@@ -171,5 +179,18 @@ export class ProductComponent extends BaseComponent implements OnInit {
 
   addSize() {
     this.listOfOption.push(this.newSize);
+  }
+
+  filter() {
+    var req = {
+      fitlerPrice: this.selectedPrice,
+      brand_id: this.selectedBrand,
+      category_id: this.selectedCate
+    }
+    this.productService.getByFilter(req).subscribe(
+      (res) => {
+        this.listProduct = res.data;
+      }
+    );
   }
 }

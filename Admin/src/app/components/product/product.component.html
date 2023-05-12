@@ -21,21 +21,50 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive table-hover table-sales">
-                                    <input type="text" style="float: right; margin-bottom: 10px;"
-                                        placeholder="tìm kiếm nhanh..." [(ngModel)]="searchString"
+                                    <div class="row mb-5">
+                                        <div class="col-md-3">
+                                          <label style="font-weight: bold;">Giá tiền</label>
+                                          <select [(ngModel)]="selectedPrice" class="form-control" placeholder="Lọc theo giá" (change)="filter()">
+                                            <option value="">Tất cả</option>
+                                            <option value="gt500">Lớn hơn 500,000 VNĐ</option>
+                                            <option value="lt500">Nhỏ hơn 500,000 VNĐ</option>
+                                            <option value="gt1000">Lớn hơn 1,000,000 VNĐ</option>
+                                          </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                          <label style="font-weight: bold;">Thương hiệu</label>
+                                          <select [(ngModel)]="selectedBrand" class="form-control" placeholder="Lọc theo thương hiệu" (change)="filter()">
+                                            <option value="">Tất cả</option>
+                                            <option *ngFor="let b of listBrand" [value]="b.brand_id">{{b.brand_name}}</option>
+                                          </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                          <label style="font-weight: bold;">Danh mục</label>
+                                          <select [(ngModel)]="selectedCate" class="form-control" placeholder="Lọc theo danh mục" (change)="filter()">
+                                            <option value="">Tất cả</option>
+                                            <option *ngFor="let b of listCate" [value]="b.category_id">{{b.category_name}}</option>
+                                          </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label></label>
+                                            <input type="text" class="form-control"
+                                        placeholder="Tìm kiếm nhanh..." [(ngModel)]="searchString"
                                         [ngModelOptions]="{standalone: true}">
+                                        </div>
+                                    </div>
+                                   
                                     <nz-table #basicTable [nzData]="listProduct">
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
-                                                <th>Số lượng trong kho</th>
-                                                <th>Danh mục</th>
-                                                <th>Thương hiệu</th>
                                                 <th>Mã sản phẩm</th>
                                                 <th>Tên sản phẩm</th>
+                                                <th>Danh mục</th>
+                                                <th>Thương hiệu</th>
                                                 <th>Size</th>
                                                 <th>Xuất xứ</th>
                                                 <th>Giá tiền</th>
+                                                <th>Số lượng trong kho</th>
                                                 <th>Trạng thái</th>
                                                 <th>Hành động</th>
                                             </tr>
@@ -43,14 +72,14 @@
                                         <tbody>
                                             <tr *ngFor="let data of basicTable.data | filter:searchString">
                                                 <td>{{ data.product_id }}</td>
-                                                <td>{{ data.amount }}</td>
-                                                <td>{{ data.category_name }}</td>
-                                                <td>{{ data.brand_name }}</td>
                                                 <td>{{ data.product_code }}</td>
                                                 <td>{{ data.product_name }}</td>
+                                                <td>{{ data.category_name }}</td>
+                                                <td>{{ data.brand_name }}</td>
                                                 <td>{{ data.size }}</td>
                                                 <td>{{ data.origin }}</td>
                                                 <td>{{ data.price | number }}</td>
+                                                <td>{{ data.amount }}</td>
                                                 <td
                                                     [style]="data.status == 1 ? 'font-weight: bold; color: green' : 'font-weight: bold;color:yellow'">
                                                     {{data.status == 1 ? 'Mới' : 'Cũ'}}</td>
@@ -107,27 +136,57 @@
                 <div class="col-md-12">
                     <label class="row col-md-10">Tên sản phẩm</label>
                     <input type="text" class="form-control" formControlName="product_name" placeholder="nhập...">
+                    <div *ngIf="AddForm.controls['product_name'].hasError('required')" class="text-danger">
+                        Name không được để trống.
+                      </div>
                 </div>
                 <label class="col-md-12">Danh mục</label>
                 <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn danh mục" formControlName="category_id">
                     <nz-option *ngFor="let c of listCate" [nzLabel]="c.category_name" [nzValue]="c.category_id">
                         {{c.category_name}}</nz-option>
                 </nz-select>
+                <div *ngIf="AddForm.controls['category_id'].hasError('required')" class="text-danger">
+                    Danh mục không được để trống.
+                  </div>
                 <label class="col-md-12">Thương hiệu</label>
                 <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn thương hiệu" formControlName="brand_id">
                     <nz-option *ngFor="let c of listBrand" [nzLabel]="c.brand_name" [nzValue]="c.brand_id"></nz-option>
                 </nz-select>
+                <div *ngIf="AddForm.controls['brand_id'].hasError('required')" class="text-danger">
+                    Thương hiệu không được để trống.
+                  </div>
                 <div class="col-md-12">
                     <label class="row col-md-10">Số lượng kho</label>
                     <input type="number" class="form-control" formControlName="amount" placeholder="nhập...">
+                    <div *ngIf="AddForm.controls['amount'].hasError('required')" class="text-danger">
+                        Số lượng không được để trống.
+                      </div>
+                      <div *ngIf="AddForm.controls['amount'].hasError('pattern')" class="text-danger">
+                        Số lượng chỉ được nhập số.
+                      </div>
+                      <div *ngIf="AddForm.controls['amount'].hasError('min')" class="text-danger">
+                        Số lượng không được dưới 1.
+                      </div>
                 </div>
                 <div class="col-md-12">
                     <label class="rowcol-md-10">Xuất xứ</label>
                     <input type="text" class="form-control" formControlName="origin" placeholder="nhập...">
+                    <div *ngIf="AddForm.controls['origin'].hasError('required')" class="text-danger">
+                        Xuất xứ không được để trống.
+                      </div>
                 </div>
                 <div class="col-md-12">
                     <label class="row col-md-10">Giá tiền</label>
                     <input type="number" class="form-control" formControlName="price" placeholder="nhập...">
+                    <div *ngIf="AddForm.controls['price'].hasError('required')" class="text-danger">
+                        Giá tiền không được để trống.
+                      </div>
+                      <div *ngIf="AddForm.controls['price'].hasError('pattern')" class="text-danger">
+                        Giá tiền chỉ được nhập số.
+                      </div>
+                      <div *ngIf="AddForm.controls['price'].hasError('min')" class="text-danger">
+                        Giá tiền không được thấp hơn 1.
+                      </div>
                 </div>
                 <div class="col-md-12">
                     <label class="row col-md-6">Size (Kích cỡ)</label>

@@ -20,7 +20,14 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive table-hover table-sales">
-                                    <input type="text" style="float: right; margin-bottom: 10px;" placeholder="tìm kiếm nhanh..." [(ngModel)]="searchString" [ngModelOptions]="{standalone: true}">
+                                    <div class="row">
+                                        <div class="col-6"></div>
+                                        <div class="col-6">
+                                            <input type="text" style="float: right; margin-bottom: 10px;"
+                                        placeholder="Tìm kiếm nhanh..." class="form-control" [(ngModel)]="searchString"
+                                        [ngModelOptions]="{standalone: true}">
+                                        </div>
+                                    </div>
                                     <nz-table #basicTable [nzData]="listBrand">
                                         <thead>
                                             <tr>
