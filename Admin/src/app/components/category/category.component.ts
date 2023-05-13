@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '../base/base.component';
 
 @Component({
@@ -14,7 +14,7 @@ export class CategoryComponent extends BaseComponent implements OnInit {
 
   AddForm = new FormGroup({
     category_code: new FormControl(null),
-    category_name: new FormControl(null),
+    category_name: new FormControl(null, [Validators.required]),
     status: new FormControl(1),
   })
 
@@ -66,6 +66,10 @@ export class CategoryComponent extends BaseComponent implements OnInit {
   }
 
   handleOk(): void {
+    if (this.AddForm.invalid) {
+      this.AddForm.markAllAsTouched();
+      return;
+    }
     var req = {
       category_id: this.selected_ID,
       category_code: this.AddForm.value.category_code,

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BaseComponent } from '../../base/base.component';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-detail',
@@ -10,11 +11,14 @@ export class DetailComponent extends BaseComponent implements OnInit {
 
   @Input() id_input: any = 0; 
   dataDetail: any = [];
-  _detail: any;
 
   ngOnInit(): void {
     this.getListDetail();
   }
+
+  AddForm = new FormGroup({
+    detail: new FormControl(null, [Validators.required]),
+  })
 
   getListDetail() {
     this.productService.getDetail().subscribe(
@@ -25,9 +29,13 @@ export class DetailComponent extends BaseComponent implements OnInit {
   }
 
   addDetail() {
+    if (this.AddForm.invalid) {
+      this.AddForm.markAllAsTouched();
+      return;
+    }
     let req = {
       product_id: this.id_input,
-      detail: this._detail
+      detail: this.AddForm.value.detail
     }
     this.productService.insertDetail(req).subscribe(
       (res) => {

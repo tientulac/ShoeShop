@@ -81,6 +81,9 @@
               <div class="col-md-12">
                 <label class="col-md-10">Tên</label>
                 <input type="text" class="form-control" formControlName="brand_name" placeholder="nhập...">
+                <div *ngIf="AddForm.controls['brand_name'].hasError('required')" class="text-danger">
+                    Tên không được để trống.
+                </div>
               </div>
               <div class="col-md-12">
                 <label class="col-md-10">Hình ảnh</label>

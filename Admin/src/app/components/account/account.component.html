@@ -91,10 +91,22 @@
                 <div class="col-md-6" *ngIf="!(selected_ID > 0)">
                     <label class="row col-md-10 require">UserName</label>
                     <input type="text" class="form-control" formControlName="user_name" placeholder="nhập...">
+                    <div *ngIf="AddForm.controls['user_name'].hasError('required')" class="text-danger">
+                        Username không được để trống.
+                    </div>
+                    <div *ngIf="AddForm.controls['user_name'].hasError('minlength')" class="text-danger">
+                        Username chứa ít nhất 4 kí tự.
+                    </div>
                 </div>
                 <div class="col-md-6" *ngIf="!(selected_ID > 0)">
                     <label class="row col-md-10 require">Password</label>
                     <input type="password" class="form-control" formControlName="password" placeholder="nhập...">
+                    <div *ngIf="AddForm.controls['password'].hasError('required')" class="text-danger">
+                        Password không được để trống.
+                    </div>
+                    <div *ngIf="AddForm.controls['password'].hasError('minlength')" class="text-danger">
+                        Password chứa ít nhất 6 kí tự.
+                    </div>
                 </div>
                 <label class="col-md-12">Tỉnh</label>
                 <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn tỉnh" formControlName="city" (ngModelChange)="selectCity()">
@@ -114,20 +126,36 @@
                 <div class="col-md-12">
                     <label class="row col-md-10">SĐT</label>
                     <input type="text" class="form-control" formControlName="phone" placeholder="nhập...">
+                    <div *ngIf="AddForm.controls['phone'].hasError('required')" class="text-danger">
+                        SĐT không được để trống.
+                    </div>
+                    <div *ngIf="AddForm.controls['phone'].hasError('pattern')" class="text-danger">Số điện thoại không hợp lệ.</div>
                 </div>
                 <div class="col-md-12">
                     <label class="row col-md-10">Họ tên</label>
                     <input type="text" class="form-control" formControlName="full_name" placeholder="nhập...">
+                    <div *ngIf="AddForm.controls['full_name'].hasError('required')" class="text-danger">
+                        Họ và tên không được để trống.
+                    </div>
                 </div>
                 <div class="col-md-12">
                     <label class="row col-md-10">Email</label>
                     <input type="text" class="form-control" formControlName="email" placeholder="nhập...">
+                    <div *ngIf="AddForm.controls['email'].hasError('required')" class="text-danger">
+                        Email không được để trống.
+                    </div>
+                    <div *ngIf="AddForm.controls['email'].hasError('email')" class="text-danger">
+                        Email không đúng định dạng.
+                    </div>
                 </div>
                 <label class="col-md-12">Quyền</label>
                 <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select role" formControlName="role_code">
                     <nz-option *ngFor="let c of listRole" [nzLabel]="c.role_name" [nzValue]="c.role_code">
                         {{c.role_name}}</nz-option>
                 </nz-select>
+                <div *ngIf="AddForm.controls['role_code'].hasError('required')" class="text-danger">
+                    Quyền không được để trống.
+                </div>
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-6"><input type="checkbox" formControlName="admin"> Admin</div>
