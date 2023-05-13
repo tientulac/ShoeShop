@@ -91,6 +91,74 @@ namespace ClothesShopMale.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("api/v1/orderInfor/updateItem")]
+        public ResponseBase<OrderInfo> UpdateItem(OrderInfo req)
+        {
+            try
+            {
+                if (req.order_infor_id > 0)
+                {
+                    var order = db.OrderInfos.Where(x => x.order_infor_id == req.order_infor_id).FirstOrDefault();
+                    order.data_cart = req.data_cart;
+                    order.total = req.total;
+                    db.SubmitChanges();
+                }
+                else
+                {
+                    return new ResponseBase<OrderInfo>
+                    {
+                        status = 500
+                    };
+                }
+                return new ResponseBase<OrderInfo>
+                {
+                    data = req,
+                    status = 200
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseBase<OrderInfo>
+                {
+                    status = 500
+                };
+            }
+        }
+
+        [HttpGet]
+        [Route("api/v1/orderInfor/cancleOrder/{order_infor_id}")]
+        public ResponseBase<OrderInfo> CancleOrder(int order_infor_id = 0)
+        {
+            try
+            {
+                if (order_infor_id > 0)
+                {
+                    var order = db.OrderInfos.Where(x => x.order_infor_id == order_infor_id).FirstOrDefault();
+                    order.status = 3;
+                    db.SubmitChanges();
+                }
+                else
+                {
+                    return new ResponseBase<OrderInfo>
+                    {
+                        status = 500
+                    };
+                }
+                return new ResponseBase<OrderInfo>
+                {
+                    status = 200
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseBase<OrderInfo>
+                {
+                    status = 500
+                };
+            }
+        }
+
         [HttpDelete]
         [Route("api/v1/orderInfor/{id}")]
         public ResponseBase<bool> Delete(int id = 0)

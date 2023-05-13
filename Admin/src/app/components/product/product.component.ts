@@ -10,8 +10,7 @@ import { BaseComponent } from '../base/base.component';
 })
 export class ProductComponent extends BaseComponent implements OnInit {
 
-  listOfOption: any = ['41', '42', '43', '44', '45'];
-  // listOfSelectedValue = [];
+  sizeSelected: any;
   SKU_code: any;
   size: NzSelectSizeType = 'default';
   multipleValue = [];
@@ -83,7 +82,6 @@ export class ProductComponent extends BaseComponent implements OnInit {
     this.titleModal = title;
     this.selected_ID = 0;
     if (dataEdit != null) {
-      console.log(dataEdit);
       this.selected_ID = dataEdit.product_id;
       this.AddForm.patchValue({
         amount: !dataEdit ? '' : dataEdit.amount,
@@ -99,7 +97,10 @@ export class ProductComponent extends BaseComponent implements OnInit {
       this.sizeInput = dataEdit.size ?? '';
       this.colorInput = dataEdit.color ?? '';
       this.SKU_code = dataEdit.product_code;
-      // this.listOfSelectedValue = dataEdit.size.split(",") ?? [];
+      if (!(this.listOfOption.filter((x: any) => x == dataEdit.size).length > 0)) {
+        this.listOfOption.push(dataEdit.size);
+      }
+      this.sizeSelected = dataEdit.size ?? '';
     }
     else {
       this.AddForm.reset();
@@ -139,7 +140,7 @@ export class ProductComponent extends BaseComponent implements OnInit {
       product_code: this.SKU_code,
       status: this.AddForm.value.status,
       price: this.AddForm.value.price,
-      size: this.sizeInput,
+      size: this.sizeSelected,
       color: this.colorInput
     }
     this.productService.save(req).subscribe(
@@ -170,6 +171,11 @@ export class ProductComponent extends BaseComponent implements OnInit {
   }
 
   addSize() {
-    this.listOfOption.push(this.newSize);
+    if (this.listOfOption.filter((x: any) => x == this.newSize).length > 0) {
+      this.toastr.warning('Kích cỡ này đã được thêm');
+    }
+    else {
+      this.listOfOption.push(this.newSize);
+    }
   }
 }

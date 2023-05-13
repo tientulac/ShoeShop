@@ -129,9 +129,23 @@
                     <label class="row col-md-10">Giá tiền</label>
                     <input type="number" class="form-control" formControlName="price" placeholder="nhập...">
                 </div>
-                <div class="col-md-12">
+                <!-- <div class="col-md-12">
                     <label class="row col-md-6">Size (Kích cỡ)</label>
                     <input type="text" class="form-control"  [(ngModel)]="sizeInput" placeholder="nhập..." [ngModelOptions]="{standalone: true}">
+                </div> -->
+                <label class="col-md-10">Size (Kích cỡ)</label>
+                <nz-select formControlName="size" nzPlaceHolder="Chọn kích cỡ" [(ngModel)]="sizeSelected">
+                    <nz-option *ngFor="let item of listOfOption" [nzLabel]="item" [nzValue]="item"></nz-option>
+                </nz-select>
+                <div class="col-md-12">
+                    <form class="form-inline">
+                        <div class="form-group" style="padding-left: 0;">
+                            <label for="inputPassword2" class="sr-only">Thêm size</label>
+                            <input type="text" class="form-control" [(ngModel)]="newSize" name="newSize"
+                                id="inputPassword2" placeholder="size">
+                        </div>
+                        <button (click)="addSize()" class="btn btn-primary mb-2">Thêm size</button>
+                    </form>
                 </div>
                 <div class="col-md-12">
                     <label class="row col-md-6">Màu sắc</label>

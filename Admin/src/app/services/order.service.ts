@@ -70,4 +70,24 @@ export class OrderService {
         })
       );
   }
+
+  cancleOrderInfo(order_infor_id: any): Observable<any> {
+    return this.http
+      .get<any>(this.appConfig.API + 'api/v1/orderInfor/cancleOrder/' + order_infor_id)
+      .pipe(
+        map((z) => {
+          return z;
+        })
+      );
+  }
+
+  updateItemOrderInfo(req: any): Observable<any> {
+    return this.http
+      .post<any>(this.appConfig.API + 'api/v1/orderInfor/updateItem', req)
+      .pipe(
+        map((z) => {
+          return z;
+        })
+      );
+  }
 }

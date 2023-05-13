@@ -6,7 +6,8 @@
                     <div class="tab-content">
                         <div class="row col-md-12">
                             <div class="col-md-12">
-                                <Button class="btn btn-sm btn-primary" style="float: right;margin-bottom: 10px;" (click)="getListData()">Tìm
+                                <Button class="btn btn-sm btn-primary" style="float: right;margin-bottom: 10px;"
+                                    (click)="getListData()">Tìm
                                     kiếm</Button>
                             </div>
                             <nz-form-item class="col-md-4">
@@ -46,14 +47,18 @@
                                 <h3 style="text-align: center;">{{hd.order_code}}</h3>
                                 <h4 class="text-center">Thông tin khách hàng ({{hd.created_at | date:
                                     'dd/MM/yyyy'}})</h4>
+                                <h5 *ngIf="hd.status != 3" class="text-center">({{hd.waiting ? 'Chờ thanh toán' : 'Đã thanh toán'}})</h5>
+                                <h5 *ngIf="hd.status == 3" class="text-center">(Đã bị hủy)</h5>
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-12" *ngIf="hd.status != 3">
                                         <Button class="btn btn-sm btn-success" style="float: right;"
                                             (click)="save(hd)">Lưu</Button>
                                         <Button class="btn btn-sm btn-primary" (click)="showDetail(hd)"
                                             style="float: right;margin-right: 10px;">Chi tiết</Button>
                                         <Button class="btn btn-sm btn-danger" (click)="showDeleteConfirm(hd)"
                                             style="float: right;margin-right: 10px;">Xóa</Button>
+                                            <Button *ngIf="hd.waiting" class="btn btn-sm btn-danger" (click)="showCancleConfirm(hd)"
+                                            style="float: right;margin-right: 10px;">Hủy hóa đơn</Button>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="col-md-12">Số điện thoại</label>
@@ -152,9 +157,26 @@
 </div>
 
 <nz-modal [(nzVisible)]="isDisplay" nzTitle="Giỏ hàng" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
-    [nzWidth]="1000">
+    [nzWidth]="2000">
     <ng-container *nzModalContent>
-        <nz-table #basicTable [nzData]="listProductCart">
+        <div class="col-md-12" *ngIf="is_waiting">
+            <button nz-button [nzType]="'primary'" style="float: left;" (click)="saveItem()"><span><i
+                        class="fas fa-plus"></i>&nbsp;Lưu</span></button>
+            <br>
+            <div class="row">
+                <form class="form-inline">
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="inputPassword2" class="sr-only">Mã sản phẩm</label>
+                        <input type="text" class="form-control" id="inputPassword2" placeholder="Mã sản phẩm"
+                            [(ngModel)]="product_code" [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2" (click)="addToCart()">Thêm giỏ hàng</button>
+                    <br>
+                </form>
+            </div>
+        </div>
+        <h4>Tổng tiền: {{total | number}} VNĐ</h4>
+        <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>STT</th>
@@ -167,22 +189,31 @@
                     <th>Danh mục</th>
                     <th>Thương hiệu</th>
                     <th>Thành tiền</th>
+                    <th *ngIf="is_waiting">Thao tác</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let data of basicTable.data; let i=index">
+                <tr *ngFor="let data of listProductCart; let i=index">
                     <td>{{i+1}}</td>
                     <td>{{data.product_code}}</td>
                     <td>{{data.product_name}}</td>
-                    <td>{{data.amount | number}}</td>
+                    <td *ngIf="!is_waiting">{{data.amountCart | number}}</td>
+                    <td *ngIf="is_waiting"><input style="width: 100px;" type="number" [(ngModel)]="data.amountCart"
+                            (change)="changeSum()"></td>
                     <td>{{data.size}}</td>
-                    <td><input type="color" value="{{data.color}}" disabled></td>
+                    <td><input type="color" [(ngModel)]="data.color" [disabled]="is_waiting ? false : true"></td>
                     <td>{{data.price}}</td>
                     <td>{{data.category_name}}</td>
                     <td>{{data.brand_name}}</td>
-                    <td>{{data.price * data.amount ?? 0 | number}} VNĐ</td>
+                    <td>{{data.price * data.amountCart ?? 0 | number}} VNĐ</td>
+                    <td *ngIf="is_waiting">
+                        <button class="btn btn-sm btn-outline-danger" placement="left" style="margin-right: 0.1rem;"
+                            nzType="dashed" (click)="showConfirmDeleteItem(data)">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
                 </tr>
             </tbody>
-        </nz-table>
+        </table>
     </ng-container>
 </nz-modal>

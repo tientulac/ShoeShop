@@ -6,15 +6,18 @@ import { BaseComponent } from '../../base/base.component';
   templateUrl: './list-order.component.html',
   styleUrls: ['./list-order.component.scss']
 })
+
 export class ListOrderComponent extends BaseComponent implements OnInit {
 
   code_search: any = '';
   from_search: any = null;
   to_search: any = null;
+  total: any = 0;
 
   ngOnInit(): void {
     this.getListData();
     this.getListCity();
+    this.getListProduct();
   }
 
   getListData() {
@@ -23,7 +26,6 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
       to_date: this.to_search,
       order_code: this.code_search
     }
-    console.log(req);
     this.orderService.getOrderInfor(req).subscribe(
       (res: any) => {
         this.listOrderInfo = res.data;
@@ -101,9 +103,24 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
     this.isDisplay = false;
   }
 
+  sumCart() {
+    this.total = 0;
+    this.listProductCart.forEach((data: any) => {
+      this.total += data.price * data.amountCart;
+    });
+  }
+
   showDetail(hd: any) {
     this.isDisplay = true;
     this.listProductCart = JSON.parse(hd.data_cart);
+    this.total = 0;
+    this.sumCart();
+    this.is_waiting = hd.waiting;
+    this.selected_ID = hd.order_infor_id;
+  }
+
+  changeSum() {
+    this.sumCart();
   }
 
   showDeleteConfirm(hd: any): void {
@@ -129,5 +146,80 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
       nzCancelText: 'Đóng',
       nzOnCancel: () => console.log('Cancel')
     });
+  }
+
+  showCancleConfirm(hd: any): void {
+    this.modal.confirm({
+      nzTitle: 'Bạn có chắc muốn hủy hóa đơn này?',
+      nzContent: '<b style="color: red;">Hóa đơn ' + hd.order_code + '</b>',
+      nzOkText: 'Xác nhận',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => {
+        this.orderService.cancleOrderInfo(hd.order_infor_id).subscribe(
+          (res: any) => {
+            if (res.status == 200) {
+              this.toastr.success('Thành công');
+              this.getListData();
+            }
+            else {
+              this.toastr.warning('Thất bại');
+            }
+          }
+        );
+      },
+      nzCancelText: 'Đóng',
+      nzOnCancel: () => console.log('Cancel')
+    });
+  }
+
+  showConfirmDeleteItem(product: any): void {
+    this.modal.confirm({
+      nzTitle: 'Bạn có chắc muốn xóa hóa đơn này?',
+      nzContent: `<b style="color: red;">${product.product_code} - ${product.product_name}</b>`,
+      nzOkText: 'Xác nhận',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => {
+        this.listProductCart = this.listProductCart.filter((x: any) => x.product_id != product.product_id);
+        this.sumCart();
+      },
+      nzCancelText: 'Đóng',
+      nzOnCancel: () => console.log('Cancel')
+    });
+  }
+
+  addToCart(): boolean {
+    var p = this.listProduct.filter((x: any) => x.product_code == this.product_code)[0];
+    p.amountCart = 1;
+    if (this.listProductCart.filter((x: any) => x.product_code == p.product_code).length > 0) {
+      this.toastr.warning('Sản phẩm này đã được thêm vào giỏ hàng !');
+    }
+    else {
+      this.listProductCart.push(p);
+    }
+    this.sumCart();
+    return true;
+  }
+
+  saveItem() {
+    var req = {
+      order_infor_id: this.selected_ID,
+      data_cart: JSON.stringify(this.listProductCart),
+      total: this.total,
+    }
+    this.orderService.updateItemOrderInfo(req).subscribe(
+      (res: any) => {
+        if (res.status == 200) {
+          this.toastr.success('Thành công');
+          this.getListData();
+          this.sumCart();
+          this.isDisplay = false;
+        }
+        else {
+          this.toastr.success('Thất bại');
+        }
+      }
+    );
   }
 }

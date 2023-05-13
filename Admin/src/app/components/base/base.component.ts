@@ -88,6 +88,8 @@ export class BaseComponent {
   product_code: any;
   productFilter: any;
   listProductCart: any = [];
+  is_waiting: any = false;
+  listOfOption: any = [];
 
   constructor(
     public titleService: Title,
@@ -274,6 +276,7 @@ export class BaseComponent {
     this.productService.getList().subscribe(
       (res) => {
         this.listProduct = res.data;
+        this.listOfOption = this.listProduct.map((x: any) => x.size);
       }
     )
   }
