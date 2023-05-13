@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '../base/base.component';
 
 
@@ -14,7 +14,7 @@ export class BrandComponent extends BaseComponent implements OnInit {
 
   AddForm = new FormGroup({
     brand_code: new FormControl(null),
-    brand_name: new FormControl(null),
+    brand_name: new FormControl(null, [Validators.required]),
     image: new FormControl(null),
     status: new FormControl(1),
   })
@@ -68,6 +68,10 @@ export class BrandComponent extends BaseComponent implements OnInit {
   }
 
   handleOk(): void {
+    if (this.AddForm.invalid) {
+      this.AddForm.markAllAsTouched();
+      return;
+    }
     var req = {
       brand_id: this.selected_ID,
       brand_code: this.AddForm.value.brand_code,

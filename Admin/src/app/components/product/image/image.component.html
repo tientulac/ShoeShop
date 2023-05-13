@@ -1,8 +1,18 @@
-<form class="form-inline">
-    <div class="form-group mx-sm-3 mb-2">
-      <input type="text" class="form-control" [(ngModel)]="img_link" placeholder="Paste Image link in here..." [ngModelOptions]="{standalone: true}">
+<form class="form-inline" [formGroup]="imageForm">
+    <div class="row">
+        <div class="form-group mx-sm-3 mb-2 col-7">
+            <div class="row">
+              <div class="col-12">
+                  <input type="text" class="form-control" formControlName="image" placeholder="Paste Image link in here...">
+              </div>
+              <div *ngIf="imageForm.controls['image'].hasError('required')" class="text-danger">
+                  Image không được để trống.
+              </div>
+            </div>
+          </div>
+        <button class="btn btn-primary mb-2 ms-3 col-4" style="height: 40px; margin-top: 9px; width: 95px;"
+            (click)="addImage()">Thêm ảnh</button>
     </div>
-    <button class="btn btn-primary mb-2" (click)="addImage()">Thêm ảnh</button>
 </form>
 <div class="table-responsive table-hover table-sales">
     <nz-table #basicTable [nzData]="dataImage">

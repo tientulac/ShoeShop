@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '../base/base.component';
 
 @Component({
@@ -11,17 +11,17 @@ export class AccountComponent extends BaseComponent implements OnInit {
 
   AddForm = new FormGroup({
     address: new FormControl(null),
-    phone: new FormControl(null),
-    full_name: new FormControl(null),
-    email: new FormControl(null),
-    admin: new FormControl(null),
+    phone: new FormControl(null, [Validators.required, Validators.pattern('^\\+?[0-9]{9,10}$')]),
+    full_name: new FormControl(null, [Validators.required]),
+    email: new FormControl(null, [Validators.required, Validators.email]),
+    admin: new FormControl(null, [Validators.required]),
     active: new FormControl(null),
-    role_code: new FormControl(null),
+    role_code: new FormControl(null, [Validators.required]),
     town: new FormControl(null),
     district: new FormControl(null),
     city: new FormControl(null),
-    user_name: new FormControl(null),
-    password: new FormControl(null),
+    user_name: new FormControl(null, [Validators.required, Validators.minLength(4)]),
+    password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
   })
 
   ngOnInit(): void {
@@ -77,6 +77,10 @@ export class AccountComponent extends BaseComponent implements OnInit {
   }
 
   handleOk(): void {
+    if (this.AddForm.invalid) {
+      this.AddForm.markAllAsTouched();
+      return;
+    }
     var req = {
       account_id: this.selected_ID,
       address: this.AddForm.value.address,

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BaseComponent } from '../../base/base.component';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-image',
@@ -10,7 +11,6 @@ export class ImageComponent extends BaseComponent implements OnInit {
 
   @Input() id_input: any = 0; 
   dataImage: any = [];
-  img_link: any;
 
   ngOnInit(): void {
     this.getListImage();
@@ -23,11 +23,17 @@ export class ImageComponent extends BaseComponent implements OnInit {
       }
     );
   }
-
+  imageForm = new FormGroup({
+    image: new FormControl(null, [Validators.required]),
+  })
   addImage() {
+    if (this.imageForm.invalid) {
+      this.imageForm.markAllAsTouched();
+      return;
+    }
     let req = {
       product_id: this.id_input,
-      image: this.img_link
+      image: this.imageForm.value.image
     }
     this.productService.insertImage(req).subscribe(
       (res) => {

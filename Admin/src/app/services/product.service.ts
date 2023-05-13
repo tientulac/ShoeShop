@@ -130,4 +130,14 @@ export class ProductService {
         })
       );
   }
+
+  getByFilter(req: any): Observable<any> {
+    return this.http
+      .post<any>(this.appConfig.API + 'api/v1/productByFilter', req)
+      .pipe(
+        map((z) => {
+          return z;
+        })
+      );
+  }
 }
