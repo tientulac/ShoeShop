@@ -89,24 +89,20 @@
         <form class="form-horizontal" [formGroup]="AddForm">
             <div class="row">
                 <div class="col-md-6" *ngIf="!(selected_ID > 0)">
-                    <label class="row col-md-10 require">UserName</label>
-                    <input type="text" class="form-control" formControlName="user_name" placeholder="nhập...">
-                    <div *ngIf="AddForm.controls['user_name'].hasError('required')" class="text-danger">
-                        Username không được để trống.
-                    </div>
-                    <div *ngIf="AddForm.controls['user_name'].hasError('minlength')" class="text-danger">
-                        Username chứa ít nhất 4 kí tự.
-                    </div>
+                    <nz-form-item class="row">
+                        <label class="col-md-10">Tên đăng nhập</label>
+                        <nz-form-control nzErrorTip="Tên đăng nhập không được để trống và chứa ít nhất 4 kí tự" nzHasFeedback>
+                            <input type="text" class="form-control" formControlName="user_name" placeholder="nhập...">
+                        </nz-form-control>
+                      </nz-form-item>
                 </div>
-                <div class="col-md-6" *ngIf="!(selected_ID > 0)">
-                    <label class="row col-md-10 require">Password</label>
-                    <input type="password" class="form-control" formControlName="password" placeholder="nhập...">
-                    <div *ngIf="AddForm.controls['password'].hasError('required')" class="text-danger">
-                        Password không được để trống.
-                    </div>
-                    <div *ngIf="AddForm.controls['password'].hasError('minlength')" class="text-danger">
-                        Password chứa ít nhất 6 kí tự.
-                    </div>
+                <div class="col-md-6" *ngIf="!(selected_ID > 0)" style="margin-top: -7px;">
+                    <nz-form-item class="row">
+                        <label class="col-md-10">Mật khẩu</label>
+                        <nz-form-control nzErrorTip="Mật khẩu không được để trống và chứa ít nhất 6 kí tự" nzHasFeedback>
+                            <input type="text" class="form-control" formControlName="password" placeholder="nhập...">
+                        </nz-form-control>
+                      </nz-form-item>
                 </div>
                 <label class="col-md-12">Tỉnh</label>
                 <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn tỉnh" formControlName="city" (ngModelChange)="selectCity()">
@@ -124,38 +120,41 @@
                         {{c.name}}</nz-option>
                 </nz-select>
                 <div class="col-md-12">
-                    <label class="row col-md-10">SĐT</label>
-                    <input type="text" class="form-control" formControlName="phone" placeholder="nhập...">
-                    <div *ngIf="AddForm.controls['phone'].hasError('required')" class="text-danger">
-                        SĐT không được để trống.
-                    </div>
-                    <div *ngIf="AddForm.controls['phone'].hasError('pattern')" class="text-danger">Số điện thoại không hợp lệ.</div>
+                    <nz-form-item class="row">
+                        <label class="col-md-10">SĐT</label>
+                        <nz-form-control nzErrorTip="Số điện thoại không được để trống và không hợp lệ" nzHasFeedback>
+                            <input type="text" class="form-control" formControlName="phone" placeholder="nhập...">
+                        </nz-form-control>
+                      </nz-form-item>
                 </div>
-                <div class="col-md-12">
-                    <label class="row col-md-10">Họ tên</label>
-                    <input type="text" class="form-control" formControlName="full_name" placeholder="nhập...">
-                    <div *ngIf="AddForm.controls['full_name'].hasError('required')" class="text-danger">
-                        Họ và tên không được để trống.
-                    </div>
+                <div class="col-md-12" style="margin-top: -7px;">
+                    <nz-form-item class="row">
+                        <label class="col-md-10">Họ và tên</label>
+                        <nz-form-control nzErrorTip="Họ và tên không được để trống" nzHasFeedback>
+                            <input type="text" class="form-control" formControlName="full_name" placeholder="nhập...">
+                        </nz-form-control>
+                      </nz-form-item>
                 </div>
-                <div class="col-md-12">
-                    <label class="row col-md-10">Email</label>
-                    <input type="text" class="form-control" formControlName="email" placeholder="nhập...">
-                    <div *ngIf="AddForm.controls['email'].hasError('required')" class="text-danger">
-                        Email không được để trống.
-                    </div>
-                    <div *ngIf="AddForm.controls['email'].hasError('email')" class="text-danger">
-                        Email không đúng định dạng.
-                    </div>
+                <div class="col-md-12" style="margin-top: -7px;">
+                    <nz-form-item class="row">
+                        <label class="col-md-10">Email</label>
+                        <nz-form-control nzErrorTip="Email không được để trống và không đúng định dạng" nzHasFeedback>
+                            <input type="email" class="form-control" formControlName="email" placeholder="nhập...">
+                        </nz-form-control>
+                      </nz-form-item>
+                    
                 </div>
-                <label class="col-md-12">Quyền</label>
-                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select role" formControlName="role_code">
-                    <nz-option *ngFor="let c of listRole" [nzLabel]="c.role_name" [nzValue]="c.role_code">
-                        {{c.role_name}}</nz-option>
-                </nz-select>
-                <div *ngIf="AddForm.controls['role_code'].hasError('required')" class="text-danger">
-                    Quyền không được để trống.
-                </div>
+
+                <nz-form-item class="row" style="margin-top: -7px;">
+                    <label class="col-md-10">Quyền</label>
+                    <nz-form-control nzErrorTip=" Quyền không được để trống." nzHasFeedback>
+                        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select role" formControlName="role_code">
+                            <nz-option *ngFor="let c of listRole" [nzLabel]="c.role_name" [nzValue]="c.role_code">
+                                {{c.role_name}}</nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                  </nz-form-item>
+
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-6"><input type="checkbox" formControlName="admin"> Admin</div>

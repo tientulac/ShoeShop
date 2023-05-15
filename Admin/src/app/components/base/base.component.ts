@@ -144,7 +144,6 @@ export class BaseComponent {
       cusomter_type: '',
       order_code: '',
       seller: '',
-      phone_seller: '',
       id_city: null,
       id_district: null,
       id_ward: null,

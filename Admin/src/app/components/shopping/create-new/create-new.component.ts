@@ -16,6 +16,7 @@ export class CreateNewComponent extends BaseComponent implements OnInit {
       name: 'Hóa đơn 1',
     }
   ];
+  selectedOption: any;
   waitingPayment: any;
   paymentMethod: any;
   listDistrictFilter: any;
@@ -41,6 +42,7 @@ export class CreateNewComponent extends BaseComponent implements OnInit {
   ngOnInit(): void {
     this.getListCity();
     this.getListProduct();
+    this.getListAccount();
     this.refreshOrderInfo();
     this.orderInfo.order_code = `HD${this.date.getDate()}${this.date.getMonth() + 1}${this.date.getFullYear()}${Math.random()}`;
   }
@@ -86,8 +88,10 @@ export class CreateNewComponent extends BaseComponent implements OnInit {
   }
 
   createOrder() {
+
     this.orderInfo.total = this.totalPayment;
     this.orderInfo.data_cart = JSON.stringify(this.listProductCart);
+    console.log(this.orderInfo);
     this.orderService.createOrderInfor(this.orderInfo).subscribe(
       (res: any) => {
         if (res.status == 200) {

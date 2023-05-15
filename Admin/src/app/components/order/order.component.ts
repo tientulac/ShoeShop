@@ -10,6 +10,14 @@ export class OrderComponent extends BaseComponent implements OnInit {
 
   accountName: any;
 
+  selectedStatus!: any;
+  filterStatusOrder: any = [
+    { status: 1, name: 'Chờ xác nhận' },
+    { status: 2, name: 'Chờ lấy hàng' },
+    { status: 3, name: 'Đang giao' },
+    { status: 4, name: 'Giao thành công' },
+    { status: 5, name: 'Đã hủy' },
+  ]
   statusOrder: any = [
     { status: 1, name: 'Chờ lấy hàng' },
     { status: 2, name: 'Đang giao' },
@@ -79,4 +87,14 @@ export class OrderComponent extends BaseComponent implements OnInit {
     this.isDisplay = false;
   }
 
+  filter() {
+    var req = {
+      status: this.selectedStatus,
+    }
+    this.productService.getOrderByFilter(req).subscribe(
+      (res) => {
+        this.listOrder = res.data;
+      }
+    );
+  }
 }

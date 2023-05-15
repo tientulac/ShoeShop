@@ -134,59 +134,55 @@
                         [ngModelOptions]="{standalone: true}">
                 </div>
                 <div class="col-md-12">
-                    <label class="row col-md-10">Tên sản phẩm</label>
-                    <input type="text" class="form-control" formControlName="product_name" placeholder="nhập...">
-                    <div *ngIf="AddForm.controls['product_name'].hasError('required')" class="text-danger">
-                        Name không được để trống.
-                      </div>
+                    <nz-form-item class="row">
+                        <label class="col-md-12">Tên</label>
+                        <nz-form-control nzErrorTip="Tên không được để trống." nzHasFeedback>
+                          <input nz-input formControlName="product_name" placeholder="nhập..." class="form-control">
+                        </nz-form-control>
+                      </nz-form-item>
                 </div>
-                <label class="col-md-12">Danh mục</label>
-                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn danh mục" formControlName="category_id">
-                    <nz-option *ngFor="let c of listCate" [nzLabel]="c.category_name" [nzValue]="c.category_id">
-                        {{c.category_name}}</nz-option>
-                </nz-select>
-                <div *ngIf="AddForm.controls['category_id'].hasError('required')" class="text-danger">
-                    Danh mục không được để trống.
-                  </div>
-                <label class="col-md-12">Thương hiệu</label>
-                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn thương hiệu" formControlName="brand_id">
-                    <nz-option *ngFor="let c of listBrand" [nzLabel]="c.brand_name" [nzValue]="c.brand_id"></nz-option>
-                </nz-select>
-                <div *ngIf="AddForm.controls['brand_id'].hasError('required')" class="text-danger">
-                    Thương hiệu không được để trống.
-                  </div>
-                <div class="col-md-12">
-                    <label class="row col-md-10">Số lượng kho</label>
-                    <input type="number" class="form-control" formControlName="amount" placeholder="nhập...">
-                    <div *ngIf="AddForm.controls['amount'].hasError('required')" class="text-danger">
-                        Số lượng không được để trống.
-                      </div>
-                      <div *ngIf="AddForm.controls['amount'].hasError('pattern')" class="text-danger">
-                        Số lượng chỉ được nhập số.
-                      </div>
-                      <div *ngIf="AddForm.controls['amount'].hasError('min')" class="text-danger">
-                        Số lượng không được dưới 1.
-                      </div>
+                <nz-form-item class="row" style="margin-top: -7px;">
+                    <label class="col-md-12">Danh mục</label>
+                    <nz-form-control nzErrorTip="Danh mục không được để trống." nzHasFeedback>
+                        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn danh mục" formControlName="category_id">
+                            <nz-option *ngFor="let c of listCate" [nzLabel]="c.category_name" [nzValue]="c.category_id">
+                                {{c.category_name}}</nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+               
+                <nz-form-item class="row" style="margin-top: -7px;">
+                    <label class="col-md-12">Thương hiệu</label>
+                    <nz-form-control nzErrorTip="Thương hiệu không được để trống." nzHasFeedback>
+                        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn thương hiệu" formControlName="brand_id">
+                            <nz-option *ngFor="let c of listBrand" [nzLabel]="c.brand_name" [nzValue]="c.brand_id"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <div class="col-md-12" style="margin-top: -7px;">
+                    <nz-form-item class="row">
+                        <label class="col-md-10">Số lượng</label>
+                        <nz-form-control nzErrorTip="Số lượng không được để trống và chỉ được nhập số" nzHasFeedback>
+                            <input type="number" class="form-control" formControlName="amount" placeholder="nhập...">
+                        </nz-form-control>
+                      </nz-form-item>
                 </div>
-                <div class="col-md-12">
-                    <label class="rowcol-md-10">Xuất xứ</label>
-                    <input type="text" class="form-control" formControlName="origin" placeholder="nhập...">
-                    <div *ngIf="AddForm.controls['origin'].hasError('required')" class="text-danger">
-                        Xuất xứ không được để trống.
-                      </div>
+                <div class="col-md-12" style="margin-top: -7px;">
+                    <nz-form-item class="row">
+                        <label class="col-md-10">Xuất xứ</label>
+                        <nz-form-control nzErrorTip="Xuất xứ không được để trống." nzHasFeedback>
+                            <input type="text" class="form-control" formControlName="origin" placeholder="nhập...">
+                        </nz-form-control>
+                      </nz-form-item>
                 </div>
-                <div class="col-md-12">
-                    <label class="row col-md-10">Giá tiền</label>
-                    <input type="number" class="form-control" formControlName="price" placeholder="nhập...">
-                    <div *ngIf="AddForm.controls['price'].hasError('required')" class="text-danger">
-                        Giá tiền không được để trống.
-                      </div>
-                      <div *ngIf="AddForm.controls['price'].hasError('pattern')" class="text-danger">
-                        Giá tiền chỉ được nhập số.
-                      </div>
-                      <div *ngIf="AddForm.controls['price'].hasError('min')" class="text-danger">
-                        Giá tiền không được thấp hơn 1.
-                      </div>
+                <div class="col-md-12" style="margin-top: -7px;">
+                    <nz-form-item class="row">
+                        <label class="col-md-10">Giá tiền</label>
+                        <nz-form-control nzErrorTip="Giá tiền không được để trống và chỉ được nhập số" nzHasFeedback>
+                            <input type="number" class="form-control" formControlName="price" placeholder="nhập...">
+                        </nz-form-control>
+                      </nz-form-item>
                 </div>
                 <!-- <div class="col-md-12">
                     <label class="row col-md-6">Size (Kích cỡ)</label>

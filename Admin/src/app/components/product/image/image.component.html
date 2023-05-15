@@ -2,12 +2,11 @@
     <div class="row">
         <div class="form-group mx-sm-3 mb-2 col-7">
             <div class="row">
-              <div class="col-12">
-                  <input type="text" class="form-control" formControlName="image" placeholder="Paste Image link in here...">
-              </div>
-              <div *ngIf="imageForm.controls['image'].hasError('required')" class="text-danger">
-                  Image không được để trống.
-              </div>
+                <nz-form-item class="row">
+                    <nz-form-control nzErrorTip="Ảnh không được để trống." nzHasFeedback>
+                      <input nz-input formControlName="image" placeholder="nhập link ảnh ở đây" class="form-control">
+                    </nz-form-control>
+                  </nz-form-item>
             </div>
           </div>
         <button class="btn btn-primary mb-2 ms-3 col-4" style="height: 40px; margin-top: 9px; width: 95px;"

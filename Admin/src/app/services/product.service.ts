@@ -140,4 +140,14 @@ export class ProductService {
         })
       );
   }
+
+  getOrderByFilter(req: any): Observable<any> {
+    return this.http
+      .post<any>(this.appConfig.API + 'api/v1/order/orderByFilter', req)
+      .pipe(
+        map((z) => {
+          return z;
+        })
+      );
+  }
 }

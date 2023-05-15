@@ -3,17 +3,19 @@
         <div class="form-group mx-sm-3 mb-2 col-7">
             <div class="row">
                 <div class="form-group">
-                    <textarea class="form-control" formControlName="detail" id="exampleFormControlTextarea1" maxlength="100"
-                        rows="2"></textarea>
-                    <div *ngIf="AddForm.controls['detail'].hasError('required')" class="text-danger">
-                        Mô tả không được để trống.
-                    </div>
+                    <nz-form-item class="row">
+                        <label class="col-md-10">Mô tả</label>
+                        <nz-form-control nzErrorTip="Mô tả không được để trống" nzHasFeedback>
+                            <textarea class="form-control" formControlName="detail" id="exampleFormControlTextarea1" maxlength="100"
+                            rows="2"></textarea>
+                        </nz-form-control>
+                      </nz-form-item>
                     </div>
                     
                     </div>
                     </div>
                     <button class="btn btn-primary mb-2 col-4" (click)="addDetail()"
-                        style="height: 40px; margin-top: 20px; width: 113px;">Thêm mô tả</button>
+                        style="height: 40px; margin-top: 40px; width: 113px;">Thêm mô tả</button>
                     </div>
 </form>
 <div class="table-responsive table-hover table-sales">

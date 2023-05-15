@@ -18,31 +18,41 @@
                             <div class="col-md-12">
                                 <div class="table-responsive table-hover table-sales">
                                     <div class="row">
-                                        <div class="col-6"></div>
-                                        <div class="col-6">
+                                        <div class="col-4">
+                                            <label style="font-weight: bold;">Trạng thái đơn hàng</label>
+                                            <select class="form-control" placeholder="Lọc theo trạng thái" [(ngModel)]="selectedStatus" (change)="filter()">
+                                                <option value="" >Tất cả</option>
+                                                <option *ngFor="let c of filterStatusOrder" [value]="c.status">{{c.name}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-4"></div>
+                                        <div class="col-4">
+                                            <label style="font-weight: bold;">Tìm kiếm nhanh</label>
                                             <input type="text" style="float: right; margin-bottom: 10px;"
                                         placeholder="Tìm kiếm nhanh..." class="form-control" [(ngModel)]="searchString"
                                         [ngModelOptions]="{standalone: true}">
                                         </div>
                                     </div>      
-                                    <nz-table #basicTable [nzData]="listOrder">
+                                    <nz-table #basicTable [nzData]="listOrder" style="margin-top: 10px;">
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
+                                                <th>Mã HĐ</th>
+                                                <th>Khách hàng</th>
+                                                <th>SĐT</th>
                                                 <th>Địa chỉ</th>
                                                 <th>Trạng thái</th>
-                                                <th>Khách hàng</th>
                                                 <th>Loại thanh toán</th>
+                                                <th>Tổng tiền</th>
                                                 <th>Ngày đặt</th>
-                                                <th>Thời gian cập nhật</th>
                                                 <th>Thời gian hủy</th>
-                                                <th>Tài khoản</th>
                                                 <th>Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr *ngFor="let data of basicTable.data | filter:searchString">
-                                                <td>{{ data.order_id }}</td>
+                                                <td>HD00{{ data.order_id }}</td>
+                                                <td>{{data.full_name}}</td>
+                                                <td>{{data.phone}}</td>
                                                 <td>{{data.city_name}} - {{data.district_name}} - {{data.ward_name}}
                                                 </td>
                                                 <td [style]="
@@ -56,20 +66,15 @@
                                                     data.status == 2 ? 'Đang giao' : data.status == 3 ? 'Giao thành
                                                     công' :
                                                     'Đã huỷ'}}</td>
-                                                <td>{{data.full_name}}</td>
+                                                
                                                 <td
                                                     [style]="data.type_payment == 1 ? 'font-weight: bold; color: green' : 'font-weight: bold;color:yellow'">
                                                     {{data.status == 1 ? 'Tiền mặt' : 'Chuyển khoản'}}</td>
-                                                <td>{{ data.created_at | date: 'dd/MM/yyyy hh:mm:aa'}}</td>
-                                                <td>{{ data.updated_at | date: 'dd/MM/yyyy hh:mm:aa'}}</td>
-                                                <td>{{ data.deleted_at | date: 'dd/MM/yyyy hh:mm:aa'}}</td>
-                                                <td>{{ data.account_id }}</td>
+                                                <td>{{ data.total + data.fee_ship | number}}</td>
+                                                <td>{{ data.created_at | date: 'dd/MM/yyyy'}}</td>
+                                                <td>{{ data.deleted_at | date: 'dd/MM/yyyy'}}</td>
                                                 <td>
-                                                    <button class="btn btn-sm btn-outline-danger" placement="left"
-                                                        style="margin-right: 0.5rem;" nzType="dashed"
-                                                        (click)="showConfirm(data.order_id)">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </button>
+                                                    
                                                     <a nz-dropdown [nzDropdownMenu]="menu"
                                                         style="margin-right: 0.5rem;">
                                                         <button class="btn btn-sm btn-outline-warning" placement="left"
