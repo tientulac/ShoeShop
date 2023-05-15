@@ -1,4 +1,5 @@
 ﻿using ClothesShopMale.Models;
+using ClothesShopMale.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -122,6 +123,33 @@ namespace ClothesShopMale.Controllers
             catch (Exception ex)
             {
                 return new ResponseBase<bool>
+                {
+                    status = 500
+                };
+            }
+        }
+
+
+        [HttpPost]
+        [Route("api/v1/order/orderByFilter")]
+        public ResponseBase<List<Order>> GetByFitler(FilterOrder req)
+        {
+            try
+            {
+                var list = db.Orders.ToList();
+                if (req.status > 0)
+                {
+                    list = list.Where(x => x.status == req.status).ToList();
+                }
+                return new ResponseBase<List<Order>>
+                {
+                    data = list.ToList(),
+                    status = 200
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseBase<List<Order>>
                 {
                     status = 500
                 };

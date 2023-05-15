@@ -11,4 +11,7 @@ namespace ClothesShopMale.Models
         public DateTime? to_date { get; set; }
         public string order_code { get; set; }
     }
+    public class FilterOrder {
+        public int status { get; set; }
+    }
 }
