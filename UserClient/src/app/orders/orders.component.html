@@ -18,11 +18,11 @@
     </div>
   </div>
 </section>
-<div class="container">
+<div class="container-fluid">
 
   <section class="user-dashboard page-wrapper">
-    <div class="container">
-      <div class="row">
+    <div class="container-fluid">
+      <div class="row" style="width: 90%; margin-left: 100px;">
         <div class="col-12 col-md-5 col-sm-12 col-lg-3">
           <div class="nav flex-column nav-pills">
             <a class="nav-link active" routerLink="/order">Đơn hàng</a>
@@ -39,13 +39,14 @@
           <table class="table table-bordered">
             <thead>
               <tr>
-                <th scope="col">Mã đơn</th>
+                <th scope="col">Mã HĐ</th>
                 <th scope="col">Thời gian</th>
                 <th scope="col">Trạng thái</th>
                 <th scope="col">Người nhận</th>
+                <th scope="col">SĐT</th>
+                <th scope="col">Tổng tiền</th>
                 <th scope="col">Địa chỉ</th>
-                <th scope="col">Thời gian hủy</th>
-                <th scope="col">Cập nhật gần đây</th>
+                <th scope="col">Loại thanh toán</th>
                 <th scope="col">Hành động</th>
               </tr>
             </thead>
@@ -55,7 +56,7 @@
                 currentPage: page,
                 totalItems: count
               }; let i=index">
-                <th scope="row">#{{o.order_id}}</th>
+                <th scope="row">HD00{{o.order_id}}</th>
                 <td>{{o.created_at | date: 'dd/MM/yyyy'}}</td>
                 <td
                   [style]="
@@ -66,9 +67,10 @@
                   'font-weight: bold;color:red'">
                   {{o.status == 0 ? 'Chờ xác nhận' : o.status == 1 ? 'Chờ lấy hàng' : o.status == 2 ? 'Đang giao' : o.status == 3 ? 'Giao thành công' : 'Đã huỷ'}}</td>
                 <td>{{o.full_name}}</td>
+                <td>{{o.phone}}</td>
+                <td>{{o.total + o.fee_ship | number}}</td>
                 <td>{{o.city_name}} - {{o.district_name}} - {{o.ward_name}}</td>
-                <td>{{o.deleted_at | date: 'dd/MM/yyyy hh:aa:mm'}}</td>
-                <td>{{o.updated_at | date: 'dd/MM/yyyy hh:aa:mm'}}</td>
+                <td>{{o.status == 1 ? 'Tiền mặt' : 'Chuyển khoản'}}</td>
                 <td style="text-align: center;">
                   <a href="javascript:void(0)" placement="left" style="margin-right: 0.5rem; color:blue" nzType="dashed"
                     (click)="open(o)" data-toggle="modal" data-target="#myModal">

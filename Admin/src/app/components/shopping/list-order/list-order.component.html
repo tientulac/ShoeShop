@@ -51,7 +51,7 @@
                                 <h5 *ngIf="hd.status == 3" class="text-center">(Đã bị hủy)</h5>
                                 <div class="row">
                                     <div class="col-md-12" *ngIf="hd.status != 3">
-                                        <Button class="btn btn-sm btn-success" style="float: right;"
+                                        <Button *ngIf="hd.waiting" class="btn btn-sm btn-success" style="float: right;"
                                             (click)="save(hd)">Lưu</Button>
                                         <Button class="btn btn-sm btn-primary" (click)="showDetail(hd)"
                                             style="float: right;margin-right: 10px;">Chi tiết</Button>
@@ -138,7 +138,7 @@
                                             [value]="hd.payment_type == 1 ? 'Tiền mặt' : 'Chuyển khoản'" disabled>
                                     </div>
                                     <div class="col-md-12">
-                                        <label nz-checkbox [(ngModel)]="hd.waiting">Chờ thanh
+                                        <label *ngIf="hd.waiting" nz-checkbox [(ngModel)]="hd.waiting">Chờ thanh
                                             toán</label>
                                     </div>
                                     <div class="col-md-12">

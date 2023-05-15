@@ -11,6 +11,7 @@ export class OrderComponent extends BaseComponent implements OnInit {
   accountName: any;
 
   selectedStatus!: any;
+  
   filterStatusOrder: any = [
     { status: 1, name: 'Chờ xác nhận' },
     { status: 2, name: 'Chờ lấy hàng' },
@@ -29,6 +30,23 @@ export class OrderComponent extends BaseComponent implements OnInit {
     this.getListOrder();
   }
 
+  isStatusDisabled(selectedStatus: number): boolean {
+    if (selectedStatus === 1) {
+      return this.statusOrder.status === 1; 
+    }
+    if (selectedStatus === 2) { 
+      return this.statusOrder.status === 1 || this.statusOrder.status === 2; 
+    }
+    if (selectedStatus === 3) { 
+      return this.statusOrder.status === 1 || this.statusOrder.status === 2 || this.statusOrder.status === 3; 
+    }
+    if(selectedStatus === 4){
+      return this.statusOrder.status === 1 || this.statusOrder.status === 2 || this.statusOrder.status === 3 || this.statusOrder.status === 4;
+    }
+    else {
+      return false;
+    }
+  }
   showConfirm(id: any): void {
     this.modal.confirm({
       nzTitle: '<i>Do you Want to delete these items?</i>',
