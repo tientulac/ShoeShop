@@ -27,8 +27,11 @@
             <table class="table shop_table shop_table_responsive cart" cellspacing="0">
               <thead>
                 <tr>
-                  <th class="product-thumbnail"> </th>
+                  <th class="">STT</th>
+                  <th class="product-thumbnail">Hình ảnh</th>
                   <th class="product-name">Sản phẩm</th>
+                  <th class="product-name">Size</th>
+                  <th class="product-name">Màu</th>
                   <th class="product-price">Giá (VNĐ)</th>
                   <th class="product-quantity">Số lượng</th>
                   <th class="product-subtotal">Thành tiền</th>
@@ -38,6 +41,7 @@
 
               <tbody>
                 <tr class="cart_item" *ngFor="let c of cartInfo">
+                  <td></td>
                   <td class="product-thumbnail" data-title="Thumbnail">
                     <a routerLink="/product-single"><img src="{{c.image}}"
                         class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt=""></a>
@@ -46,7 +50,12 @@
                   <td class="product-name" data-title="Product">
                     <a href="#">{{c.product_name}}</a>
                   </td>
-
+                  <td class="product-name" data-title="Product">
+                    <a href="#">{{c.size}}</a>
+                  </td>
+                  <td class="product-name" data-title="Product">
+                    <div [style.background-color]="c.color" style="width: 20px; height: 20px"></div>
+                  </td>
                   <td class="product-price" data-title="Price">
                     <span class="amount"><span class="currencySymbol">
                         <pre wp-pre-tag-3=""></pre>
