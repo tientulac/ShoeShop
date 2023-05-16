@@ -22,7 +22,7 @@ export class CreateNewComponent extends BaseComponent implements OnInit {
   listDistrictFilter: any;
   listWardFilter: any;
   totalPayment: any = 0;
-
+  full_name: string ='';
   closeTab({ index }: { index: number }): void {
     this.tabs.splice(index, 1);
   }
@@ -45,6 +45,11 @@ export class CreateNewComponent extends BaseComponent implements OnInit {
     this.getListAccount();
     this.refreshOrderInfo();
     this.orderInfo.order_code = `HD${this.date.getDate()}${this.date.getMonth() + 1}${this.date.getFullYear()}${Math.random()}`;
+    const data = localStorage.getItem('UserInfo');
+    if(data){
+      const account = JSON.parse(data);
+      this.full_name = account.full_name;
+    }
   }
 
   selectCity() {
@@ -88,7 +93,7 @@ export class CreateNewComponent extends BaseComponent implements OnInit {
   }
 
   createOrder() {
-
+    this.orderInfo.seller = this.full_name;
     this.orderInfo.total = this.totalPayment;
     this.orderInfo.data_cart = JSON.stringify(this.listProductCart);
     console.log(this.orderInfo);
