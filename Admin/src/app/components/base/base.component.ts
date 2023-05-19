@@ -69,6 +69,7 @@ export interface OrderInfo {
 
 export class BaseComponent {
 
+  listIndexImage: any = [{ img: 1, checked: false }];
   orderInfo!: any;
   Data: any;
   selected_ID: any;
@@ -90,6 +91,7 @@ export class BaseComponent {
   listProductCart: any = [];
   is_waiting: any = false;
   listOfOption: any = [];
+  isDisplayAttribute: any = false;
 
   constructor(
     public titleService: Title,
@@ -135,6 +137,8 @@ export class BaseComponent {
   townSelected: any;
   sizeInput: any;
   colorInput: any;
+  priceInput: any;
+  amountInput: any;
   listOrderInfo: any = [];
 
   refreshOrderInfo() {
@@ -159,6 +163,7 @@ export class BaseComponent {
   }
   listDistrictData: any = [];
   listWardData: any = [];
+  listAttribute: any = [];
 
   // getDataPosition(_province_id: any, _district_id: any) {
   //   this.positionService.getListDistrict({ province_id: _province_id }).subscribe(
@@ -275,7 +280,11 @@ export class BaseComponent {
     this.productService.getList().subscribe(
       (res) => {
         this.listProduct = res.data;
-        this.listOfOption = this.listProduct.map((x: any) => x.size);
+        this.productService.getListSize().subscribe(
+          (resSize) => {
+            this.listOfOption = resSize.data.map((x: any) => x.size);
+          }
+        );
       }
     )
   }
@@ -325,6 +334,14 @@ export class BaseComponent {
     this.accountService.getList().subscribe(
       (res) => {
         this.listAccount = res.data;
+      }
+    )
+  };
+
+  getAttribute = () => {
+    this.productService.getAllAttribute().subscribe(
+      (res) => {
+        this.listAttribute = res.data;
       }
     )
   };

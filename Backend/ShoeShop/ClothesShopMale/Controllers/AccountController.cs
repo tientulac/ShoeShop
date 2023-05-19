@@ -24,7 +24,7 @@ namespace ClothesShopMale.Controllers
                 return new ResponseBase<List<Account>>
                 {
                     data = db.Accounts.ToList(),
-                    status = 200
+                    status = 200,
                 };
             }
             catch (Exception ex)

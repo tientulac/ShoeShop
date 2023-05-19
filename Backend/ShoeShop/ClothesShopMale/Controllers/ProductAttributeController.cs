@@ -1,4 +1,5 @@
 ﻿using ClothesShopMale.Models;
+using ClothesShopMale.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,20 +13,50 @@ namespace ClothesShopMale.Controllers
         private LinqDataContext db = new LinqDataContext();
 
         [HttpGet]
-        [Route("api/v1/productattribute/color")]
-        public ResponseBase<List<ProductColor>> GetListColor()
+        [Route("api/v1/productattribute")]
+        public ResponseBase<List<ProductAttributeDTO>> GetAttribute()
         {
             try
             {
-                return new ResponseBase<List<ProductColor>>
+                return new ResponseBase<List<ProductAttributeDTO>>
                 {
-                    data = db.ProductColors.ToList(),
+                    data = db.ProductAttributes.Select(x => new ProductAttributeDTO { 
+                        product_attribute_id = x.product_attribue_id,
+                        size = x.size,
+                        color = x.color,
+                        price = x.price.GetValueOrDefault(),
+                        product_id = x.product_id.GetValueOrDefault(),
+                        amount = x.amount.GetValueOrDefault()
+                    }).ToList(),
                     status = 200
                 };
             }
             catch (Exception ex)
             {
-                return new ResponseBase<List<ProductColor>>
+                return new ResponseBase<List<ProductAttributeDTO>>
+                {
+                    status = 500
+                };
+            }
+        }
+
+        [HttpPost]
+        [Route("api/v1/productattribute/save")]
+        public ResponseBase<bool> Save(ProductAttribute req)
+        {
+            try
+            {
+                db.ProductAttributes.InsertOnSubmit(req);
+                db.SubmitChanges();
+                return new ResponseBase<bool>
+                {
+                    data = true,
+                    status = 200
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseBase<bool>
                 {
                     status = 500
                 };
@@ -34,19 +65,23 @@ namespace ClothesShopMale.Controllers
 
         [HttpGet]
         [Route("api/v1/productattribute/detail")]
-        public ResponseBase<List<ProductDetail>> GetListDetail()
+        public ResponseBase<IEnumerable<ProductDetailDTO>> GetListDetail()
         {
             try
             {
-                return new ResponseBase<List<ProductDetail>>
+                return new ResponseBase<IEnumerable<ProductDetailDTO>>
                 {
-                    data = db.ProductDetails.ToList(),
+                    data = db.ProductDetails.Select(x => new ProductDetailDTO { 
+                        product_detail_id = x.product_detail_id,
+                        detail = x.detail,
+                        product_id = x.product_id.GetValueOrDefault()
+                    }).ToList(),
                     status = 200
                 };
             }
             catch (Exception ex)
             {
-                return new ResponseBase<List<ProductDetail>>
+                return new ResponseBase<IEnumerable<ProductDetailDTO>>
                 {
                     status = 500
                 };
@@ -75,14 +110,14 @@ namespace ClothesShopMale.Controllers
         }
 
         [HttpPost]
-        [Route("api/v1/productattribute/color")]
-        public ResponseBase<ProductColor> SaveColor(ProductColor req)
+        [Route("api/v1/productattribute")]
+        public ResponseBase<ProductAttribute> SaveColor(ProductAttribute req)
         {
             try
             {
-                db.ProductColors.InsertOnSubmit(req);
+                db.ProductAttributes.InsertOnSubmit(req);
                 db.SubmitChanges();
-                return new ResponseBase<ProductColor>
+                return new ResponseBase<ProductAttribute>
                 {
                     data = req,
                     status = 200
@@ -90,7 +125,7 @@ namespace ClothesShopMale.Controllers
             }
             catch (Exception ex)
             {
-                return new ResponseBase<ProductColor>
+                return new ResponseBase<ProductAttribute>
                 {
                     status = 500
                 };
@@ -144,13 +179,13 @@ namespace ClothesShopMale.Controllers
         }
 
         [HttpDelete]
-        [Route("api/v1/productattribute/color/{id}")]
-        public ResponseBase<bool> DeleteColor(int id = 0)
+        [Route("api/v1/productattribute/{id}")]
+        public ResponseBase<bool> DeleteAttribute(int id = 0)
         {
             try
             {
-                var acc = db.ProductColors.Where(x => x.product_color_id == id).FirstOrDefault();
-                db.ProductColors.DeleteOnSubmit(acc);
+                var acc = db.ProductAttributes.Where(x => x.product_attribue_id == id).FirstOrDefault();
+                db.ProductAttributes.DeleteOnSubmit(acc);
                 db.SubmitChanges();
                 return new ResponseBase<bool>
                 {

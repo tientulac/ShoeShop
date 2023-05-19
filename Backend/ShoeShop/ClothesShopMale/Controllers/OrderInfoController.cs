@@ -13,11 +13,11 @@ namespace ClothesShopMale.Controllers
 
         [HttpPost]
         [Route("api/v1/orderInfor/filter")]
-        public ResponseBase<List<OrderInfo>> GetList(FilterOrderInfo req)
+        public ResponseBase<List<Order>> GetList(FilterOrderInfo req)
         {
             try
             {
-                var list = db.OrderInfos.ToList();
+                var list = db.Orders.Where(x => x.type == 2).ToList();
                 if (req != null)
                 {
                     if (!String.IsNullOrEmpty(req.order_code))
@@ -33,7 +33,7 @@ namespace ClothesShopMale.Controllers
                         list = list.Where(x => x.created_at <= req.to_date).ToList();
                     }
                 }
-                return new ResponseBase<List<OrderInfo>>
+                return new ResponseBase<List<Order>>
                 {
                     data = list,
                     status = 200
@@ -41,7 +41,7 @@ namespace ClothesShopMale.Controllers
             }
             catch (Exception ex)
             {
-                return new ResponseBase<List<OrderInfo>>
+                return new ResponseBase<List<Order>>
                 {
                     status = 500
                 };
@@ -50,13 +50,13 @@ namespace ClothesShopMale.Controllers
 
         [HttpPost]
         [Route("api/v1/orderInfor")]
-        public ResponseBase<OrderInfo> Save(OrderInfo req)
+        public ResponseBase<Order> Save(Order req)
         {
             try
             {
-                if (req.order_infor_id > 0)
+                if (req.order_id > 0)
                 {
-                    var order = db.OrderInfos.Where(x => x.order_infor_id == req.order_infor_id).FirstOrDefault();
+                    var order = db.Orders.Where(x => x.order_id == req.order_id).FirstOrDefault();
                     order.phone = req.phone;
                     order.cusomter_type = req.cusomter_type;
                     order.seller = req.seller;
@@ -68,15 +68,16 @@ namespace ClothesShopMale.Controllers
                     order.waiting = req.waiting;
                     order.note = req.note;
                     order.updated_at = DateTime.Now;
+                    order.type = 2;
                     db.SubmitChanges();
                 }
                 else
                 {
                     req.created_at = DateTime.Now;
-                    db.OrderInfos.InsertOnSubmit(req);
+                    db.Orders.InsertOnSubmit(req);
                     db.SubmitChanges();
                 }
-                return new ResponseBase<OrderInfo>
+                return new ResponseBase<Order>
                 {
                     data = req,
                     status = 200
@@ -84,7 +85,7 @@ namespace ClothesShopMale.Controllers
             }
             catch (Exception ex)
             {
-                return new ResponseBase<OrderInfo>
+                return new ResponseBase<Order>
                 {
                     status = 500
                 };
@@ -93,25 +94,25 @@ namespace ClothesShopMale.Controllers
 
         [HttpPost]
         [Route("api/v1/orderInfor/updateItem")]
-        public ResponseBase<OrderInfo> UpdateItem(OrderInfo req)
+        public ResponseBase<Order> UpdateItem(Order req)
         {
             try
             {
-                if (req.order_infor_id > 0)
+                if (req.order_id > 0)
                 {
-                    var order = db.OrderInfos.Where(x => x.order_infor_id == req.order_infor_id).FirstOrDefault();
+                    var order = db.Orders.Where(x => x.order_id == req.order_id).FirstOrDefault();
                     order.data_cart = req.data_cart;
                     order.total = req.total;
                     db.SubmitChanges();
                 }
                 else
                 {
-                    return new ResponseBase<OrderInfo>
+                    return new ResponseBase<Order>
                     {
                         status = 500
                     };
                 }
-                return new ResponseBase<OrderInfo>
+                return new ResponseBase<Order>
                 {
                     data = req,
                     status = 200
@@ -119,7 +120,7 @@ namespace ClothesShopMale.Controllers
             }
             catch (Exception ex)
             {
-                return new ResponseBase<OrderInfo>
+                return new ResponseBase<Order>
                 {
                     status = 500
                 };
@@ -128,31 +129,31 @@ namespace ClothesShopMale.Controllers
 
         [HttpGet]
         [Route("api/v1/orderInfor/cancleOrder/{order_infor_id}")]
-        public ResponseBase<OrderInfo> CancleOrder(int order_infor_id = 0)
+        public ResponseBase<Order> CancleOrder(int order_infor_id = 0)
         {
             try
             {
                 if (order_infor_id > 0)
                 {
-                    var order = db.OrderInfos.Where(x => x.order_infor_id == order_infor_id).FirstOrDefault();
+                    var order = db.Orders.Where(x => x.order_id == order_infor_id).FirstOrDefault();
                     order.status = 3;
                     db.SubmitChanges();
                 }
                 else
                 {
-                    return new ResponseBase<OrderInfo>
+                    return new ResponseBase<Order>
                     {
                         status = 500
                     };
                 }
-                return new ResponseBase<OrderInfo>
+                return new ResponseBase<Order>
                 {
                     status = 200
                 };
             }
             catch (Exception ex)
             {
-                return new ResponseBase<OrderInfo>
+                return new ResponseBase<Order>
                 {
                     status = 500
                 };
@@ -165,8 +166,8 @@ namespace ClothesShopMale.Controllers
         {
             try
             {
-                var acc = db.OrderInfos.Where(x => x.order_infor_id == id).FirstOrDefault();
-                db.OrderInfos.DeleteOnSubmit(acc);
+                var acc = db.Orders.Where(x => x.order_id == id).FirstOrDefault();
+                db.Orders.DeleteOnSubmit(acc);
                 db.SubmitChanges();
                 return new ResponseBase<bool>
                 {

@@ -20,7 +20,7 @@ namespace ClothesShopMale.Controllers
             {
                 return new ResponseBase<List<Order>>
                 {
-                    data = db.Orders.ToList(),
+                    data = db.Orders.Where(x => x.type == 1).ToList(),
                     status = 200
                 };
             }
@@ -40,6 +40,7 @@ namespace ClothesShopMale.Controllers
             try
             {
                 req.created_at = DateTime.Now;
+                req.type = 1;
                 db.Orders.InsertOnSubmit(req);
                 db.SubmitChanges();
                 return new ResponseBase<Order>

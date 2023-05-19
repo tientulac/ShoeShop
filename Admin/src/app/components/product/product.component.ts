@@ -42,14 +42,14 @@ export class ProductComponent extends BaseComponent implements OnInit {
   ];
 
   AddForm = new FormGroup({
-    amount: new FormControl(null, [Validators.required, Validators.pattern(/^\d+$/), Validators.min(1)]),
+    // amount: new FormControl(null, [Validators.required, Validators.pattern(/^\d+$/), Validators.min(1)]),
     brand_id: new FormControl(null, [Validators.required]),
     category_id: new FormControl(null, [Validators.required]),
-    gender: new FormControl(null),
+    // gender: new FormControl(null),
     origin: new FormControl(null, [Validators.required]),
-    price: new FormControl(0, [Validators.required, Validators.pattern(/^\d+$/), Validators.min(1)]),
+    // price: new FormControl(0, [Validators.required, Validators.pattern(/^\d+$/), Validators.min(1)]),
     product_name: new FormControl('', [Validators.required]),
-    size: new FormControl(''),
+    // size: new FormControl(''),
     status: new FormControl(1),
   })
 
@@ -58,6 +58,36 @@ export class ProductComponent extends BaseComponent implements OnInit {
     this.getListCate();
     this.getListBrand();
     this.getProductImage();
+    this.getAttribute();
+    for (let i = 2; i <= 21; i++) {
+      var _img = {
+        img: i,
+        checked: false
+      };
+      this.listIndexImage.push(_img);
+    }
+    console.log(this.listIndexImage);
+  }
+
+  addAttribute() {
+    let req = {
+      size: this.sizeSelected,
+      color: this.colorInput,
+      price: this.priceInput,
+      product_id: this.selected_ID,
+      amount: this.amountInput
+    }
+    this.productService.insertAttribute(req).subscribe(
+      (res) => {
+        if (res.status == 200) {
+          this.toastr.success('Thành công');
+          this.getAttribute();
+        }
+        else {
+          this.toastr.success('Thất bại');
+        }
+      }
+    );
   }
 
   showConfirm(id: any): void {
@@ -81,6 +111,32 @@ export class ProductComponent extends BaseComponent implements OnInit {
     });
   }
 
+  showConfirmAttribute(id: any): void {
+    this.modal.confirm({
+      nzTitle: '<i>Do you Want to delete these items?</i>',
+      // nzContent: '<b>Some descriptions</b>',
+      nzOnOk: () => {
+        this.productService.deleteAttribute(id).subscribe(
+          (res) => {
+            if (res.status == 200) {
+              this.toastr.success('Delete Success !');
+              this.getAttribute();
+            }
+            else {
+              this.toastr.warning('Delete Fail !');
+              this.getAttribute();
+            }
+          }
+        )
+      }
+    });
+  }
+
+  showAttribute(dataEdit: any): void {
+    this.selected_ID = dataEdit.product_id;
+    this.isDisplayAttribute = true;
+  }
+
   showAddModal(title: any, dataEdit: any): void {
     this.isDisplay = true;
     this.titleModal = title;
@@ -88,23 +144,19 @@ export class ProductComponent extends BaseComponent implements OnInit {
     if (dataEdit != null) {
       this.selected_ID = dataEdit.product_id;
       this.AddForm.patchValue({
-        amount: !dataEdit ? '' : dataEdit.amount,
+        // amount: !dataEdit ? '' : dataEdit.amount,
         brand_id: !dataEdit ? '' : dataEdit.brand_id,
         category_id: !dataEdit ? '' : dataEdit.category_id,
-        gender: !dataEdit ? '' : dataEdit.gender,
+        // gender: !dataEdit ? '' : dataEdit.gender,
         origin: !dataEdit ? '' : dataEdit.origin,
         product_name: !dataEdit ? '' : dataEdit.product_name,
-        price: !dataEdit ? '' : dataEdit.price,
+        // price: !dataEdit ? '' : dataEdit.price,
         status: !dataEdit ? 1 : dataEdit.status,
-        size: dataEdit.size ?? '',
+        // size: dataEdit.size ?? '',
       });
       this.sizeInput = dataEdit.size ?? '';
       this.colorInput = dataEdit.color ?? '';
       this.SKU_code = dataEdit.product_code;
-      if (!(this.listOfOption.filter((x: any) => x == dataEdit.size).length > 0)) {
-        this.listOfOption.push(dataEdit.size);
-      }
-      this.sizeSelected = dataEdit.size ?? '';
     }
     else {
       this.AddForm.reset();
@@ -140,14 +192,14 @@ export class ProductComponent extends BaseComponent implements OnInit {
     var req = {
       product_id: this.selected_ID,
       product_code: this.SKU_code,
-      amount: this.AddForm.value.amount,
+      // amount: this.AddForm.value.amount,
       brand_id: this.AddForm.value.brand_id,
       category_id: this.AddForm.value.category_id,
-      gender: this.AddForm.value.gender,
+      // gender: this.AddForm.value.gender,
       origin: this.AddForm.value.origin,
       product_name: this.AddForm.value.product_name,
       status: this.AddForm.value.status,
-      price: this.AddForm.value.price,
+      // price: this.AddForm.value.price,
       size: this.sizeSelected,
       color: this.colorInput
     }
@@ -172,11 +224,7 @@ export class ProductComponent extends BaseComponent implements OnInit {
   }
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
-    this.isDisplay = false;
-    this.isDisplayImage = false;
-    this.isDisplayDetail = false;
-    this.isDisplayColor = false;
+    this.modal.closeAll();
   }
 
   addSize() {

@@ -1,4 +1,5 @@
 ﻿using ClothesShopMale.Models;
+using ClothesShopMale.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,19 +14,29 @@ namespace ClothesShopMale.Controllers
 
         [HttpGet]
         [Route("api/v1/brand")]
-        public ResponseBase<List<Brand>> GetList()
+        public ResponseBase<List<BrandDTO>> GetList()
         {
             try
             {
-                return new ResponseBase<List<Brand>>
+                return new ResponseBase<List<BrandDTO>>
                 {
-                    data = db.Brands.ToList(),
+                    data = db.Brands.Select(x => new BrandDTO
+                    {
+                        brand_id = x.brand_id,
+                        brand_code = x.brand_code,
+                        brand_name = x.brand_name,
+                        status = x.status.GetValueOrDefault(),
+                        image = x.image,
+                        created_at = x.created_at,
+                        update_at = x.created_at,
+                        deleted_at = x.deleted_at,
+                    }).ToList(),
                     status = 200
                 };
             }
             catch (Exception ex)
             {
-                return new ResponseBase<List<Brand>>
+                return new ResponseBase<List<BrandDTO>>
                 {
                     status = 500
                 };

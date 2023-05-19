@@ -1,4 +1,5 @@
 ﻿using ClothesShopMale.Models;
+using ClothesShopMale.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,19 +14,28 @@ namespace ClothesShopMale.Controllers
 
         [HttpGet]
         [Route("api/v1/category")]
-        public ResponseBase<List<Category>> GetList()
+        public ResponseBase<List<CategoryDTO>> GetList()
         {
             try
             {
-                return new ResponseBase<List<Category>>
+                return new ResponseBase<List<CategoryDTO>>
                 {
-                    data = db.Categories.ToList(),
+                    data = db.Categories.Select(x => new CategoryDTO { 
+                        category_id = x.category_id,
+                        category_code = x.category_code,
+                        category_name = x.category_name,
+                        status = x.status.GetValueOrDefault(),
+                        image = x.image,
+                        created_at = x.created_at,
+                        updated_at = x.updated_at,
+                        deleted_at = x.deleted_at
+                    }).ToList(),
                     status = 200
                 };
             }
             catch (Exception ex)
             {
-                return new ResponseBase<List<Category>>
+                return new ResponseBase<List<CategoryDTO>>
                 {
                     status = 500
                 };

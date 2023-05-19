@@ -21,38 +21,6 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive table-hover table-sales">
-                                    <div class="row mb-5">
-                                        <div class="col-md-3">
-                                          <label style="font-weight: bold;">Giá tiền</label>
-                                          <select [(ngModel)]="selectedPrice" class="form-control" placeholder="Lọc theo giá" (change)="filter()">
-                                            <option value="">Tất cả</option>
-                                            <option value="gt500">Lớn hơn 500,000 VNĐ</option>
-                                            <option value="lt500">Nhỏ hơn 500,000 VNĐ</option>
-                                            <option value="gt1000">Lớn hơn 1,000,000 VNĐ</option>
-                                          </select>
-                                        </div>
-                                        <div class="col-md-3">
-                                          <label style="font-weight: bold;">Thương hiệu</label>
-                                          <select [(ngModel)]="selectedBrand" class="form-control" placeholder="Lọc theo thương hiệu" (change)="filter()">
-                                            <option value="">Tất cả</option>
-                                            <option *ngFor="let b of listBrand" [value]="b.brand_id">{{b.brand_name}}</option>
-                                          </select>
-                                        </div>
-                                        <div class="col-md-3">
-                                          <label style="font-weight: bold;">Danh mục</label>
-                                          <select [(ngModel)]="selectedCate" class="form-control" placeholder="Lọc theo danh mục" (change)="filter()">
-                                            <option value="">Tất cả</option>
-                                            <option *ngFor="let b of listCate" [value]="b.category_id">{{b.category_name}}</option>
-                                          </select>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label></label>
-                                            <input type="text" class="form-control"
-                                        placeholder="Tìm kiếm nhanh..." [(ngModel)]="searchString"
-                                        [ngModelOptions]="{standalone: true}">
-                                        </div>
-                                    </div>
-                                   
                                     <nz-table #basicTable [nzData]="listProduct">
                                         <thead>
                                             <tr>
@@ -61,10 +29,7 @@
                                                 <th>Tên sản phẩm</th>
                                                 <th>Danh mục</th>
                                                 <th>Thương hiệu</th>
-                                                <th>Size</th>
                                                 <th>Xuất xứ</th>
-                                                <th>Giá tiền</th>
-                                                <th>Số lượng trong kho</th>
                                                 <th>Trạng thái</th>
                                                 <th>Hành động</th>
                                             </tr>
@@ -76,10 +41,7 @@
                                                 <td>{{ data.product_name }}</td>
                                                 <td>{{ data.category_name }}</td>
                                                 <td>{{ data.brand_name }}</td>
-                                                <td>{{ data.size }}</td>
                                                 <td>{{ data.origin }}</td>
-                                                <td>{{ data.price | number }}</td>
-                                                <td>{{ data.amount }}</td>
                                                 <td
                                                     [style]="data.status == 1 ? 'font-weight: bold; color: green' : 'font-weight: bold;color:yellow'">
                                                     {{data.status == 1 ? 'Mới' : 'Cũ'}}</td>
@@ -96,19 +58,14 @@
                                                     </button>
                                                     <button class="btn btn-sm btn-outline-secondary" placement="left"
                                                         style="margin-right: 0.5rem;" nzType="dashed"
-                                                        (click)="showImageModal(data.product_id)">
-                                                        <i class="fa fa-image"></i>
+                                                        (click)="showAttribute(data)">
+                                                        <i class="fa fa-list" aria-hidden="true"></i>
                                                     </button>
                                                     <button class="btn btn-sm btn-outline-primary" placement="left"
                                                         style="margin-right: 0.5rem;" nzType="dashed"
                                                         (click)="showDetailModal(data.product_id)">
                                                         <i class="fa fa-eye"></i>
                                                     </button>
-                                                    <!-- <button class="btn btn-sm btn-outline-success" placement="left"
-                                                        style="margin-right: 0.5rem;" nzType="dashed"
-                                                        (click)="showColorModal(data.product_id)">
-                                                        <i class="fa fa-palette"></i>
-                                                    </button> -->
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -137,58 +94,61 @@
                     <nz-form-item class="row">
                         <label class="col-md-12">Tên</label>
                         <nz-form-control nzErrorTip="Tên không được để trống." nzHasFeedback>
-                          <input nz-input formControlName="product_name" placeholder="nhập..." class="form-control">
+                            <input nz-input formControlName="product_name" placeholder="nhập..." class="form-control">
                         </nz-form-control>
-                      </nz-form-item>
+                    </nz-form-item>
                 </div>
                 <nz-form-item class="row" style="margin-top: -7px;">
                     <label class="col-md-12">Danh mục</label>
                     <nz-form-control nzErrorTip="Danh mục không được để trống." nzHasFeedback>
-                        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn danh mục" formControlName="category_id">
+                        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn danh mục"
+                            formControlName="category_id">
                             <nz-option *ngFor="let c of listCate" [nzLabel]="c.category_name" [nzValue]="c.category_id">
                                 {{c.category_name}}</nz-option>
                         </nz-select>
                     </nz-form-control>
                 </nz-form-item>
-               
+
                 <nz-form-item class="row" style="margin-top: -7px;">
                     <label class="col-md-12">Thương hiệu</label>
                     <nz-form-control nzErrorTip="Thương hiệu không được để trống." nzHasFeedback>
-                        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn thương hiệu" formControlName="brand_id">
-                            <nz-option *ngFor="let c of listBrand" [nzLabel]="c.brand_name" [nzValue]="c.brand_id"></nz-option>
+                        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn thương hiệu"
+                            formControlName="brand_id">
+                            <nz-option *ngFor="let c of listBrand" [nzLabel]="c.brand_name"
+                                [nzValue]="c.brand_id"></nz-option>
                         </nz-select>
                     </nz-form-control>
                 </nz-form-item>
 
-                <div class="col-md-12" style="margin-top: -7px;">
+                <!-- <div class="col-md-12" style="margin-top: -7px;">
                     <nz-form-item class="row">
                         <label class="col-md-10">Số lượng</label>
                         <nz-form-control nzErrorTip="Số lượng không được để trống và chỉ được nhập số" nzHasFeedback>
                             <input type="number" class="form-control" formControlName="amount" placeholder="nhập...">
                         </nz-form-control>
                       </nz-form-item>
-                </div>
+                </div> -->
                 <div class="col-md-12" style="margin-top: -7px;">
                     <nz-form-item class="row">
                         <label class="col-md-10">Xuất xứ</label>
                         <nz-form-control nzErrorTip="Xuất xứ không được để trống." nzHasFeedback>
                             <input type="text" class="form-control" formControlName="origin" placeholder="nhập...">
                         </nz-form-control>
-                      </nz-form-item>
+                    </nz-form-item>
                 </div>
-                <div class="col-md-12" style="margin-top: -7px;">
+                <!-- <div class="col-md-12" style="margin-top: -7px;">
                     <nz-form-item class="row">
                         <label class="col-md-10">Giá tiền</label>
                         <nz-form-control nzErrorTip="Giá tiền không được để trống và chỉ được nhập số" nzHasFeedback>
                             <input type="number" class="form-control" formControlName="price" placeholder="nhập...">
                         </nz-form-control>
                       </nz-form-item>
-                </div>
+                </div> -->
                 <!-- <div class="col-md-12">
                     <label class="row col-md-6">Size (Kích cỡ)</label>
                     <input type="text" class="form-control"  [(ngModel)]="sizeInput" placeholder="nhập..." [ngModelOptions]="{standalone: true}">
                 </div> -->
-                <label class="col-md-10">Size (Kích cỡ)</label>
+                <!-- <label class="col-md-10">Size (Kích cỡ)</label>
                 <nz-select formControlName="size" nzPlaceHolder="Chọn kích cỡ" [(ngModel)]="sizeSelected">
                     <nz-option *ngFor="let item of listOfOption" [nzLabel]="item" [nzValue]="item"></nz-option>
                 </nz-select>
@@ -205,7 +165,7 @@
                 <div class="col-md-12">
                     <label class="row col-md-6">Màu sắc</label>
                     <input type="color" [(ngModel)]="colorInput" [ngModelOptions]="{standalone: true}">
-                </div>
+                </div> -->
                 <!-- <div class="col-md-12">
                     <label class="row col-md-10">Size (Kích cỡ)</label>
                     <input type="text" class="form-control" formControlName="size" placeholder="nhập...">
@@ -253,5 +213,107 @@
 <nz-modal [(nzVisible)]="isDisplayColor" [nzTitle]="titleModal" (nzOnCancel)="handleCancel()">
     <ng-container *nzModalContent>
         <app-color [id_input]="selected_ID"></app-color>
+    </ng-container>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isDisplayAttribute" nzTitle="Danh sách thôn tin sản phẩm" (nzOnCancel)="handleCancel()"
+    [nzWidth]="1500">
+    <ng-container *nzModalContent>
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="col-md-12">Size (Kích cỡ)</label>
+                                <nz-select style="width: 100%;" nzPlaceHolder="Chọn kích cỡ" [(ngModel)]="sizeSelected">
+                                    <nz-option *ngFor="let item of listOfOption" [nzLabel]="item"
+                                        [nzValue]="item"></nz-option>
+                                </nz-select>
+                            </div>
+                            <div class="col-md-3">
+                                <form class="form-inline" style="padding-top: 12px;">
+                                    <div class="form-group" style="padding-left: 0;">
+                                        <label for="inputPassword2" class="sr-only">Thêm size</label>
+                                        <input type="text" class="form-control" [(ngModel)]="newSize" name="newSize"
+                                            id="inputPassword2" placeholder="size">
+                                    </div>
+                                    <br>
+                                    <button (click)="addSize()" class="btn btn-primary mb-2">Thêm size</button>
+                                </form>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="row col-md-10">Màu sắc</label>
+                                <input type="text" class="form-control" [(ngModel)]="colorInput"
+                                    [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="col-md-10">Giá tiền</label>
+                                <nz-form-control nzErrorTip="Giá tiền không được để trống và chỉ được nhập số"
+                                    nzHasFeedback>
+                                    <input type="text" class="form-control" [(ngModel)]="priceInput"
+                                        [ngModelOptions]="{standalone: true}">
+                                </nz-form-control>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="col-md-10">Số lượng</label>
+                                <nz-form-control nzErrorTip="Giá tiền không được để trống và chỉ được nhập số"
+                                    nzHasFeedback>
+                                    <input type="text" class="form-control" [(ngModel)]="amountInput"
+                                        [ngModelOptions]="{standalone: true}">
+                                </nz-form-control>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <button class="btn btn-sm btn-outline-success" style="margin-bottom: 15px;" placement="left"
+                            nzType="dashed" (click)="addAttribute()">
+                            Thêm mới loại sản phẩm
+                        </button>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="table-responsive table-hover table-sales">
+                            <nz-table #basicTable [nzData]="listAttribute">
+                                <thead>
+                                    <tr>
+                                        <th>Size</th>
+                                        <th>Màu sắc</th>
+                                        <th>Giá tiền</th>
+                                        <th>Số lượng</th>
+                                        <th>Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let data of basicTable.data | filter:searchString">
+                                        <td>{{ data.size }}</td>
+                                        <td>{{ data.color }}</td>
+                                        <td>{{ data.price | number }} VNĐ</td>
+                                        <td>{{ data.amount }}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-danger" placement="left"
+                                                style="margin-right: 0.5rem;" nzType="dashed"
+                                                (click)="showConfirmAttribute(data.product_attribute_id)">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </nz-table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-12">
+                        <button>Add</button>
+                    </div>
+                    <div class="row" style="overflow-y: auto; max-height: 500px;">
+                        <div class="col-md-4" *ngFor="let img of listIndexImage">
+                            <input type="checkbox" [(ngModel)]="img.checked" style="width: 20px; height: 20px;">
+                            <img style="margin: 5px;" src="/assets/images/{{img.img}}.jpg" alt="" width="100px" height="100px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </ng-container>
 </nz-modal>

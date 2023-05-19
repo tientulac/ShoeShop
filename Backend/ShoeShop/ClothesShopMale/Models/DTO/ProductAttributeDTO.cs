@@ -5,13 +5,13 @@ using System.Web;
 
 namespace ClothesShopMale.Models.DTO
 {
-    public class ProductDTO: Product
+    public class ProductAttributeDTO
     {
-        public string category_name { get; set; }
-        public string brand_name { get; set; }
-        public string color { get; set; }
+        public int product_attribute_id { get; set; }
         public string size { get; set; }
-        public double price { get; set; }
+        public string color { get; set; }
+        public decimal price { get; set; }
+        public int product_id { get; set; }
         public int amount { get; set; }
     }
 }
