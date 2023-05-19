@@ -22,7 +22,7 @@ export class CreateNewComponent extends BaseComponent implements OnInit {
   listDistrictFilter: any;
   listWardFilter: any;
   totalPayment: any = 0;
-  full_name: string ='';
+  full_name: string = '';
   closeTab({ index }: { index: number }): void {
     this.tabs.splice(index, 1);
   }
@@ -44,9 +44,10 @@ export class CreateNewComponent extends BaseComponent implements OnInit {
     this.getListProduct();
     this.getListAccount();
     this.refreshOrderInfo();
+    this.getListAllProduct();
     this.orderInfo.order_code = `HD${this.date.getDate()}${this.date.getMonth() + 1}${this.date.getFullYear()}${Math.random()}`;
     const data = localStorage.getItem('UserInfo');
-    if(data){
+    if (data) {
       const account = JSON.parse(data);
       this.full_name = account.full_name;
     }
@@ -67,17 +68,25 @@ export class CreateNewComponent extends BaseComponent implements OnInit {
   }
 
   addToCart(): boolean {
-    this.productFilter = this.listProduct.filter((x: any) => x.product_code == this.product_code)[0];
+    this.productFilter = this.listAllProduct.filter((x: any) => x.product_code == this.product_code);
+
     if (this.listProductCart.filter((x: any) => x.product_code == this.product_code).length > 0) {
       alert('Sản phẩm đã được thêm vào giỏ hàng');
       return false;
     }
     if (this.productFilter) {
-      this.productFilter.amountCart = 1;
-      this.productFilter.totalPayment = 0
-      this.productFilter.totalPayment += this.productFilter.price * this.productFilter.amountCart;
-      this.listProductCart.push(this.productFilter);
-      this.totalPayment = this.listProductCart.map((o: any) => o.totalPayment).reduce((a: any, c: any) => { return a + c })
+      this.productFilter.forEach((p: any) => {
+        p.amountCart = 1;
+        p.totalPayment = 0;
+        p.totalPayment += this.productFilter.price * this.productFilter.amountCart;
+        console.log(p)
+        // this.listProductCart.push(this.productFilter);
+        // this.totalPayment = this.listProductCart.map((o: any) => o.totalPayment).reduce((a: any, c: any) => { return a + c });
+      })
+      // this.productFilter.filter((x: any) => x.amountCart = 1);
+      // this.productFilter.filter((x: any) => x.totalPayment += this.productFilter.price * this.productFilter.amountCart);
+      // this.listProductCart.push(this.productFilter);
+      // this.totalPayment = this.listProductCart.map((o: any) => o.totalPayment).reduce((a: any, c: any) => { return a + c })
     }
     return true;
   }

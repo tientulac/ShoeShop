@@ -69,7 +69,7 @@ export interface OrderInfo {
 
 export class BaseComponent {
 
-  listIndexImage: any = [{ img: 1, checked: false }];
+  listIndexImage: any = [{ img: '/assets/images/1.jpg', checked: false }];
   orderInfo!: any;
   Data: any;
   selected_ID: any;
@@ -289,6 +289,20 @@ export class BaseComponent {
     )
   }
 
+  listAllProduct: any;
+  getListAllProduct = () => {
+    this.productService.getListAll().subscribe(
+      (res) => {
+        this.listAllProduct = res.data;
+        this.productService.getListSize().subscribe(
+          (resSize) => {
+            this.listOfOption = resSize.data.map((x: any) => x.size);
+          }
+        );
+      }
+    )
+  }
+
   getProductColor = () => {
     this.productService.getColor().subscribe(
       (res) => {
@@ -342,6 +356,14 @@ export class BaseComponent {
     this.productService.getAllAttribute().subscribe(
       (res) => {
         this.listAttribute = res.data;
+      }
+    )
+  };
+
+  getAttributeByProduct = () => {
+    this.productService.getAllAttribute().subscribe(
+      (res) => {
+        this.listAttribute = res.data.filter((x: any) => x.product_id == this.selected_ID);
       }
     )
   };

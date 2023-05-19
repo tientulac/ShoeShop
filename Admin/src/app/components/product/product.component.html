@@ -114,20 +114,11 @@
                     <nz-form-control nzErrorTip="Thương hiệu không được để trống." nzHasFeedback>
                         <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn thương hiệu"
                             formControlName="brand_id">
-                            <nz-option *ngFor="let c of listBrand" [nzLabel]="c.brand_name"
-                                [nzValue]="c.brand_id"></nz-option>
+                            <nz-option *ngFor="let c of listBrand" [nzLabel]="c.brand_name" [nzValue]="c.brand_id">
+                            </nz-option>
                         </nz-select>
                     </nz-form-control>
                 </nz-form-item>
-
-                <!-- <div class="col-md-12" style="margin-top: -7px;">
-                    <nz-form-item class="row">
-                        <label class="col-md-10">Số lượng</label>
-                        <nz-form-control nzErrorTip="Số lượng không được để trống và chỉ được nhập số" nzHasFeedback>
-                            <input type="number" class="form-control" formControlName="amount" placeholder="nhập...">
-                        </nz-form-control>
-                      </nz-form-item>
-                </div> -->
                 <div class="col-md-12" style="margin-top: -7px;">
                     <nz-form-item class="row">
                         <label class="col-md-10">Xuất xứ</label>
@@ -136,63 +127,6 @@
                         </nz-form-control>
                     </nz-form-item>
                 </div>
-                <!-- <div class="col-md-12" style="margin-top: -7px;">
-                    <nz-form-item class="row">
-                        <label class="col-md-10">Giá tiền</label>
-                        <nz-form-control nzErrorTip="Giá tiền không được để trống và chỉ được nhập số" nzHasFeedback>
-                            <input type="number" class="form-control" formControlName="price" placeholder="nhập...">
-                        </nz-form-control>
-                      </nz-form-item>
-                </div> -->
-                <!-- <div class="col-md-12">
-                    <label class="row col-md-6">Size (Kích cỡ)</label>
-                    <input type="text" class="form-control"  [(ngModel)]="sizeInput" placeholder="nhập..." [ngModelOptions]="{standalone: true}">
-                </div> -->
-                <!-- <label class="col-md-10">Size (Kích cỡ)</label>
-                <nz-select formControlName="size" nzPlaceHolder="Chọn kích cỡ" [(ngModel)]="sizeSelected">
-                    <nz-option *ngFor="let item of listOfOption" [nzLabel]="item" [nzValue]="item"></nz-option>
-                </nz-select>
-                <div class="col-md-12">
-                    <form class="form-inline">
-                        <div class="form-group" style="padding-left: 0;">
-                            <label for="inputPassword2" class="sr-only">Thêm size</label>
-                            <input type="text" class="form-control" [(ngModel)]="newSize" name="newSize"
-                                id="inputPassword2" placeholder="size">
-                        </div>
-                        <button (click)="addSize()" class="btn btn-primary mb-2">Thêm size</button>
-                    </form>
-                </div>
-                <div class="col-md-12">
-                    <label class="row col-md-6">Màu sắc</label>
-                    <input type="color" [(ngModel)]="colorInput" [ngModelOptions]="{standalone: true}">
-                </div> -->
-                <!-- <div class="col-md-12">
-                    <label class="row col-md-10">Size (Kích cỡ)</label>
-                    <input type="text" class="form-control" formControlName="size" placeholder="nhập...">
-                </div> -->
-                <!-- <label class="col-md-10">Size (Kích cỡ)</label> -->
-                <!-- <nz-select [nzMaxTagPlaceholder]="tagPlaceHolder" nzMode="multiple" formControlName="size"
-                    nzPlaceHolder="Please select" [(ngModel)]="listOfSelectedValue">
-                    <nz-option *ngFor="let item of listOfOption" [nzLabel]="item" [nzValue]="item"></nz-option>
-                </nz-select> -->
-                <!-- <div class="col-md-12">
-                    <form class="form-inline">
-                        <div class="form-group" style="padding-left: 0;">
-                            <label for="inputPassword2" class="sr-only">Thêm size</label>
-                            <input type="text" class="form-control" [(ngModel)]="newSize" name="newSize"
-                                id="inputPassword2" placeholder="size">
-                        </div>
-                        <button (click)="addSize()" class="btn btn-primary mb-2">Thêm size</button>
-                    </form>
-                </div>
-                <ng-template #tagPlaceHolder let-selectedList>and {{ selectedList.length }} more selected</ng-template> -->
-
-                <!-- <label class="col-md-12">Size</label>
-                <nz-select [(ngModel)]="multipleValue" [nzSize]="size" nzMode="multiple" nzPlaceHolder="Chọn size"
-                    [ngModelOptions]="{standalone: true}">
-                    <nz-option *ngFor="let option of listOfOption" [nzLabel]="option" [nzValue]="option"></nz-option>
-                </nz-select>
-                <label class="col-md-12">{{sizeUpdate}}</label> -->
             </div>
         </form>
     </ng-container>
@@ -216,7 +150,7 @@
     </ng-container>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="isDisplayAttribute" nzTitle="Danh sách thôn tin sản phẩm" (nzOnCancel)="handleCancel()"
+<nz-modal [(nzVisible)]="isDisplayAttribute" nzTitle="Danh sách thông tin sản phẩm" (nzOnCancel)="handleCancel()"
     [nzWidth]="1500">
     <ng-container *nzModalContent>
         <div class="col-md-12">
@@ -227,8 +161,8 @@
                             <div class="col-md-3">
                                 <label class="col-md-12">Size (Kích cỡ)</label>
                                 <nz-select style="width: 100%;" nzPlaceHolder="Chọn kích cỡ" [(ngModel)]="sizeSelected">
-                                    <nz-option *ngFor="let item of listOfOption" [nzLabel]="item"
-                                        [nzValue]="item"></nz-option>
+                                    <nz-option *ngFor="let item of listOfOption" [nzLabel]="item" [nzValue]="item">
+                                    </nz-option>
                                 </nz-select>
                             </div>
                             <div class="col-md-3">
@@ -304,12 +238,16 @@
                 </div>
                 <div class="col-md-4">
                     <div class="col-md-12">
-                        <button>Add</button>
+                        <button class="btn btn-sm btn-outline-success" style="margin-bottom: 15px;" placement="left"
+                            nzType="dashed" (click)="addProductImage()">
+                            Thêm ảnh cho sản phẩm
+                        </button>
                     </div>
                     <div class="row" style="overflow-y: auto; max-height: 500px;">
                         <div class="col-md-4" *ngFor="let img of listIndexImage">
                             <input type="checkbox" [(ngModel)]="img.checked" style="width: 20px; height: 20px;">
-                            <img style="margin: 5px;" src="/assets/images/{{img.img}}.jpg" alt="" width="100px" height="100px">
+                            <img style="margin: 5px;" src="{{img.img}}" alt="" width="100px"
+                                height="100px">
                         </div>
                     </div>
                 </div>

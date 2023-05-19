@@ -61,12 +61,11 @@ export class ProductComponent extends BaseComponent implements OnInit {
     this.getAttribute();
     for (let i = 2; i <= 21; i++) {
       var _img = {
-        img: i,
+        img: `/assets/images/${i}.jpg`,
         checked: false
       };
       this.listIndexImage.push(_img);
     }
-    console.log(this.listIndexImage);
   }
 
   addAttribute() {
@@ -81,7 +80,7 @@ export class ProductComponent extends BaseComponent implements OnInit {
       (res) => {
         if (res.status == 200) {
           this.toastr.success('Thành công');
-          this.getAttribute();
+          this.getAttributeByProduct();
         }
         else {
           this.toastr.success('Thất bại');
@@ -120,11 +119,11 @@ export class ProductComponent extends BaseComponent implements OnInit {
           (res) => {
             if (res.status == 200) {
               this.toastr.success('Delete Success !');
-              this.getAttribute();
+              this.getAttributeByProduct();
             }
             else {
               this.toastr.warning('Delete Fail !');
-              this.getAttribute();
+              this.getAttributeByProduct();
             }
           }
         )
@@ -135,6 +134,16 @@ export class ProductComponent extends BaseComponent implements OnInit {
   showAttribute(dataEdit: any): void {
     this.selected_ID = dataEdit.product_id;
     this.isDisplayAttribute = true;
+    this.productService.getImage().subscribe(
+      (res) => {
+        this.listImage = res.data.filter((x: any) => x.product_id == this.selected_ID);
+        this.listImageString = this.listImage.map((x: any) => x.image);
+        this.listIndexImage.forEach((c: any) => {
+          c.checked = this.listImageString.includes(c.img);
+        })
+      }
+    )
+    this.getAttributeByProduct();
   }
 
   showAddModal(title: any, dataEdit: any): void {
@@ -169,9 +178,9 @@ export class ProductComponent extends BaseComponent implements OnInit {
     }
   }
 
+  listImageString: any;
   showImageModal(id: any): void {
     this.isDisplayImage = true;
-    this.selected_ID = id;
   }
 
   showDetailModal(id: any): void {
@@ -245,6 +254,23 @@ export class ProductComponent extends BaseComponent implements OnInit {
     this.productService.getByFilter(req).subscribe(
       (res) => {
         this.listProduct = res.data;
+      }
+    );
+  }
+
+  addProductImage() {
+    let req = {
+      product_id: this.selected_ID,
+      list_image_checked: this.listIndexImage.filter((x: any) => x.checked == true).map((x: any) => x.img)
+    }
+    this.productService.saveProductImage(req).subscribe(
+      (res: any) => {
+        if (res.status == 200) {
+          this.toastr.success('Thêm mới ảnh cho sản phẩm thành công');
+        }
+        else {
+          this.toastr.warning('Thất bại');
+        }
       }
     );
   }
