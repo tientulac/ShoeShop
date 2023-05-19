@@ -231,6 +231,7 @@
     <Compile Include="Models\DTO\ProductAttributeDTO.cs" />
     <Compile Include="Models\DTO\ProductDetailDTO.cs" />
     <Compile Include="Models\DTO\ProductDTO.cs" />
+    <Compile Include="Models\DTO\ProductImageDTO.cs" />
     <Compile Include="Models\DTO\SizeDTO.cs" />
     <Compile Include="Models\FilterOrderInfo.cs" />
     <Compile Include="Models\FilterProduct.cs" />

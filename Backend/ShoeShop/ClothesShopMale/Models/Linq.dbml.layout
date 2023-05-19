@@ -74,56 +74,56 @@
         <elementListCompartment Id="b3892750-e935-41f0-aec7-244e0d0df18c" absoluteBounds="6.265, 3.96, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(9.75 : 3.25); (9.75 : 2.23159912109375); (11.5 : 2.23159912109375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(9.75 : 3.25); (9.75 : 2.23159912109375); (11.5 : 2.23159912109375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/LinqDataContext/Account/Account_Comment" />
       <nodes>
         <classShapeMoniker Id="92642452-0537-4ec2-b4e5-c1a131d6c3ed" />
         <classShapeMoniker Id="faf520ba-895e-491d-8fc2-a1bac6052665" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(10.75 : 5.95270914713542); (11.5 : 5.95270914713542)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(10.75 : 5.95270914713542); (11.5 : 5.95270914713542)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/LinqDataContext/Account/Account_Order" />
       <nodes>
         <classShapeMoniker Id="92642452-0537-4ec2-b4e5-c1a131d6c3ed" />
         <classShapeMoniker Id="cc30344b-a491-486c-9fe1-3dccb7783ab8" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(4.5 : 7.48240397135417); (4.5 : 9.52005126953125); (6.25 : 9.52005126953125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(4.5 : 7.48240397135417); (4.5 : 9.52005126953125); (6.25 : 9.52005126953125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/LinqDataContext/Product/Product_Discount" />
       <nodes>
         <classShapeMoniker Id="cfc799bf-2498-4665-a976-b2de7675cb7d" />
         <classShapeMoniker Id="799834bf-e3ca-4df3-8d8b-1dec61e9db30" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 6.04890055338542); (3.5 : 6.04890055338542)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.75 : 6.04890055338542); (3.5 : 6.04890055338542)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/LinqDataContext/Brand/Brand_Product" />
       <nodes>
         <classShapeMoniker Id="4a6d22a9-52b5-4810-bd0f-7769396ba5e3" />
         <classShapeMoniker Id="cfc799bf-2498-4665-a976-b2de7675cb7d" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 2.04890055338542); (4.5 : 2.04890055338542); (4.5 : 4.75)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.75 : 2.04890055338542); (4.5 : 2.04890055338542); (4.5 : 4.75)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/LinqDataContext/Category/Category_Product" />
       <nodes>
         <classShapeMoniker Id="09bbe5b9-3fcf-4825-ace2-482f472103e0" />
         <classShapeMoniker Id="cfc799bf-2498-4665-a976-b2de7675cb7d" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 6.55370198567708); (6.25 : 6.55370198567708)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 6.55370198567708); (6.25 : 6.55370198567708)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/LinqDataContext/Product/Product_ProductAttribute" />
       <nodes>
         <classShapeMoniker Id="cfc799bf-2498-4665-a976-b2de7675cb7d" />
         <classShapeMoniker Id="469455aa-63de-4d28-acc3-b14c5f04d5eb" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.0312525 : 4.75); (5.0312525 : 1.64945027669271); (6.25 : 1.64945027669271)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.0312525 : 4.75); (5.0312525 : 1.64945027669271); (6.25 : 1.64945027669271)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/LinqDataContext/Product/Product_ProductDetail" />
       <nodes>
         <classShapeMoniker Id="cfc799bf-2498-4665-a976-b2de7675cb7d" />
         <classShapeMoniker Id="b927a06d-6b1d-4a16-93e9-ff5675fb4304" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(3.9687475 : 4.75); (3.9687475 : 4.0937475); (4.41666666666667 : 4.0937475 : JumpStart); (4.58333333333333 : 4.0937475 : JumpEnd); (4.94791916666667 : 4.0937475 : JumpStart); (5.11458583333333 : 4.0937475 : JumpEnd); (6.25 : 4.0937475)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(3.9687475 : 4.75); (3.9687475 : 4.0937475); (4.41666666666667 : 4.0937475 : JumpStart); (4.58333333333333 : 4.0937475 : JumpEnd); (4.94791916666667 : 4.0937475 : JumpStart); (5.11458583333333 : 4.0937475 : JumpEnd); (6.25 : 4.0937475)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/LinqDataContext/Product/Product_ProductImage" />
       <nodes>
         <classShapeMoniker Id="cfc799bf-2498-4665-a976-b2de7675cb7d" />

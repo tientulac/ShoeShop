@@ -220,5 +220,27 @@ namespace ClothesShopMale.Controllers
                 };
             }
         }
+
+        [HttpGet]
+        [Route("api/v1/product_all")]
+        public ResponseBase<List<sp_ProductLoadListAllResult>> GetAllProduct()
+        {
+            try
+            {
+                var list = db.sp_ProductLoadListAll().ToList();
+                return new ResponseBase<List<sp_ProductLoadListAllResult>>
+                {
+                    data = list.ToList(),
+                    status = 200
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseBase<List<sp_ProductLoadListAllResult>>
+                {
+                    status = 500
+                };
+            }
+        }
     }
 }

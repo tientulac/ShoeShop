@@ -63,6 +63,37 @@ namespace ClothesShopMale.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("api/v1/productattribute/save-image-product")]
+        public ResponseBase<bool> SaveImageProduct(ProductImageDTO req)
+        {
+            try
+            {
+                var listPImage = db.ProductImages.Where(x => x.product_id == req.product_id);
+                db.ProductImages.DeleteAllOnSubmit(listPImage);
+                db.SubmitChanges();
+                req.list_image_checked.ForEach(x => {
+                    db.ProductImages.InsertOnSubmit(new ProductImage { 
+                        image = x,
+                        product_id = req.product_id
+                    });
+                    db.SubmitChanges();
+                });
+                return new ResponseBase<bool>
+                {
+                    data = true,
+                    status = 200
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseBase<bool>
+                {
+                    status = 500
+                };
+            }
+        }
+
         [HttpGet]
         [Route("api/v1/productattribute/detail")]
         public ResponseBase<IEnumerable<ProductDetailDTO>> GetListDetail()
@@ -90,19 +121,23 @@ namespace ClothesShopMale.Controllers
 
         [HttpGet]
         [Route("api/v1/productattribute/image")]
-        public ResponseBase<List<ProductImage>> GetListImage()
+        public ResponseBase<List<ProductImageDTO>> GetListImage()
         {
             try
             {
-                return new ResponseBase<List<ProductImage>>
+                return new ResponseBase<List<ProductImageDTO>>
                 {
-                    data = db.ProductImages.ToList(),
+                    data = db.ProductImages.Select(x => new ProductImageDTO { 
+                        product_image_id = x.product_image_id,
+                        image = x.image,
+                        product_id = x.product_id.GetValueOrDefault()
+                    }).ToList(),
                     status = 200
                 };
             }
             catch (Exception ex)
             {
-                return new ResponseBase<List<ProductImage>>
+                return new ResponseBase<List<ProductImageDTO>>
                 {
                     status = 500
                 };
