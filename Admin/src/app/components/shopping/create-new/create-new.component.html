@@ -27,38 +27,37 @@
                                         <h4 class="text-center">Thông tin khách hàng</h4>
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <label class="col-md-12">Tìm kiếm khách hàng</label>
-                                                <input type="text" nz-input
-                                                    placeholder="Tìm kiếm theo số điện thoại..." />
+                                                <label class="col-md-12">Thêm khách hàng</label>
+                                                <input type="text" nz-input placeholder="Nhập SĐT - Họ tên"
+                                                    [(ngModel)]="customerShopping" />
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="col-md-12">Khách hàng</label>
                                                 <nz-select style="width: 100%;" nzShowSearch nzAllowClear
-                                                    [(ngModel)]="orderInfo.payment_type" nzPlaceHolder="Chọn">
+                                                    [(ngModel)]="orderInfo.cusomter_type" nzPlaceHolder="Chọn">
                                                     <nz-option nzLabel="Khách lẻ" nzValue="Khách lẻ">Khách lẻ
                                                     </nz-option>
-                                                    <nz-option *ngFor="let c of listAccount" [nzLabel]="c.full_name"
-                                                        [nzValue]="c.full_name">{{c.full_name}}</nz-option>
+                                                    <nz-option *ngFor="let c of listPhoneName" nzLabel="{{c}}"
+                                                        nzValue="{{c}}">{{c}}</nz-option>
                                                 </nz-select>
                                             </div>
                                             <div class="col-md-2">
-                                                <label class="col-md-12 mb-2"></label>
-                                                <button class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></button>
+                                                <label class="col-md-12"></label>
+                                                <button class="btn btn-sm btn-primary" (click)="addPhoneName()"><i
+                                                        class="fa fa-plus"></i></button>
                                             </div>
                                             <div class="col-md-12">
-                                                <label class="col-md-12 mb-1">Mã HĐ</label>
+                                                <label class="col-md-12">Mã HĐ</label>
                                                 <input type="text" class="form-control" placeholder="nhập..." readonly
                                                     [value]="orderInfo.order_code">
                                             </div>
-                                            <div class="col-md-6">
-                                                <label class="col-md-12 mb-1">Người bán</label>
-                                                <input type="text" class="form-control" placeholder="nhập..."
-                                                    [(ngModel)]="full_name" disabled>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label class="col-md-12 mb-1">Số điện thoại</label>
-                                                <input type="text" [(ngModel)]="orderInfo.phone" class="form-control"
-                                                    placeholder="nhập...">
+                                            <div class="col-md-12">
+                                                <label class="col-md-12">Người bán</label>
+                                                <nz-select style="width: 100%;" nzShowSearch nzAllowClear
+                                                    [(ngModel)]="full_name" nzPlaceHolder="Chọn">
+                                                    <nz-option *ngFor="let c of listSeller" nzLabel="{{c}}"
+                                                        nzValue="{{c}}">{{c}}</nz-option>
+                                                </nz-select>
                                             </div>
                                             <div class="col-md-6" *ngIf="selectedOption === 'online'">
                                                 <label class="col-md-12 mb-1">Tỉnh/ Thành phố</label>
@@ -86,10 +85,10 @@
                                                         {{c.WardName}}</nz-option>
                                                 </nz-select>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-12">
                                                 <label class="col-md-12">Địa chỉ chi tiết</label>
                                                 <textarea nz-input placeholder="nhập..."
-                                                    [nzAutosize]="{ minRows: 7, maxRows: 8 }"
+                                                    [nzAutosize]="{ minRows: 5, maxRows: 8 }"
                                                     [(ngModel)]="orderInfo.address"></textarea>
                                             </div>
                                             <div class="col-md-6">
@@ -107,7 +106,8 @@
                                             <div class="col-md-6">
                                                 <label class="col-md-12">Phương thức mua hàng</label>
                                                 <nz-select style="width: 100%;" nzShowSearch nzAllowClear
-                                                [(ngModel)]="selectedOption" [(ngModel)]="orderInfo.bought_type" nzPlaceHolder="Chọn">
+                                                    [(ngModel)]="selectedOption" [(ngModel)]="orderInfo.bought_type"
+                                                    nzPlaceHolder="Chọn">
                                                     <nz-option nzLabel="offline" nzValue="offline">Tiền mặt</nz-option>
                                                     <nz-option nzLabel="online" nzValue="online">Online</nz-option>
                                                 </nz-select>
@@ -190,14 +190,16 @@
                                                             <td
                                                                 [style]="c.status == 1 ? 'font-weight: bold; color: green' : 'font-weight: bold;color:yellow'">
                                                                 {{c.status == 1 ? 'Mới' : 'Cũ'}}</td>
-                                                            <td><a href="javascript:void(0)" (click)="deleteCart(c)"
+                                                            <td>
+                                                                <!-- <a href="javascript:void(0)" (click)="deleteCart(c)"
                                                                     style="font-weight: bold; color: red;"><i
                                                                         class="fa fa-times" aria-hidden="true"></i>
                                                                 </a>
-                                                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                                                <a href="javascript:void(0)" (click)="changeAmount(c)"
+                                                                &nbsp;&nbsp;&nbsp;&nbsp; -->
+                                                                <input type="checkbox" [checked]="c.checked" (change)="changeAmount(c)" [(ngModel)]="c.checked">
+                                                                <!-- <a href="javascript:void(0)" (click)="changeAmount(c)"
                                                                     style="font-weight: bold; color: green;"><i
-                                                                        class="fa fa-check" aria-hidden="true"></i></a>
+                                                                        class="fa fa-check" aria-hidden="true"></i></a> -->
                                                             </td>
                                                         </tr>
                                                     </tbody>

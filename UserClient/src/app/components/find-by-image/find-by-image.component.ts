@@ -15,6 +15,7 @@ export class FindByImageComponent extends BaseComponent implements OnInit {
     this.getListProduct();
     this.getProductColor();
     this.getProductImage();
+    this.getListAllProduct();
   }
 
   getListImage(cate_id: any) {
@@ -26,8 +27,8 @@ export class FindByImageComponent extends BaseComponent implements OnInit {
 
   passingData = (p_id: any) => {
     var p = this.listProduct.filter((x: any) => x.product_id == p_id)[0];
-    var lstColor = [...new Set(this.listColor.filter((x: any) => x.product_id == p.product_id).map((c: any) => c.color))];
-    var lstSize = p.size.split(',');
+    var lstColor = [...new Set(this.listAllProduct.filter((x: any) => x.product_id == p.product_id).map((c: any) => c.color))];
+    var lstSize = [...new Set(this.listAllProduct.filter((x: any) => x.product_id == p.product_id).map((c: any) => c.size))];
 
     localStorage.setItem('lstSize', JSON.stringify(lstSize));
     localStorage.setItem('lstColor', JSON.stringify(lstColor));

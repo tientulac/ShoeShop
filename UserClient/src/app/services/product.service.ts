@@ -51,6 +51,16 @@ export class ProductService {
       );
   }
 
+  getListAll(): Observable<any> {
+    return this.http
+      .get<any>(this.appConfig.API + 'api/v1/product_all')
+      .pipe(
+        map((z) => {
+          return z;
+        })
+      );
+  }
+
   getColor(): Observable<any> {
     return this.http
       .get<any>(this.appConfig.API + 'api/v1/productattribute/color')
@@ -73,7 +83,7 @@ export class ProductService {
 
   insertDetail(req: any): Observable<any> {
     return this.http
-      .post<any>(this.appConfig.API + 'api/v1/productattribute/detail', req)
+      .post<any>(this.appConfig.API + 'api/v1/productattribute/detail/save', req)
       .pipe(
         map((z) => {
           return z;

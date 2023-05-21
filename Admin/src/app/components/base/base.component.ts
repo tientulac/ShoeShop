@@ -92,6 +92,7 @@ export class BaseComponent {
   is_waiting: any = false;
   listOfOption: any = [];
   isDisplayAttribute: any = false;
+  customerShopping: any = '';
 
   constructor(
     public titleService: Title,
@@ -252,7 +253,7 @@ export class BaseComponent {
   getListOrder = () => {
     this.orderService.getList().subscribe(
       (res) => {
-        this.listOrder = res.data;
+        this.listOrder = res.data.filter((x: any) => x.type == 1);
         if (this.listOrder.length > 0) {
           this.listOrder.forEach((x: any) => {
             this.positionService.getListCity().subscribe(
@@ -344,10 +345,14 @@ export class BaseComponent {
     )
   };
 
+  listPhoneName: any;
+  listSeller: any;
   getListAccount = () => {
     this.accountService.getList().subscribe(
       (res) => {
         this.listAccount = res.data;
+        this.listSeller = this.listAccount.map((x: any) => `${x.phone ?? 'None'} - ${x.full_name}`);
+        this.listPhoneName = this.listAccount.map((x: any) => `${x.phone ?? 'None'} - ${x.full_name}`)
       }
     )
   };
@@ -374,6 +379,20 @@ export class BaseComponent {
         this.listBlog = res.data;
       }
     );
+  }
+
+  addPhoneName() {
+    if (this.customerShopping) {
+      this.listPhoneName.push(this.customerShopping);
+      this.toastr.success('Thành công');
+    }
+    else {
+      this.toastr.warning('Bạn chưa nhập khách hàng');
+    }
+  }
+
+  searchSeller() {
+    console.log(this.orderInfo.phone_seller);
   }
 
   remove_sign = (str: string) => {

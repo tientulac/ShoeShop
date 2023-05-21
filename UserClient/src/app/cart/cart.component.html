@@ -40,8 +40,8 @@
               </thead>
 
               <tbody>
-                <tr class="cart_item" *ngFor="let c of cartInfo">
-                  <td></td>
+                <tr class="cart_item" *ngFor="let c of cartInfo; let i=index">
+                  <td>{{i+1}}</td>
                   <td class="product-thumbnail" data-title="Thumbnail">
                     <a routerLink="/product-single"><img src="{{c.image}}"
                         class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt=""></a>

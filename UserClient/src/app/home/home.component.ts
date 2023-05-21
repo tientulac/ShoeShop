@@ -30,16 +30,19 @@ export class HomeComponent extends BaseComponent implements OnInit {
     this.getListCate();
     this.getListProduct();
     this.getProductImage();
-    this.getProductColor();
+    // this.getProductColor();
     this.getListProductSeller();
     this.getListBrand();
+    this.getListAllProduct();
   }
 
   passingData(prod: any) {
-    this.lstSize = prod.size.split(',');
-    this.lstColor = [...new Set(this.listColor.filter((x: any) => x.product_id == prod.product_id).map((c: any) => c.color))];
-    localStorage.setItem('lstSize', JSON.stringify(this.lstSize));
-    localStorage.setItem('lstColor', JSON.stringify(this.lstColor));
+    var lstColor = [...new Set(this.listAllProduct.filter((x: any) => x.product_id == prod.product_id).map((c: any) => c.color))];
+    var lstSize = [...new Set(this.listAllProduct.filter((x: any) => x.product_id == prod.product_id).map((c: any) => c.size))];
+    console.log(lstColor);
+    console.log(lstSize);
+    localStorage.setItem('lstSize', JSON.stringify(lstSize));
+    localStorage.setItem('lstColor', JSON.stringify(lstColor));
   }
 
   getListProductSeller() {

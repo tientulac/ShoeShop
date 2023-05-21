@@ -50,24 +50,51 @@ namespace ClothesShopMale.Controllers
 
         [HttpPost]
         [Route("api/v1/productByFilter")]
-        public ResponseBase<List<sp_ProductLoadListAllResult>> GetByFitler(FilterProduct req)
+        public ResponseBase<List<ProductDTO>> GetByFitler(FilterProduct req)
         {
             try
             {
-                var list = db.sp_ProductLoadListAll().ToList();
+                var list = (from a in db.Products
+                            select new ProductDTO
+                            {
+                                product_id = a.product_id,
+                                brand_id = a.brand_id,
+                                category_id = a.category_id,
+                                origin = a.origin,
+                                product_name = a.product_name,
+                                status = a.status,
+                                created_at = a.created_at,
+                                updated_at = a.updated_at,
+                                deleted_at = a.deleted_at,
+                                product_code = a.product_code,
+                                category_name = db.Categories.Where(x => x.category_id == a.category_id).FirstOrDefault().category_name ?? "",
+                                brand_name = db.Brands.Where(x => x.brand_id == a.brand_id).FirstOrDefault().brand_name ?? "",
+                            }).ToList();
                 if (!string.IsNullOrEmpty(req.fitlerPrice))
                 {
                     if (req.fitlerPrice.Equals("gt500"))
                     {
-                        list = list.Where(x => x.price > 500000).ToList();
+                        var listGT500 = db.ProductAttributes.Where(x => x.price > 500000).Select(p => p.product_id);
+                        if (listGT500.Any())
+                        {
+                            list = list.Where(x => listGT500.Any(p => p.GetValueOrDefault() == x.product_id)).ToList();
+                        }
                     }
                     if (req.fitlerPrice.Equals("lt500"))
                     {
-                        list = list.Where(x => x.price < 500000).ToList();
+                        var listLT500 = db.ProductAttributes.Where(x => x.price < 500000).Select(p => p.product_id);
+                        if (listLT500.Any())
+                        {
+                            list = list.Where(x => listLT500.Any(p => p.GetValueOrDefault() == x.product_id)).ToList();
+                        }
                     }
                     if (req.fitlerPrice.Equals("gt1000"))
                     {
-                        list = list.Where(x => x.price > 1000000).ToList();
+                        var listGT1000 = db.ProductAttributes.Where(x => x.price > 1000000).Select(p => p.product_id);
+                        if (listGT1000.Any())
+                        {
+                            list = list.Where(x => listGT1000.Any(p => p.GetValueOrDefault() == x.product_id)).ToList();
+                        }
                     }
                 }
                 if (req.brand_id > 0)
@@ -78,7 +105,7 @@ namespace ClothesShopMale.Controllers
                 {
                     list = list.Where(x => x.category_id == req.category_id).ToList();
                 }
-                return new ResponseBase<List<sp_ProductLoadListAllResult>>
+                return new ResponseBase<List<ProductDTO>>
                 {
                     data = list.ToList(),
                     status = 200
@@ -86,7 +113,7 @@ namespace ClothesShopMale.Controllers
             }
             catch (Exception ex)
             {
-                return new ResponseBase<List<sp_ProductLoadListAllResult>>
+                return new ResponseBase<List<ProductDTO>>
                 {
                     status = 500
                 };

@@ -168,22 +168,22 @@ namespace ClothesShopMale.Controllers
         }
 
         [HttpPost]
-        [Route("api/v1/productattribute/detail")]
-        public ResponseBase<ProductDetail> SaveDetail(ProductDetail req)
+        [Route("api/v1/productattribute/detail/save")]
+        public ResponseBase<bool> SaveDetail(ProductDetail req)
         {
             try
             {
                 db.ProductDetails.InsertOnSubmit(req);
                 db.SubmitChanges();
-                return new ResponseBase<ProductDetail>
+                return new ResponseBase<bool>
                 {
-                    data = req,
+                    data = true,
                     status = 200
                 };
             }
             catch (Exception ex)
             {
-                return new ResponseBase<ProductDetail>
+                return new ResponseBase<bool>
                 {
                     status = 500
                 };

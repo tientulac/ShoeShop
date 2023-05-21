@@ -18,6 +18,7 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
     this.getListData();
     this.getListCity();
     this.getListProduct();
+    this.getListAllProduct();
   }
 
   getListData() {
@@ -30,17 +31,19 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
       (res: any) => {
         this.listOrderInfo = res.data;
         this.listOrderInfo.forEach((x: any) => {
-          x.id_ward = x.id_ward.toString();
-          this.positionService.getListDistrict({ province_id: x.id_city }).subscribe(
-            (res: any) => {
-              x.listDistrict = res.data;
-              this.positionService.getListWard({ district_id: x.id_district }).subscribe(
-                (res: any) => {
-                  x.listWard = res.data;
-                }
-              );
-            }
-          );
+          if (x.id_ward) {
+            x.id_ward = x.id_ward.toString();
+            this.positionService.getListDistrict({ province_id: x.id_city }).subscribe(
+              (res: any) => {
+                x.listDistrict = res.data;
+                this.positionService.getListWard({ district_id: x.id_district }).subscribe(
+                  (res: any) => {
+                    x.listWard = res.data;
+                  }
+                );
+              }
+            );
+          }
         });
       }
     );
@@ -113,10 +116,11 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
   showDetail(hd: any) {
     this.isDisplay = true;
     this.listProductCart = JSON.parse(hd.data_cart);
+    console.log(this.listProductCart);
     this.total = 0;
     this.sumCart();
     this.is_waiting = hd.waiting;
-    this.selected_ID = hd.order_infor_id;
+    this.selected_ID = hd.order_id;
   }
 
   changeSum() {
@@ -131,7 +135,7 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => {
-        this.orderService.deleteOrderInfor(hd.order_infor_id).subscribe(
+        this.orderService.deleteOrderInfor(hd.order_id).subscribe(
           (res: any) => {
             if (res.status == 200) {
               this.toastr.success('Thành công');
@@ -156,7 +160,7 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => {
-        this.orderService.cancleOrderInfo(hd.order_infor_id).subscribe(
+        this.orderService.cancleOrderInfo(hd.order_id).subscribe(
           (res: any) => {
             if (res.status == 200) {
               this.toastr.success('Thành công');
@@ -181,7 +185,9 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => {
-        this.listProductCart = this.listProductCart.filter((x: any) => x.product_id != product.product_id);
+        this.listProductCart = this.listProductCart.filter((x: any) => x.product_attribue_id != product.product_attribue_id);
+        product.checked = false;
+        this.checkProductCart(product.product_attribue_id);
         this.sumCart();
       },
       nzCancelText: 'Đóng',
@@ -204,7 +210,7 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
 
   saveItem() {
     var req = {
-      order_infor_id: this.selected_ID,
+      order_id: this.selected_ID,
       data_cart: JSON.stringify(this.listProductCart),
       total: this.total,
     }
@@ -221,5 +227,26 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
         }
       }
     );
+  }
+
+  changeAmount(p: any) {
+    if (!p.checked) {
+      this.listProductCart = this.listProductCart.filter((x: any) => x.product_attribute_id != p.product_attribute_id);
+      this.total -= p.totalPayment;
+    }
+    else {
+      p.amountCart = 1;
+      p.totalPayment = 0;
+      p.totalPayment = (p.price * p.amountCart);
+      this.listProductCart.push(p);
+      this.total += p.totalPayment;
+    }
+  }
+
+  checkProductCart(product_attribute_id: any) {
+    if (this.listProductCart.map((x: any) => x.product_attribue_id).includes(product_attribute_id)) {
+      return false;
+    }
+    return true;
   }
 }

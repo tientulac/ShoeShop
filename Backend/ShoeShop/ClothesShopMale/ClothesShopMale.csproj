@@ -228,6 +228,7 @@
     <Compile Include="Models\DTO\BrandDTO.cs" />
     <Compile Include="Models\DTO\CategoryDTO.cs" />
     <Compile Include="Models\DTO\CommentDTO.cs" />
+    <Compile Include="Models\DTO\OrderDTO.cs" />
     <Compile Include="Models\DTO\ProductAttributeDTO.cs" />
     <Compile Include="Models\DTO\ProductDetailDTO.cs" />
     <Compile Include="Models\DTO\ProductDTO.cs" />

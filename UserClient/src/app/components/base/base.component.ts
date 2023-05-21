@@ -153,7 +153,7 @@ export class BaseComponent {
 
   getImageProduct = (p_id: any) => {
     var img = this.listImage.filter((x: any) => x.product_id == p_id)[0]?.image ?? 'https://www.berchielli.co.uk/wp-content/themes/barberry/images/placeholder.jpg';
-    return img;
+    return `http://localhost:4200${img}`;
   }
 
   getListCate = () => {
@@ -279,5 +279,20 @@ export class BaseComponent {
     str = str.replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, ''); // huyền, sắc, hỏi, ngã, nặng
     str = str.replace(/\u02C6|\u0306|\u031B/g, ''); // mũ â (ê), mũ ă, mũ ơ (ư)
     return str;
+  }
+
+  listAllProduct: any;
+  listOfOptionSize: any;
+  getListAllProduct = () => {
+    this.productService.getListAll().subscribe(
+      (res) => {
+        this.listAllProduct = res.data;
+        this.productService.getListSize().subscribe(
+          (resSize) => {
+            this.listOfOptionSize = resSize.data.map((x: any) => x.size);
+          }
+        );
+      }
+    )
   }
 }

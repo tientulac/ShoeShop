@@ -47,7 +47,8 @@
     <div class="row" style="background-color: rgb(236, 240, 240);">
       <div class="col-lg-4 col-sm-12 col-md-6">
         <div class="cat-item mb-4 mb-lg-0">
-          <img src="assets/images/Shoe3.jpg" alt="" class="img-fluid" style="height: 185px; margin-left: -15px; width: 177px;">
+          <img src="assets/images/Shoe3.jpg" alt="" class="img-fluid"
+            style="height: 185px; margin-left: -15px; width: 177px;">
           <div class="item-info">
             <p class="mb-0">Giày Stylish Leather</p>
             <h4 class="mb-4">Lên đến <strong>50% </strong></h4>
@@ -140,7 +141,16 @@
           <div class="product-info">
             <h2 class="product-title h4 mb-0"><a routerLink="/product-single/{{p.product_id}}"
                 (click)="passingData(p)">{{p.product_name}}</a></h2>
-            <span class="price">
+            <span>
+              {{p.category_name}}
+            </span><br>
+            <span>
+              Thương hiệu: {{p.brand_name}}
+            </span><br>
+            <span>
+              Xuất xứ: {{p.origin}}
+            </span>
+            <!-- <span class="price">
               <del>Giá gốc: {{p.price + p.price*0.5 | number}} đ</del>
             </span><br>
             <span class="price" style="color: red;">
@@ -148,7 +158,7 @@
             </span><br>
             <span class="price">
               Chỉ còn: {{p.price | number}} đ
-            </span>
+            </span> -->
           </div>
         </div>
       </div>
@@ -198,7 +208,8 @@
             </a>
             <div class="media-body">
               <h6 class="featured-entry-title mb-0"><a href="#">{{p.product_name}}</a></h6>
-              <p class="featured-entry-meta">{{p.price | number}} VNĐ</p>
+              <!-- <p class="featured-entry-meta">{{p.price | number}} VNĐ</p> -->
+              <p class="featured-entry-meta">{{p.category_name}} - {{p.brand_name}}</p>
             </div>
           </div>
         </div>
@@ -212,7 +223,8 @@
             </a>
             <div class="media-body">
               <h6 class="featured-entry-title mb-0"><a href="#">{{p.product_name}}</a></h6>
-              <p class="featured-entry-meta">{{p.price | number}} VNĐ</p>
+              <!-- <p class="featured-entry-meta">{{p.price | number}} VNĐ</p> -->
+              <p class="featured-entry-meta">{{p.category_name}} - {{p.brand_name}}</p>
             </div>
           </div>
         </div>

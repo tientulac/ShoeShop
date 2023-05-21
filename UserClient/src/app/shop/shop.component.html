@@ -31,15 +31,12 @@
               <p class="result-count mb-0"> Hiển thị 1–6 của {{totalCount ?? 0}} kết quả</p>
 
               <div class="heading d-flex justify-content-between mb-5">
-                <input type="text" placeholder="Tìm kiếm nhanh..." class="form-control" [(ngModel)]="searchString"
-                  (ngModelChange)="filterByPrice()">
+                <input type="text" placeholder="Tìm kiếm nhanh..." class="form-control" [(ngModel)]="searchString">
 
                 <form class="ordering ">
-                  <select name="orderby" class="orderby form-control" aria-label="Shop order" [(ngModel)]="priceFilter"
-                    (ngModelChange)="filterByPrice()">
-                    <option value="" selected="">Mặc định</option>
-                    <option value="PriceASC">Giá: Tăng dần</option>
-                    <option value="PriceDESC">Giá: Giảm dần</option>
+                  <select name="orderby" class="orderby form-control" aria-label="Shop order" [(ngModel)]="priceFilter">
+                    <option *ngFor="let b of listBrand" [value]="b.brand_id">{{b.brand_name}}</option>
+                    <option value="" selected="">Tất cả</option>
                   </select>
                 </form>
               </div>
@@ -67,7 +64,16 @@
               <div class="product-info">
                 <h2 class="product-title h4 mb-0"><a routerLink="/product-single/{{p.product_id}}"
                     (click)="passingData(p)">{{p.product_name}}</a></h2>
-                <span class="price">
+                <span>
+                  {{p.category_name}}
+                </span><br>
+                <span>
+                  Thương hiệu: {{p.brand_name}}
+                </span><br>
+                <span>
+                  Xuất xứ: {{p.origin}}
+                </span>
+                <!-- <span class="price">
                   <del>Giá gốc: {{p.price + p.price*0.5 | number}} đ</del>
                 </span><br>
                 <span class="price" style="color: red;">
@@ -75,7 +81,7 @@
                 </span><br>
                 <span class="price">
                   Chỉ còn: {{p.price | number}} đ
-                </span>
+                </span> -->
               </div>
             </div>
           </div>

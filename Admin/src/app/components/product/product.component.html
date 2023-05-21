@@ -178,8 +178,7 @@
                             </div>
                             <div class="col-md-2">
                                 <label class="row col-md-10">Màu sắc</label>
-                                <input type="text" class="form-control" [(ngModel)]="colorInput"
-                                    [ngModelOptions]="{standalone: true}">
+                                <input type="color" style="width: 120px;height:36px" [(ngModel)]="colorInput" [ngModelOptions]="{standalone: true}">
                             </div>
                             <div class="col-md-2">
                                 <label class="col-md-10">Giá tiền</label>
@@ -246,8 +245,7 @@
                     <div class="row" style="overflow-y: auto; max-height: 500px;">
                         <div class="col-md-4" *ngFor="let img of listIndexImage">
                             <input type="checkbox" [(ngModel)]="img.checked" style="width: 20px; height: 20px;">
-                            <img style="margin: 5px;" src="{{img.img}}" alt="" width="100px"
-                                height="100px">
+                            <img style="margin: 5px;" src="{{img.img}}" alt="" width="100px" height="100px">
                         </div>
                     </div>
                 </div>

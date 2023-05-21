@@ -60,10 +60,15 @@
                                             <Button *ngIf="hd.waiting" class="btn btn-sm btn-danger" (click)="showCancleConfirm(hd)"
                                             style="float: right;margin-right: 10px;">Hủy hóa đơn</Button>
                                     </div>
-                                    <div class="col-md-6">
+                                    <!-- <div class="col-md-6">
                                         <label class="col-md-12">Số điện thoại</label>
                                         <input type="text" class="form-control" placeholder="nhập..."
                                             [(ngModel)]="hd.phone">
+                                    </div> -->
+                                    <div class="col-md-6">
+                                        <label class="col-md-12">Người bán</label>
+                                        <input type="text" class="form-control" placeholder="nhập..."
+                                            [(ngModel)]="hd.seller">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="col-md-12">Khách hàng</label>
@@ -75,17 +80,12 @@
                                         <input type="text" class="form-control" placeholder="nhập..." readonly
                                             [value]="hd.order_code">
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="col-md-12">Người bán</label>
-                                        <input type="text" class="form-control" placeholder="nhập..."
-                                            [(ngModel)]="hd.seller">
-                                    </div>
-                                    <div class="col-md-6">
+                                    <!-- <div class="col-md-6">
                                         <label class="col-md-12">Số điện thoại</label>
                                         <input type="text" class="form-control" placeholder="nhập..."
                                             [(ngModel)]="hd.phone_seller">
-                                    </div>
-                                    <div class="col-md-6">
+                                    </div> -->
+                                    <div class="col-md-6" *ngIf="hd.bought_type == 'online'">
                                         <label class="col-md-12">Tỉnh/ Thành phố</label>
                                         <nz-select style="width: 100%;" nzShowSearch nzAllowClear
                                             [(ngModel)]="hd.id_city" nzPlaceHolder="Chọn tỉnh"
@@ -110,10 +110,10 @@
                                                 {{c.WardName}}</nz-option>
                                         </nz-select>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <label class="col-md-12">Địa chỉ chi tiết</label>
                                         <textarea nz-input placeholder="nhập..."
-                                            [nzAutosize]="{ minRows: 7, maxRows: 8 }"
+                                            [nzAutosize]="{ minRows: 5, maxRows: 8 }"
                                             [(ngModel)]="hd.address"></textarea>
                                     </div>
                                     <div class="col-md-6">
@@ -157,13 +157,15 @@
 </div>
 
 <nz-modal [(nzVisible)]="isDisplay" nzTitle="Giỏ hàng" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
-    [nzWidth]="2000">
+    [nzWidth]="1000">
     <ng-container *nzModalContent>
         <div class="col-md-12" *ngIf="is_waiting">
             <button nz-button [nzType]="'primary'" style="float: left;" (click)="saveItem()"><span><i
                         class="fas fa-plus"></i>&nbsp;Lưu</span></button>
             <br>
-            <div class="row">
+            <br>
+            <br>
+            <!-- <div class="row">
                 <form class="form-inline">
                     <div class="form-group mx-sm-3 mb-2">
                         <label for="inputPassword2" class="sr-only">Mã sản phẩm</label>
@@ -173,9 +175,9 @@
                     <button type="submit" class="btn btn-primary mb-2" (click)="addToCart()">Thêm giỏ hàng</button>
                     <br>
                 </form>
-            </div>
+            </div> -->
         </div>
-        <h4>Tổng tiền: {{total | number}} VNĐ</h4>
+        <h4 class="row col-md-12">Tổng tiền: {{total | number}} VNĐ</h4>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -186,8 +188,6 @@
                     <th>Size</th>
                     <th>Màu sắc</th>
                     <th>Đơn giá</th>
-                    <th>Danh mục</th>
-                    <th>Thương hiệu</th>
                     <th>Thành tiền</th>
                     <th *ngIf="is_waiting">Thao tác</th>
                 </tr>
@@ -201,10 +201,11 @@
                     <td *ngIf="is_waiting"><input style="width: 100px;" type="number" [(ngModel)]="data.amountCart"
                             (change)="changeSum()"></td>
                     <td>{{data.size}}</td>
-                    <td><input type="color" [(ngModel)]="data.color" [disabled]="is_waiting ? false : true"></td>
+                    <td>
+                        <div [style.backgroundColor]="data.color"
+                            style="width: 20px; height: 20px;"></div>
+                    </td>                    
                     <td>{{data.price}}</td>
-                    <td>{{data.category_name}}</td>
-                    <td>{{data.brand_name}}</td>
                     <td>{{data.price * data.amountCart ?? 0 | number}} VNĐ</td>
                     <td *ngIf="is_waiting">
                         <button class="btn btn-sm btn-outline-danger" placement="left" style="margin-right: 0.1rem;"
@@ -215,5 +216,41 @@
                 </tr>
             </tbody>
         </table>
+
+        <div class="table-responsive table-hover table-sales">
+            <nz-table #basicTable [nzData]="listAllProduct">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Tên sản phẩm</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Size</th>
+                        <th scope="col">Màu sắc</th>
+                        <th scope="col">Đơn giá</th>
+                        <th scope="col">Trạng thái</th>
+                        <th scope="col">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let c of basicTable.data; let i=index">
+                        <th style="text-align: center;" scope="row">{{i+1}}</th>
+                        <td>{{c.product_name}}</td>
+                        <td>{{c.amount}}</td>
+                        <td>{{c.size}}</td>
+                        <td>
+                            <div [style.backgroundColor]="c.color"
+                                style="width: 20px; height: 20px;"></div>
+                        </td>
+                        <td>{{ c.price | number }}</td>
+                        <td
+                            [style]="c.status == 1 ? 'font-weight: bold; color: green' : 'font-weight: bold;color:yellow'">
+                            {{c.status == 1 ? 'Mới' : 'Cũ'}}</td>
+                        <td *ngIf="checkProductCart(c.product_attribue_id)" style="text-align: center;">
+                            <input [disabled]="!is_waiting" type="checkbox" [checked]="c.checked" (change)="changeAmount(c)" [(ngModel)]="c.checked">
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
     </ng-container>
 </nz-modal>

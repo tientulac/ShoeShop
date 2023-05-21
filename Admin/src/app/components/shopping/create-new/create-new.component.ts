@@ -69,7 +69,6 @@ export class CreateNewComponent extends BaseComponent implements OnInit {
 
   addToCart(): boolean {
     this.productFilter = this.listAllProduct.filter((x: any) => x.product_code == this.product_code);
-
     if (this.listProductCart.filter((x: any) => x.product_code == this.product_code).length > 0) {
       alert('Sản phẩm đã được thêm vào giỏ hàng');
       return false;
@@ -78,15 +77,10 @@ export class CreateNewComponent extends BaseComponent implements OnInit {
       this.productFilter.forEach((p: any) => {
         p.amountCart = 1;
         p.totalPayment = 0;
-        p.totalPayment += this.productFilter.price * this.productFilter.amountCart;
-        console.log(p)
-        // this.listProductCart.push(this.productFilter);
-        // this.totalPayment = this.listProductCart.map((o: any) => o.totalPayment).reduce((a: any, c: any) => { return a + c });
+        p.totalPayment = (p.price * p.amountCart);
+        this.listProductCart.push(p);
       })
-      // this.productFilter.filter((x: any) => x.amountCart = 1);
-      // this.productFilter.filter((x: any) => x.totalPayment += this.productFilter.price * this.productFilter.amountCart);
-      // this.listProductCart.push(this.productFilter);
-      // this.totalPayment = this.listProductCart.map((o: any) => o.totalPayment).reduce((a: any, c: any) => { return a + c })
+      this.totalPayment = this.listProductCart.filter((x: any) => x.checked == true).map((o: any) => o.totalPayment).reduce((a: any, c: any) => { return a + c }) ?? 0;
     }
     return true;
   }
@@ -98,13 +92,17 @@ export class CreateNewComponent extends BaseComponent implements OnInit {
 
   changeAmount(data: any) {
     data.totalPayment = data.price * data.amountCart;
-    this.totalPayment = this.listProductCart.map((o: any) => o.totalPayment).reduce((a: any, c: any) => { return a + c });
+    if (!data.checked) {
+      this.totalPayment -= data.totalPayment;
+    }
+    this.totalPayment = this.listProductCart.filter((x: any) => x.checked == true).map((o: any) => o.totalPayment).reduce((a: any, c: any) => { return a + c });
   }
 
   createOrder() {
     this.orderInfo.seller = this.full_name;
     this.orderInfo.total = this.totalPayment;
     this.orderInfo.data_cart = JSON.stringify(this.listProductCart);
+    this.orderInfo.type = 2;
     console.log(this.orderInfo);
     this.orderService.createOrderInfor(this.orderInfo).subscribe(
       (res: any) => {

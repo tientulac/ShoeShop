@@ -93,7 +93,7 @@ export class OrdersComponent extends BaseComponent implements OnInit {
             <td style="text-align:center">`+ this.orderByAccount[i]?.created_at + `</td>
             <td style="text-align:center">`+ (this.orderByAccount[i]?.status == 1 ? 'Đang vận chuyển' : 'Đã huỷ') + `</td>
             <td style="text-align:center">`+ this.orderByAccount[i]?.full_name + `</td>
-            <td style="text-align:center">`+ this.orderByAccount[i]?.address + `</td>
+            <td style="text-align:center">`+ `${this.orderByAccount[i]?.city_name} - ${this.orderByAccount[i]?.district_name} - ${this.orderByAccount[i]?.ward_name}` + `</td>
           </tr>
           `);
     }

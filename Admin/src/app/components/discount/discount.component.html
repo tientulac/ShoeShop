@@ -53,10 +53,10 @@
                                                 <td>{{ data.start_date | date: 'dd/MM/yyy' }}</td>
                                                 <td>{{ data.end_date | date: 'dd/MM/yyy' }}</td>
                                                 <td>
-                                                    <button class="btn btn-sm btn-outline-warning" placement="left"
+                                                    <!-- <button class="btn btn-sm btn-outline-warning" placement="left"
                                                         style="margin-right: 0.5rem;" (click)="showAddModal('Update', data)">
                                                         <i class="fas fa-edit"></i>
-                                                    </button>
+                                                    </button> -->
                                                     <button class="btn btn-sm btn-outline-danger" placement="left"
                                                         style="margin-right: 0.1rem;" nzType="dashed" (click)="showConfirm(data.discount_id)">
                                                         <i class="fas fa-trash-alt"></i>
@@ -90,7 +90,7 @@
               </div>
               <div class="col-md-6">
                 <label class="col-md-10">Ngày bắt đầu</label>
-                <input type="date" class="form-control" formControlName="created_at" >
+                <input type="date" class="form-control" formControlName="start_date" >
               </div>
               <div class="col-md-6">
                 <label class="col-md-10">Ngày kết thúc</label>

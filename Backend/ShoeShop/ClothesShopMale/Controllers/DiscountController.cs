@@ -39,6 +39,7 @@ namespace ClothesShopMale.Controllers
             try
             {
                 req.status = 1;
+                req.created_at = DateTime.Now;
                 db.Discounts.InsertOnSubmit(req);
                 db.SubmitChanges();
                 return new ResponseBase<Discount>

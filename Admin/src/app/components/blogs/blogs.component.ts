@@ -57,7 +57,7 @@ export class BlogsComponent extends BaseComponent implements OnInit {
   handleOk(): void {
     var req = {
       title: this.AddForm.value.title,
-      descrip: this.AddForm.value.descrip,
+      descript: this.AddForm.value.descrip,
       content_html: this.dataBlog,
     }
     this.blogService.save(req).subscribe(

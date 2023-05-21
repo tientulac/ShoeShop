@@ -48,7 +48,8 @@ export class CheckoutComponent extends BaseComponent implements OnInit {
         id_city: this.citySelected,
         id_district: this.districtSelected,
         id_ward: this.townSelected,
-        total: this.totalPrice
+        total: this.totalPrice,
+        type: 1,
       }
       this.orderService.insert(req).subscribe(
         (res) => {

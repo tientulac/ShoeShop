@@ -14,19 +14,50 @@ namespace ClothesShopMale.Controllers
 
         [HttpGet]
         [Route("api/v1/order")]
-        public ResponseBase<List<Order>> GetList()
+        public ResponseBase<List<sp_LoadOrderResult>> GetList()
         {
             try
             {
-                return new ResponseBase<List<Order>>
+                //var list = db.Orders.Where(x => x.type == 1).Select(o => new OrderDTO
+                //{
+                //    order_id = o.order_id,
+                //    account_id = o.account_id.GetValueOrDefault(),
+                //    cusomter_type = o.cusomter_type,
+                //    order_code = o.order_code,
+                //    seller = o.seller,
+                //    phone_seller = o.phone_seller,
+                //    coupon = o.coupon.GetValueOrDefault(),
+                //    payment_type = o.payment_type.GetValueOrDefault(),
+                //    bought_type = o.bought_type,
+                //    waiting = o.waiting.GetValueOrDefault(),
+                //    data_cart = o.data_cart,
+                //    address = o.address,
+                //    full_name = o.full_name,
+                //    note = o.note,
+                //    order_item = o.order_item,
+                //    phone = o.phone,
+                //    status = o.status.GetValueOrDefault(),
+                //    type_payment = o.type_payment.GetValueOrDefault(),
+                //    fee_ship = o.fee_ship.GetValueOrDefault(),
+                //    id_city = o.id_city.GetValueOrDefault(),
+                //    id_district = o.id_district.GetValueOrDefault(),
+                //    id_ward = o.id_ward.GetValueOrDefault(),
+                //    total = o.total.GetValueOrDefault(),
+                //    created_at = o.created_at.GetValueOrDefault(),
+                //    updated_at = o.updated_at.GetValueOrDefault(),
+                //    deleted_at = o.deleted_at.GetValueOrDefault(),
+                //    type = o.type.GetValueOrDefault()
+                //}).ToList();
+
+                return new ResponseBase<List<sp_LoadOrderResult>>
                 {
-                    data = db.Orders.Where(x => x.type == 1).ToList(),
+                    data = db.sp_LoadOrder().ToList(),
                     status = 200
                 };
             }
             catch (Exception ex)
             {
-                return new ResponseBase<List<Order>>
+                return new ResponseBase<List<sp_LoadOrderResult>>
                 {
                     status = 500
                 };
@@ -35,7 +66,7 @@ namespace ClothesShopMale.Controllers
 
         [HttpPost]
         [Route("api/v1/order")]
-        public ResponseBase<Order> Save(Order req)
+        public ResponseBase<bool> Save(Order req)
         {
             try
             {
@@ -43,15 +74,15 @@ namespace ClothesShopMale.Controllers
                 req.type = 1;
                 db.Orders.InsertOnSubmit(req);
                 db.SubmitChanges();
-                return new ResponseBase<Order>
+                return new ResponseBase<bool>
                 {
-                    data = req,
+                    data = true,
                     status = 200
                 };
             }
             catch (Exception ex)
             {
-                return new ResponseBase<Order>
+                return new ResponseBase<bool>
                 {
                     status = 500
                 };

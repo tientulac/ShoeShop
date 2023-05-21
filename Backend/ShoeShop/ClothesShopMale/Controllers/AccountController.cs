@@ -17,19 +17,19 @@ namespace ClothesShopMale.Controllers
 
         [HttpGet]
         [Route("api/v1/account")]
-        public ResponseBase<List<Account>> GetList()
+        public ResponseBase<List<sp_Account_LoadResult>> GetList()
         {
             try
             {
-                return new ResponseBase<List<Account>>
+                return new ResponseBase<List<sp_Account_LoadResult>>
                 {
-                    data = db.Accounts.ToList(),
+                    data = db.sp_Account_Load().ToList(),
                     status = 200,
                 };
             }
             catch (Exception ex)
             {
-                return new ResponseBase<List<Account>>
+                return new ResponseBase<List<sp_Account_LoadResult>>
                 {
                     status = 500
                 };

@@ -83,7 +83,7 @@ export class ProductService {
 
   insertDetail(req: any): Observable<any> {
     return this.http
-      .post<any>(this.appConfig.API + 'api/v1/productattribute/detail', req)
+      .post<any>(this.appConfig.API + 'api/v1/productattribute/detail/save', req)
       .pipe(
         map((z) => {
           return z;

@@ -14,6 +14,7 @@ export class DiscountComponent extends BaseComponent implements OnInit {
     discount_name: new FormControl(null),
     value: new FormControl(null),
     created_at: new FormControl(null),
+    start_date: new FormControl(null),
     end_date: new FormControl(null),
     status: new FormControl(1),
   })
@@ -55,6 +56,7 @@ export class DiscountComponent extends BaseComponent implements OnInit {
         value: !dataEdit ? '' : dataEdit.value,
         created_at: !dataEdit ? '' : dataEdit.created_at,
         end_date: !dataEdit ? '' : dataEdit.end_date,
+        start_date: !dataEdit ? '' : dataEdit.start_date,
         status: !dataEdit ? 1 : dataEdit.status,
       });
     }
@@ -74,6 +76,7 @@ export class DiscountComponent extends BaseComponent implements OnInit {
       value: this.AddForm.value.value,
       created_at: this.AddForm.value.created_at,
       end_date: this.AddForm.value.end_date,
+      start_date: this.AddForm.value.start_date,
       status: this.AddForm.value.status,
     }
     this.discountService.save(req).subscribe(

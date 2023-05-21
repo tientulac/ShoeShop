@@ -20,8 +20,8 @@ export class AccountComponent extends BaseComponent implements OnInit {
     town: new FormControl(null),
     district: new FormControl(null),
     city: new FormControl(null),
-    user_name: new FormControl(null, [Validators.required, Validators.minLength(4)]),
-    password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+    user_name: new FormControl(null),
+    password: new FormControl(null),
   })
 
   ngOnInit(): void {
