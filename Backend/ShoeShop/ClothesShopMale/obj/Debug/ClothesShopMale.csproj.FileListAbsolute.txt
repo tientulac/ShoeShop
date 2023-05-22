@@ -573,8 +573,8 @@ D:\DoAnWeb\MiSuShop\ShoeShop\Backend\ShoeShop\ClothesShopMale\bin\System.Web.Web
 D:\DoAnWeb\MiSuShop\ShoeShop\Backend\ShoeShop\ClothesShopMale\bin\System.Web.WebPages.Razor.xml
 D:\DoAnWeb\MiSuShop\ShoeShop\Backend\ShoeShop\ClothesShopMale\bin\Antlr3.Runtime.pdb
 D:\DoAnWeb\MiSuShop\ShoeShop\Backend\ShoeShop\ClothesShopMale\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\DoAnWeb\MiSuShop\ShoeShop\Backend\ShoeShop\ClothesShopMale\obj\Debug\ClothesShopMale.csproj.AssemblyReference.cache
 D:\DoAnWeb\MiSuShop\ShoeShop\Backend\ShoeShop\ClothesShopMale\obj\Debug\ClothesShopMale.csproj.CoreCompileInputs.cache
 D:\DoAnWeb\MiSuShop\ShoeShop\Backend\ShoeShop\ClothesShopMale\obj\Debug\ClothesShopMale.csproj.CopyComplete
 D:\DoAnWeb\MiSuShop\ShoeShop\Backend\ShoeShop\ClothesShopMale\obj\Debug\ClothesShopMale.dll
 D:\DoAnWeb\MiSuShop\ShoeShop\Backend\ShoeShop\ClothesShopMale\obj\Debug\ClothesShopMale.pdb
+D:\DoAnWeb\MisuShop\ShoeShop\Backend\ShoeShop\ClothesShopMale\obj\Debug\ClothesShopMale.csprojAssemblyReference.cache

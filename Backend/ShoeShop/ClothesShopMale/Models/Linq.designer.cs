@@ -214,6 +214,27 @@ namespace ClothesShopMale.Models
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
 			return ((ISingleResult<sp_LoadOrderResult>)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.sp_Account_Load")]
+		public ISingleResult<sp_Account_LoadResult1> sp_Account_Load1()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<sp_Account_LoadResult1>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.sp_ProductLoadListAll")]
+		public ISingleResult<sp_ProductLoadListAllResult1> sp_ProductLoadListAll1()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<sp_ProductLoadListAllResult1>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.sp_LoadOrder")]
+		public ISingleResult<sp_LoadOrderResult1> sp_LoadOrder1()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<sp_LoadOrderResult1>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Account")]
@@ -4640,6 +4661,1146 @@ namespace ClothesShopMale.Models
 		private System.Nullable<int> _type;
 		
 		public sp_LoadOrderResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_order_id", DbType="Int NOT NULL")]
+		public int order_id
+		{
+			get
+			{
+				return this._order_id;
+			}
+			set
+			{
+				if ((this._order_id != value))
+				{
+					this._order_id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_account_id", DbType="Int")]
+		public System.Nullable<int> account_id
+		{
+			get
+			{
+				return this._account_id;
+			}
+			set
+			{
+				if ((this._account_id != value))
+				{
+					this._account_id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_cusomter_type", DbType="NVarChar(MAX)")]
+		public string cusomter_type
+		{
+			get
+			{
+				return this._cusomter_type;
+			}
+			set
+			{
+				if ((this._cusomter_type != value))
+				{
+					this._cusomter_type = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_order_code", DbType="NVarChar(MAX)")]
+		public string order_code
+		{
+			get
+			{
+				return this._order_code;
+			}
+			set
+			{
+				if ((this._order_code != value))
+				{
+					this._order_code = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_seller", DbType="NVarChar(MAX)")]
+		public string seller
+		{
+			get
+			{
+				return this._seller;
+			}
+			set
+			{
+				if ((this._seller != value))
+				{
+					this._seller = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_phone_seller", DbType="NVarChar(MAX)")]
+		public string phone_seller
+		{
+			get
+			{
+				return this._phone_seller;
+			}
+			set
+			{
+				if ((this._phone_seller != value))
+				{
+					this._phone_seller = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_coupon", DbType="Float")]
+		public System.Nullable<double> coupon
+		{
+			get
+			{
+				return this._coupon;
+			}
+			set
+			{
+				if ((this._coupon != value))
+				{
+					this._coupon = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_payment_type", DbType="Int")]
+		public System.Nullable<int> payment_type
+		{
+			get
+			{
+				return this._payment_type;
+			}
+			set
+			{
+				if ((this._payment_type != value))
+				{
+					this._payment_type = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bought_type", DbType="NVarChar(MAX)")]
+		public string bought_type
+		{
+			get
+			{
+				return this._bought_type;
+			}
+			set
+			{
+				if ((this._bought_type != value))
+				{
+					this._bought_type = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_waiting", DbType="Bit")]
+		public System.Nullable<bool> waiting
+		{
+			get
+			{
+				return this._waiting;
+			}
+			set
+			{
+				if ((this._waiting != value))
+				{
+					this._waiting = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_data_cart", DbType="NVarChar(MAX)")]
+		public string data_cart
+		{
+			get
+			{
+				return this._data_cart;
+			}
+			set
+			{
+				if ((this._data_cart != value))
+				{
+					this._data_cart = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_address", DbType="NVarChar(MAX)")]
+		public string address
+		{
+			get
+			{
+				return this._address;
+			}
+			set
+			{
+				if ((this._address != value))
+				{
+					this._address = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_full_name", DbType="NVarChar(MAX)")]
+		public string full_name
+		{
+			get
+			{
+				return this._full_name;
+			}
+			set
+			{
+				if ((this._full_name != value))
+				{
+					this._full_name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_note", DbType="NVarChar(MAX)")]
+		public string note
+		{
+			get
+			{
+				return this._note;
+			}
+			set
+			{
+				if ((this._note != value))
+				{
+					this._note = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_order_item", DbType="NVarChar(MAX)")]
+		public string order_item
+		{
+			get
+			{
+				return this._order_item;
+			}
+			set
+			{
+				if ((this._order_item != value))
+				{
+					this._order_item = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_phone", DbType="NVarChar(MAX)")]
+		public string phone
+		{
+			get
+			{
+				return this._phone;
+			}
+			set
+			{
+				if ((this._phone != value))
+				{
+					this._phone = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_status", DbType="Int")]
+		public System.Nullable<int> status
+		{
+			get
+			{
+				return this._status;
+			}
+			set
+			{
+				if ((this._status != value))
+				{
+					this._status = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_type_payment", DbType="Int")]
+		public System.Nullable<int> type_payment
+		{
+			get
+			{
+				return this._type_payment;
+			}
+			set
+			{
+				if ((this._type_payment != value))
+				{
+					this._type_payment = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fee_ship", DbType="Decimal(18,0)")]
+		public System.Nullable<decimal> fee_ship
+		{
+			get
+			{
+				return this._fee_ship;
+			}
+			set
+			{
+				if ((this._fee_ship != value))
+				{
+					this._fee_ship = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_city", DbType="Int")]
+		public System.Nullable<int> id_city
+		{
+			get
+			{
+				return this._id_city;
+			}
+			set
+			{
+				if ((this._id_city != value))
+				{
+					this._id_city = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_district", DbType="Int")]
+		public System.Nullable<int> id_district
+		{
+			get
+			{
+				return this._id_district;
+			}
+			set
+			{
+				if ((this._id_district != value))
+				{
+					this._id_district = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_ward", DbType="Int")]
+		public System.Nullable<int> id_ward
+		{
+			get
+			{
+				return this._id_ward;
+			}
+			set
+			{
+				if ((this._id_ward != value))
+				{
+					this._id_ward = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_total", DbType="Decimal(18,0)")]
+		public System.Nullable<decimal> total
+		{
+			get
+			{
+				return this._total;
+			}
+			set
+			{
+				if ((this._total != value))
+				{
+					this._total = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_created_at", DbType="DateTime")]
+		public System.Nullable<System.DateTime> created_at
+		{
+			get
+			{
+				return this._created_at;
+			}
+			set
+			{
+				if ((this._created_at != value))
+				{
+					this._created_at = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_deleted_at", DbType="DateTime")]
+		public System.Nullable<System.DateTime> deleted_at
+		{
+			get
+			{
+				return this._deleted_at;
+			}
+			set
+			{
+				if ((this._deleted_at != value))
+				{
+					this._deleted_at = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_updated_at", DbType="DateTime")]
+		public System.Nullable<System.DateTime> updated_at
+		{
+			get
+			{
+				return this._updated_at;
+			}
+			set
+			{
+				if ((this._updated_at != value))
+				{
+					this._updated_at = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_type", DbType="Int")]
+		public System.Nullable<int> type
+		{
+			get
+			{
+				return this._type;
+			}
+			set
+			{
+				if ((this._type != value))
+				{
+					this._type = value;
+				}
+			}
+		}
+	}
+	
+	public partial class sp_Account_LoadResult1
+	{
+		
+		private int _account_id;
+		
+		private System.Nullable<bool> _active;
+		
+		private string _address;
+		
+		private System.Nullable<bool> _admin;
+		
+		private string _avatar;
+		
+		private string _full_name;
+		
+		private string _password;
+		
+		private string _phone;
+		
+		private string _role_code;
+		
+		private string _user_name;
+		
+		private string _email;
+		
+		private System.Nullable<System.DateTime> _created_at;
+		
+		private System.Nullable<System.DateTime> _updated_at;
+		
+		private System.Nullable<System.DateTime> _deleted_at;
+		
+		private string _town;
+		
+		private string _district;
+		
+		private string _city;
+		
+		private System.Nullable<int> _town_id;
+		
+		private System.Nullable<int> _district_id;
+		
+		private System.Nullable<int> _city_id;
+		
+		public sp_Account_LoadResult1()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_account_id", DbType="Int NOT NULL")]
+		public int account_id
+		{
+			get
+			{
+				return this._account_id;
+			}
+			set
+			{
+				if ((this._account_id != value))
+				{
+					this._account_id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_active", DbType="Bit")]
+		public System.Nullable<bool> active
+		{
+			get
+			{
+				return this._active;
+			}
+			set
+			{
+				if ((this._active != value))
+				{
+					this._active = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_address", DbType="NVarChar(MAX)")]
+		public string address
+		{
+			get
+			{
+				return this._address;
+			}
+			set
+			{
+				if ((this._address != value))
+				{
+					this._address = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_admin", DbType="Bit")]
+		public System.Nullable<bool> admin
+		{
+			get
+			{
+				return this._admin;
+			}
+			set
+			{
+				if ((this._admin != value))
+				{
+					this._admin = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_avatar", DbType="NVarChar(MAX)")]
+		public string avatar
+		{
+			get
+			{
+				return this._avatar;
+			}
+			set
+			{
+				if ((this._avatar != value))
+				{
+					this._avatar = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_full_name", DbType="NVarChar(MAX)")]
+		public string full_name
+		{
+			get
+			{
+				return this._full_name;
+			}
+			set
+			{
+				if ((this._full_name != value))
+				{
+					this._full_name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_password", DbType="NVarChar(MAX)")]
+		public string password
+		{
+			get
+			{
+				return this._password;
+			}
+			set
+			{
+				if ((this._password != value))
+				{
+					this._password = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_phone", DbType="NVarChar(MAX)")]
+		public string phone
+		{
+			get
+			{
+				return this._phone;
+			}
+			set
+			{
+				if ((this._phone != value))
+				{
+					this._phone = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_role_code", DbType="NVarChar(MAX)")]
+		public string role_code
+		{
+			get
+			{
+				return this._role_code;
+			}
+			set
+			{
+				if ((this._role_code != value))
+				{
+					this._role_code = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_user_name", DbType="NVarChar(MAX)")]
+		public string user_name
+		{
+			get
+			{
+				return this._user_name;
+			}
+			set
+			{
+				if ((this._user_name != value))
+				{
+					this._user_name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_email", DbType="NVarChar(MAX)")]
+		public string email
+		{
+			get
+			{
+				return this._email;
+			}
+			set
+			{
+				if ((this._email != value))
+				{
+					this._email = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_created_at", DbType="DateTime")]
+		public System.Nullable<System.DateTime> created_at
+		{
+			get
+			{
+				return this._created_at;
+			}
+			set
+			{
+				if ((this._created_at != value))
+				{
+					this._created_at = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_updated_at", DbType="DateTime")]
+		public System.Nullable<System.DateTime> updated_at
+		{
+			get
+			{
+				return this._updated_at;
+			}
+			set
+			{
+				if ((this._updated_at != value))
+				{
+					this._updated_at = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_deleted_at", DbType="DateTime")]
+		public System.Nullable<System.DateTime> deleted_at
+		{
+			get
+			{
+				return this._deleted_at;
+			}
+			set
+			{
+				if ((this._deleted_at != value))
+				{
+					this._deleted_at = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_town", DbType="NVarChar(MAX)")]
+		public string town
+		{
+			get
+			{
+				return this._town;
+			}
+			set
+			{
+				if ((this._town != value))
+				{
+					this._town = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_district", DbType="NVarChar(MAX)")]
+		public string district
+		{
+			get
+			{
+				return this._district;
+			}
+			set
+			{
+				if ((this._district != value))
+				{
+					this._district = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_city", DbType="NVarChar(MAX)")]
+		public string city
+		{
+			get
+			{
+				return this._city;
+			}
+			set
+			{
+				if ((this._city != value))
+				{
+					this._city = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_town_id", DbType="Int")]
+		public System.Nullable<int> town_id
+		{
+			get
+			{
+				return this._town_id;
+			}
+			set
+			{
+				if ((this._town_id != value))
+				{
+					this._town_id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_district_id", DbType="Int")]
+		public System.Nullable<int> district_id
+		{
+			get
+			{
+				return this._district_id;
+			}
+			set
+			{
+				if ((this._district_id != value))
+				{
+					this._district_id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_city_id", DbType="Int")]
+		public System.Nullable<int> city_id
+		{
+			get
+			{
+				return this._city_id;
+			}
+			set
+			{
+				if ((this._city_id != value))
+				{
+					this._city_id = value;
+				}
+			}
+		}
+	}
+	
+	public partial class sp_ProductLoadListAllResult1
+	{
+		
+		private int _product_attribue_id;
+		
+		private string _size;
+		
+		private string _color;
+		
+		private System.Nullable<decimal> _price;
+		
+		private System.Nullable<int> _product_id;
+		
+		private string _product_code;
+		
+		private System.Nullable<int> _brand_id;
+		
+		private System.Nullable<int> _category_id;
+		
+		private string _origin;
+		
+		private string _product_name;
+		
+		private System.Nullable<int> _status;
+		
+		private System.Nullable<System.DateTime> _created_at;
+		
+		private System.Nullable<System.DateTime> _updated_at;
+		
+		private System.Nullable<System.DateTime> _deleted_at;
+		
+		private System.Nullable<int> _amount;
+		
+		public sp_ProductLoadListAllResult1()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_product_attribue_id", DbType="Int NOT NULL")]
+		public int product_attribue_id
+		{
+			get
+			{
+				return this._product_attribue_id;
+			}
+			set
+			{
+				if ((this._product_attribue_id != value))
+				{
+					this._product_attribue_id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_size", DbType="NVarChar(MAX)")]
+		public string size
+		{
+			get
+			{
+				return this._size;
+			}
+			set
+			{
+				if ((this._size != value))
+				{
+					this._size = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_color", DbType="NVarChar(MAX)")]
+		public string color
+		{
+			get
+			{
+				return this._color;
+			}
+			set
+			{
+				if ((this._color != value))
+				{
+					this._color = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_price", DbType="Decimal(18,0)")]
+		public System.Nullable<decimal> price
+		{
+			get
+			{
+				return this._price;
+			}
+			set
+			{
+				if ((this._price != value))
+				{
+					this._price = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_product_id", DbType="Int")]
+		public System.Nullable<int> product_id
+		{
+			get
+			{
+				return this._product_id;
+			}
+			set
+			{
+				if ((this._product_id != value))
+				{
+					this._product_id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_product_code", DbType="NVarChar(MAX)")]
+		public string product_code
+		{
+			get
+			{
+				return this._product_code;
+			}
+			set
+			{
+				if ((this._product_code != value))
+				{
+					this._product_code = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_brand_id", DbType="Int")]
+		public System.Nullable<int> brand_id
+		{
+			get
+			{
+				return this._brand_id;
+			}
+			set
+			{
+				if ((this._brand_id != value))
+				{
+					this._brand_id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_category_id", DbType="Int")]
+		public System.Nullable<int> category_id
+		{
+			get
+			{
+				return this._category_id;
+			}
+			set
+			{
+				if ((this._category_id != value))
+				{
+					this._category_id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_origin", DbType="NVarChar(MAX)")]
+		public string origin
+		{
+			get
+			{
+				return this._origin;
+			}
+			set
+			{
+				if ((this._origin != value))
+				{
+					this._origin = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_product_name", DbType="NVarChar(MAX)")]
+		public string product_name
+		{
+			get
+			{
+				return this._product_name;
+			}
+			set
+			{
+				if ((this._product_name != value))
+				{
+					this._product_name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_status", DbType="Int")]
+		public System.Nullable<int> status
+		{
+			get
+			{
+				return this._status;
+			}
+			set
+			{
+				if ((this._status != value))
+				{
+					this._status = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_created_at", DbType="DateTime")]
+		public System.Nullable<System.DateTime> created_at
+		{
+			get
+			{
+				return this._created_at;
+			}
+			set
+			{
+				if ((this._created_at != value))
+				{
+					this._created_at = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_updated_at", DbType="DateTime")]
+		public System.Nullable<System.DateTime> updated_at
+		{
+			get
+			{
+				return this._updated_at;
+			}
+			set
+			{
+				if ((this._updated_at != value))
+				{
+					this._updated_at = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_deleted_at", DbType="DateTime")]
+		public System.Nullable<System.DateTime> deleted_at
+		{
+			get
+			{
+				return this._deleted_at;
+			}
+			set
+			{
+				if ((this._deleted_at != value))
+				{
+					this._deleted_at = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_amount", DbType="Int")]
+		public System.Nullable<int> amount
+		{
+			get
+			{
+				return this._amount;
+			}
+			set
+			{
+				if ((this._amount != value))
+				{
+					this._amount = value;
+				}
+			}
+		}
+	}
+	
+	public partial class sp_LoadOrderResult1
+	{
+		
+		private int _order_id;
+		
+		private System.Nullable<int> _account_id;
+		
+		private string _cusomter_type;
+		
+		private string _order_code;
+		
+		private string _seller;
+		
+		private string _phone_seller;
+		
+		private System.Nullable<double> _coupon;
+		
+		private System.Nullable<int> _payment_type;
+		
+		private string _bought_type;
+		
+		private System.Nullable<bool> _waiting;
+		
+		private string _data_cart;
+		
+		private string _address;
+		
+		private string _full_name;
+		
+		private string _note;
+		
+		private string _order_item;
+		
+		private string _phone;
+		
+		private System.Nullable<int> _status;
+		
+		private System.Nullable<int> _type_payment;
+		
+		private System.Nullable<decimal> _fee_ship;
+		
+		private System.Nullable<int> _id_city;
+		
+		private System.Nullable<int> _id_district;
+		
+		private System.Nullable<int> _id_ward;
+		
+		private System.Nullable<decimal> _total;
+		
+		private System.Nullable<System.DateTime> _created_at;
+		
+		private System.Nullable<System.DateTime> _deleted_at;
+		
+		private System.Nullable<System.DateTime> _updated_at;
+		
+		private System.Nullable<int> _type;
+		
+		public sp_LoadOrderResult1()
 		{
 		}
 		

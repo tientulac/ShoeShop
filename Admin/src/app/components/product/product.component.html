@@ -178,7 +178,8 @@
                             </div>
                             <div class="col-md-2">
                                 <label class="row col-md-10">Màu sắc</label>
-                                <input type="color" style="width: 120px;height:36px" [(ngModel)]="colorInput" [ngModelOptions]="{standalone: true}">
+                                <input type="color" style="width: 120px;height:36px" [(ngModel)]="colorInput"
+                                    [ngModelOptions]="{standalone: true}">
                             </div>
                             <div class="col-md-2">
                                 <label class="col-md-10">Giá tiền</label>
@@ -219,7 +220,10 @@
                                 <tbody>
                                     <tr *ngFor="let data of basicTable.data | filter:searchString">
                                         <td>{{ data.size }}</td>
-                                        <td>{{ data.color }}</td>
+                                        <td>
+                                            <div [style.backgroundColor]="data.color"
+                                                style="width: 20px; height: 20px;"></div>
+                                        </td>
                                         <td>{{ data.price | number }} VNĐ</td>
                                         <td>{{ data.amount }}</td>
                                         <td>
@@ -252,4 +256,7 @@
             </div>
         </div>
     </ng-container>
+    <div *nzModalFooter>
+        <button nz-button nzType="default" (click)="handleCancel()">Đóng</button>
+    </div>
 </nz-modal>

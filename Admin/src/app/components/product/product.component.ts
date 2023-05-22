@@ -75,18 +75,30 @@ export class ProductComponent extends BaseComponent implements OnInit {
       price: this.priceInput,
       product_id: this.selected_ID,
       amount: this.amountInput
-    }
-    this.productService.insertAttribute(req).subscribe(
+    };
+    this.productService.getListAll().subscribe(
       (res) => {
-        if (res.status == 200) {
-          this.toastr.success('Thành công');
-          this.getAttributeByProduct();
+        this.listAllProduct = res.data;
+        if (this.listAllProduct.filter((x: any) => x.size == req.size && x.color == req.color).length > 0) {
+          this.toastr.warning('Sản phẩm này đã được thêm màu và size');
+          return false;
         }
         else {
-          this.toastr.success('Thất bại');
+          this.productService.insertAttribute(req).subscribe(
+            (res) => {
+              if (res.status == 200) {
+                this.toastr.success('Thành công');
+                this.getAttributeByProduct();
+              }
+              else {
+                this.toastr.success('Thất bại');
+              }
+            }
+          );
+          return true;
         }
       }
-    );
+    )
   }
 
   showConfirm(id: any): void {

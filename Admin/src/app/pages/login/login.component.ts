@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Renderer2,NgModule } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer2, NgModule } from '@angular/core';
 import { AccService } from 'src/app/services/acc.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private cookieService: CookieService,
     private spinner: NgxSpinnerService,
     private AccService: AccService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.renderer.addClass(document.body, 'login-page');
@@ -51,9 +51,14 @@ export class LoginComponent implements OnInit, OnDestroy {
       };
       this.AccService.login(req).subscribe((z) => {
         if (z.status == 200) {
-          localStorage.setItem('UserInfo', JSON.stringify(z.data));
-          this.AppService.login();
-          this.toastr.success('Login successfully !');
+          if (z.data.role_code == '001' || z.data.role_code == '002') {
+            localStorage.setItem('UserInfo', JSON.stringify(z.data));
+            this.AppService.login();
+            this.toastr.success('Login successfully !');
+          }
+          else {
+            this.toastr.warning('Bạn không có quyền truy cập vào đây !');
+          }
         } else {
           this.toastr.warning('Login Failed !');
           localStorage.removeItem('UserInfo');
