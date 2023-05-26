@@ -17,7 +17,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive table-hover table-sales">
-                                    <!-- <div class="row">
+                                    <div class="row">
                                         <div class="col-4">
                                             <label style="font-weight: bold;">Trạng thái đơn hàng</label>
                                             <select class="form-control" placeholder="Lọc theo trạng thái" [(ngModel)]="selectedStatus" (change)="filter()">
@@ -32,7 +32,7 @@
                                         placeholder="Tìm kiếm nhanh..." class="form-control" [(ngModel)]="searchString"
                                         [ngModelOptions]="{standalone: true}">
                                         </div>
-                                    </div>       -->
+                                    </div>      
                                     <nz-table #basicTable [nzData]="listOrder" style="margin-top: 10px;">
                                         <thead>
                                             <tr>
@@ -44,7 +44,7 @@
                                                 <th>Loại thanh toán</th>
                                                 <th>Tổng tiền</th>
                                                 <th>Ngày đặt</th>
-                                                <th>Thời gian hủy</th>
+                                                <th>Loại hóa đơn</th>
                                                 <th>Hành động</th>
                                             </tr>
                                         </thead>
@@ -60,23 +60,28 @@
                                                     data.status == 1 ? 'font-weight: bold; color: green' : 
                                                     data.status == 2 ? 'font-weight: bold; color: green' : 
                                                     data.status == 3 ? 'font-weight: bold; color: green' : 
+                                                    data.status == 5 ? 'font-weight: bold; color: green' : 
                                                     'font-weight: bold;color:red'">
                                                     {{data.status == 0 ? 'Chờ xác nhận' : data.status == 1 ? 'Chờ lấy
                                                     hàng' :
-                                                    data.status == 2 ? 'Đang giao' : data.status == 3 ? 'Giao thành
-                                                    công' :
-                                                    'Đã huỷ'}}</td>
+                                                    data.status == 2 ? 'Đang giao' : data.status == 3 ? 'Hoàn thành' : data.status == 4 ?
+                                                    'Đã huỷ': 'Chờ thanh toán'}}</td>
 
                                                 <td
-                                                    [style]="data.type_payment == 1 ? 'font-weight: bold; color: green' : 'font-weight: bold;color:yellow'">
-                                                    {{data.status == 1 ? 'Tiền mặt' : 'Chuyển khoản'}}</td>
+                                                    [style]="data.type_payment == 1 ? 'font-weight: bold; color: green' : 'font-weight: bold;color:#c7c726'">
+                                                    {{data.type_payment == 1 ? 'Tiền mặt' : 'Chuyển khoản'}}</td>
                                                 <td>{{ data.total + data.fee_ship | number}}</td>
                                                 <td>{{ data.created_at | date: 'dd/MM/yyyy'}}</td>
-                                                <td>{{ data.deleted_at | date: 'dd/MM/yyyy'}}</td>
+                                                <td [style]="
+                                                    data.type == 1? 'font-weight: bold; color: #c7c726' : 
+                                                    'font-weight: bold; color: green'">{{ data.type == 1? "Online": "Tại quầy"}}</td>
                                                 <td>
-
-                                                    <a nz-dropdown [nzDropdownMenu]="menu"
-                                                        style="margin-right: 0.5rem;">
+                                                    <button class="btn btn-sm btn-outline-primary" placement="left"
+                                                    nzType="dashed" (click)="showDetail(data)">
+                                                    <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    <a nz-dropdown [nzDropdownMenu]="menu" *ngIf="data.type != 2"
+                                                        style="margin-left: 0.5rem;">
                                                         <button class="btn btn-sm btn-outline-warning" placement="left"
                                                             style="margin-right: 0.1rem;" nzType="dashed">
                                                             <i class="fas fa-pencil-alt"></i>
@@ -90,10 +95,6 @@
                                                                 {{item.name}}</li>
                                                         </ul>
                                                     </nz-dropdown-menu>
-                                                    <button class="btn btn-sm btn-outline-primary" placement="left"
-                                                        nzType="dashed" (click)="showDetail(data)">
-                                                        <i class="fas fa-eye"></i>
-                                                    </button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -118,7 +119,7 @@
             </li>
             <li class="d-flex justify-content-between">
                 <span>Phí vận chuyển:</span>
-                <span class="h5">{{orderInfo.fee_ship | number}} VNĐ</span>
+                <span class="h5">{{orderInfo.fee_ship == null ? 0 : orderInfo.fee_ship | number}} VNĐ</span>
             </li>
             <li class="d-flex justify-content-between">
                 <span>Thành tiền</span>
@@ -132,6 +133,7 @@
                     <th>Sản phẩm</th>
                     <th>Size</th>
                     <th>Màu sắc</th>
+                    <th>Số lượng</th>
                     <th>Đơn giá</th>
                     <th>Thành tiền</th>
                 </tr>
@@ -144,6 +146,7 @@
                     <td>
                         <div [style.backgroundColor]="data.color" style="width: 20px; height: 20px;"></div>
                     </td>
+                    <td>{{data.amountCart | number}}</td>
                     <td>{{data.price}}</td>
                     <td>{{data.total}}</td>
                 </tr>

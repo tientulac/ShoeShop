@@ -16,10 +16,11 @@ export class ProductComponent extends BaseComponent implements OnInit {
   multipleValue = [];
   sizeUpdate: any = '';
   newSize: any;
+  newColor: any;
 
-  selectedPrice!: any;
-  selectedBrand!: any;
-  selectedCate!: any;
+  selectedPrice: any = '';
+  selectedBrand: any = '';
+  selectedCate: any = '';
 
   selectedIndex: any;
 
@@ -254,6 +255,15 @@ export class ProductComponent extends BaseComponent implements OnInit {
     }
     else {
       this.listOfOption.push(this.newSize);
+    }
+  }
+
+  addColor() {
+    if (this.listOfOptionColor.filter((x: any) => x == this.newColor).length > 0) {
+      this.toastr.warning('Màu này đã được thêm');
+    }
+    else {
+      this.listOfOptionColor.push(this.newColor);
     }
   }
 

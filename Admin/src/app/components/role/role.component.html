@@ -6,9 +6,9 @@
                     <h2 class="text-white pb-2 fw-bold">Quyền</h2>
                     <h5 class="text-white op-7 mb-2">Trang chủ/Admin/Quyền</h5>
                 </div>
-                <div class="ml-md-auto py-2 py-md-0">
+                <!-- <div class="ml-md-auto py-2 py-md-0">
                     <a href="javascript:void(0)" class="btn btn-secondary btn-round" (click)="showAddModal('Add', null)">Thêm mới</a>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -34,20 +34,23 @@
                                                 <th>ID</th>
                                                 <th>Code</th>
                                                 <th>Tên quyền</th>
-                                                <th>Hành động</th>
+                                                <!-- <th>Hành động</th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr *ngFor="let data of basicTable.data | filter:searchString">
                                                 <td>{{ data.role_id }}</td>
                                                 <td>{{ data.role_code }}</td>
-                                                <td>{{ data.role_name }}</td>
-                                                <td>
+                                                <td [style]="
+                                                data.role_code == 001 ? 'font-weight: bold; color: #c7c726' : 
+                                                data.role_code == 002 ? 'font-weight: bold; color: green' : 
+                                                'font-weight: bold;color:orange'">{{ data.role_name }}</td>
+                                                <!-- <td>
                                                     <button class="btn btn-sm btn-outline-warning" placement="left"
                                                         style="margin-right: 0.5rem;" (click)="showAddModal('Update', data)">
                                                         <i class="fas fa-edit"></i>
                                                     </button>
-                                                </td>
+                                                </td> -->
                                             </tr>
                                         </tbody>
                                     </nz-table>

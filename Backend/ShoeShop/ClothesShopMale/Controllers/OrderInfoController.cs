@@ -136,7 +136,7 @@ namespace ClothesShopMale.Controllers
                 if (order_infor_id > 0)
                 {
                     var order = db.Orders.Where(x => x.order_id == order_infor_id).FirstOrDefault();
-                    order.status = 3;
+                    order.status = 4;
                     db.SubmitChanges();
                 }
                 else
@@ -148,6 +148,29 @@ namespace ClothesShopMale.Controllers
                 }
                 return new ResponseBase<Order>
                 {
+                    status = 200
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseBase<Order>
+                {
+                    status = 500
+                };
+            }
+        }
+        [HttpGet]
+        [Route("api/v1/orderInfor/getById/{order_infor_id}")]
+        public ResponseBase<Order> GetById(int order_infor_id = 0)
+        {
+            try
+            {
+
+                var order = db.Orders.Where(x => x.order_id == order_infor_id).FirstOrDefault();
+
+                return new ResponseBase<Order>
+                {
+                    data = order,
                     status = 200
                 };
             }

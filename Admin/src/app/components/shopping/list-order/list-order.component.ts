@@ -13,6 +13,7 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
   from_search: any = null;
   to_search: any = null;
   total: any = 0;
+  selectedOption: any;
 
   ngOnInit(): void {
     this.getListData();
@@ -97,7 +98,7 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
   }
 
   handleOk(): void {
-    console.log('Button ok clicked!');
+    this.saveItem();
     this.isDisplay = false;
   }
 
@@ -248,5 +249,19 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  isEditing: boolean = false;
+
+  // getEditOrderInfo(order_id: any){
+  //   debugger
+  //   this.orderService.getByIdOrderInfor(order_id).subscribe(
+  //     (data) => {
+  //       this.isEditing = true;
+  //     },
+  //   )
+  // }
+  toggleEdit() {
+    this.isEditing = !this.isEditing;
   }
 }

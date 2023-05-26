@@ -253,7 +253,7 @@ export class BaseComponent {
   getListOrder = () => {
     this.orderService.getList().subscribe(
       (res) => {
-        this.listOrder = res.data.filter((x: any) => x.type == 1);
+        this.listOrder = res.data;
         if (this.listOrder.length > 0) {
           this.listOrder.forEach((x: any) => {
             this.positionService.getListCity().subscribe(
@@ -276,7 +276,7 @@ export class BaseComponent {
       }
     )
   }
-
+  listOfOptionColor: any = [];
   getListProduct = () => {
     this.productService.getList().subscribe(
       (res) => {
@@ -284,6 +284,11 @@ export class BaseComponent {
         this.productService.getListSize().subscribe(
           (resSize) => {
             this.listOfOption = resSize.data.map((x: any) => x.size);
+          }
+        );
+        this.productService.getListColor().subscribe(
+          (resColor) => {
+            this.listOfOptionColor = resColor.data.map((x: any) => x.color);
           }
         );
       }
@@ -298,6 +303,11 @@ export class BaseComponent {
         this.productService.getListSize().subscribe(
           (resSize) => {
             this.listOfOption = resSize.data.map((x: any) => x.size);
+          }
+        );
+        this.productService.getListColor().subscribe(
+          (resColor) => {
+            this.listOfOptionColor = resColor.data.map((x: any) => x.color);
           }
         );
       }

@@ -41,6 +41,16 @@ export class ProductService {
       );
   }
 
+  getListColor(): Observable<any> {
+    return this.http
+      .get<any>(this.appConfig.API + 'api/v1/product/colors')
+      .pipe(
+        map((z) => {
+          return z;
+        })
+      );
+  }
+
   getImage(): Observable<any> {
     return this.http
       .get<any>(this.appConfig.API + 'api/v1/productattribute/image')
