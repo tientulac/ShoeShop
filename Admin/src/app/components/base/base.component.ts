@@ -364,7 +364,7 @@ export class BaseComponent {
         this.listSeller = this.listAccount.map((x: any) => `${x.phone ?? 'None'} - ${x.full_name}`);
         this.orderService.getList().subscribe(
           (res) => {
-            this.listPhoneName = res.data.filter((x: any) => x.cusomter_type != null).map((x: any) => x.cusomter_type)
+            this.listPhoneName = res.data.filter((x: any) => x.full_name != null).map((x: any) => x.full_name)
           }
         );
       }

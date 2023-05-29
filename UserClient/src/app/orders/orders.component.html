@@ -116,7 +116,6 @@
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th scope="col">Mã giỏ hàng</th>
                   <th scope="col">Tên sản phẩm</th>
                   <th scope="col">Số lượng</th>
                   <th scope="col">Đơn giá</th>
@@ -131,9 +130,8 @@
                   currentPage: page,
                   totalItems: count
                 }; let i=index">
-                  <th scope="row">#{{oi.id}}</th>
                   <td>{{oi.product_name}}</td>
-                  <td>{{oi.count}}</td>
+                  <td>{{oi.amountCart}}</td>
                   <td>{{oi.price | number}} VNĐ</td>
                   <td><img src="{{oi.image}}" alt="" style="width: 50px;height:50px"></td>
                   <td>{{oi.size}}</td>

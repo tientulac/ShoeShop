@@ -14,6 +14,8 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
   to_search: any = null;
   total: any = 0;
   selectedOption: any;
+  
+  isEditing: boolean = false;
 
   ngOnInit(): void {
     this.getListData();
@@ -85,6 +87,11 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
   }
 
   save(hd: any) {
+    if(hd.status){
+      hd.status = 5
+    }else{
+      hd.status = 3
+    }
     this.orderService.createOrderInfor(hd).subscribe(
       (res: any) => {
         if (res.status == 200) {
@@ -116,8 +123,7 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
 
   showDetail(hd: any) {
     this.isDisplay = true;
-    this.listProductCart = JSON.parse(hd.data_cart);
-    console.log(this.listProductCart);
+    this.listProductCart = JSON.parse(hd.order_item);
     this.total = 0;
     this.sumCart();
     this.is_waiting = hd.waiting;
@@ -212,7 +218,7 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
   saveItem() {
     var req = {
       order_id: this.selected_ID,
-      data_cart: JSON.stringify(this.listProductCart),
+      order_item: JSON.stringify(this.listProductCart),
       total: this.total,
     }
     this.orderService.updateItemOrderInfo(req).subscribe(
@@ -251,16 +257,6 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
     return true;
   }
 
-  isEditing: boolean = false;
-
-  // getEditOrderInfo(order_id: any){
-  //   debugger
-  //   this.orderService.getByIdOrderInfor(order_id).subscribe(
-  //     (data) => {
-  //       this.isEditing = true;
-  //     },
-  //   )
-  // }
   toggleEdit() {
     this.isEditing = !this.isEditing;
   }

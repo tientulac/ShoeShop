@@ -11,6 +11,7 @@ export class OrderComponent extends BaseComponent implements OnInit {
   accountName: any;
 
   selectedStatus: any = '';
+  statusFilter: any;
   
   filterStatusOrder: any = [
     { status: 0, name: 'Chờ xác nhận' },
@@ -28,25 +29,12 @@ export class OrderComponent extends BaseComponent implements OnInit {
   ]
 
   ngOnInit(): void {
+    this.statusFilter = this.statusOrder;
     this.getListOrder();
   }
 
-  isStatusDisabled(selectedStatus: number): boolean {
-    if (selectedStatus === 1) {
-      return this.statusOrder.status === 1; 
-    }
-    if (selectedStatus === 2) { 
-      return this.statusOrder.status === 1 || this.statusOrder.status === 2; 
-    }
-    if (selectedStatus === 3) { 
-      return this.statusOrder.status === 1 || this.statusOrder.status === 2 || this.statusOrder.status === 3; 
-    }
-    if(selectedStatus === 4){
-      return this.statusOrder.status === 1 || this.statusOrder.status === 2 || this.statusOrder.status === 3 || this.statusOrder.status === 4;
-    }
-    else {
-      return false;
-    }
+  checkStatus(selectedStatus: number) {
+    this.statusOrder = this.statusFilter.filter((x: any)=>x.status != selectedStatus)
   }
   showConfirm(id: any): void {
     this.modal.confirm({

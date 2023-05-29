@@ -80,6 +80,9 @@
                                                     nzType="dashed" (click)="showDetail(data)">
                                                     <i class="fas fa-eye"></i>
                                                     </button>
+                                                    <button *ngIf="data.status == 0" class="btn btn-sm btn-outline-warning" placement="left" style="margin-left: 0.5rem;">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
                                                     <a nz-dropdown [nzDropdownMenu]="menu" *ngIf="data.type != 2"
                                                         style="margin-left: 0.5rem;">
                                                         <button class="btn btn-sm btn-outline-warning" placement="left"
@@ -90,9 +93,9 @@
                                                     <nz-dropdown-menu #menu="nzDropdownMenu">
                                                         <ul nz-menu nzSelectable>
                                                             <li *ngFor="let item of statusOrder"
-                                                                (click)="confirmStatus(data, item)" nz-menu-item
-                                                                [nzDisabled]="isStatusDisabled(item.status)">
-                                                                {{item.name}}</li>
+                                                                (change)="checkStatus(data)" nz-menu-item
+                                                                >
+                                                                <p *ngIf="item.status != data.status">{{item.name}}</p></li>
                                                         </ul>
                                                     </nz-dropdown-menu>
                                                 </td>

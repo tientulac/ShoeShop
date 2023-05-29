@@ -134,7 +134,7 @@ export class ProductsingleComponent extends BaseComponent implements OnInit {
         product_id: p.product_id,
         product_name: p.product_name,
         image: this.getImageProduct(p.product_id),
-        count: this.countP,
+        amountCart: this.countP,
         price: p.price,
         total: `${this.countP} x ${p.price}`,
         color: this.colorPick,
@@ -147,8 +147,8 @@ export class ProductsingleComponent extends BaseComponent implements OnInit {
         if (c.length > 0) {
           this.cart.forEach((c: any): any => {
             if (c.product_id == cartItem.product_id && c.color == cartItem.color && c.size == cartItem.size) {
-              c.count += cartItem.count;
-              c.total = `${c.count} x ${p.price}`
+              c.amountCart += cartItem.amountCart;
+              c.total = `${c.amountCart} x ${p.price}`
             }
           })
         }

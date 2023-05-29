@@ -11,7 +11,7 @@ export class CartComponent extends BaseComponent implements OnInit {
   ngOnInit(): void {
     this.cartInfo = JSON.parse(JSON.parse(JSON.stringify(localStorage.getItem('Cart'))));
     this.cartInfo.forEach((c: any) => {
-      this.totalPrice += c.count * c.price;
+      this.totalPrice += c.amountCart * c.price;
     })
   }
 
@@ -25,11 +25,11 @@ export class CartComponent extends BaseComponent implements OnInit {
   updateCountCart(cart: any) {
     this.cartInfo.forEach((x: any) => {
       if (x.product_id == cart.product_id) {
-        x.count = cart.count;
-        x.total = `${cart.count} x ${cart.price}`;
+        x.amountCart = cart.amountCart;
+        x.total = `${cart.amountCart} x ${cart.price}`;
       }
       localStorage.setItem('Cart', JSON.stringify(this.cartInfo));
     });
-    this.totalPrice = cart.count * cart.price;
+    this.totalPrice = cart.amountCart * cart.price;
   }
 }

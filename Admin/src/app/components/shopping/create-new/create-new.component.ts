@@ -99,11 +99,15 @@ export class CreateNewComponent extends BaseComponent implements OnInit {
   }
 
   createOrder() {
+    if(this.orderInfo.status){
+      this.orderInfo.status = 5
+    }else{
+      this.orderInfo.status = 3
+    }
     this.orderInfo.seller = this.full_name;
     this.orderInfo.total = this.totalPayment;
-    this.orderInfo.data_cart = JSON.stringify(this.listProductCart);
+    this.orderInfo.order_item = JSON.stringify(this.listProductCart);
     this.orderInfo.type = 2;
-    console.log(this.orderInfo);
     this.orderService.createOrderInfor(this.orderInfo).subscribe(
       (res: any) => {
         if (res.status == 200) {
