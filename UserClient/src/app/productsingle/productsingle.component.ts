@@ -105,6 +105,7 @@ export class ProductsingleComponent extends BaseComponent implements OnInit {
     else {
       if (this.listAllProduct.filter((x: any) => x.color == this.colorPick && x.size == this.sizePick && x.product_id == p.product_id).length > 0) {
         this.product.price = this.listAllProduct.filter((x: any) => x.color == this.colorPick && x.size == this.sizePick && x.product_id == p.product_id)[0].price;
+        this.product.amount = this.listAllProduct.filter((x: any) => x.color == this.colorPick && x.size == this.sizePick && x.product_id == p.product_id)[0].amount;
       }
       else {
         this.toastr.warning('Không tìm thấy sản phẩm với thông tin bạn chọn');

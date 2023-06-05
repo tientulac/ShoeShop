@@ -59,7 +59,7 @@ export class ProductComponent extends BaseComponent implements OnInit {
     this.getListBrand();
     this.getProductImage();
     this.getAttribute();
-    for (let i = 2; i <= 21; i++) {
+    for (let i = 2; i <= 24; i++) {
       var _img = {
         img: `/assets/images/${i}.jpg`,
         checked: false

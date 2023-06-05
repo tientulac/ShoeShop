@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
-export class OrderService {  
-  constructor(@Inject(AppConfig) private readonly appConfig: AppConfiguration,private router: Router,private http : HttpClient) {}
+export class OrderService {
+  constructor(@Inject(AppConfig) private readonly appConfig: AppConfiguration, private router: Router, private http: HttpClient) { }
 
   getList(): Observable<any> {
     return this.http
@@ -44,6 +44,16 @@ export class OrderService {
   cancleOrder(id: any): Observable<any> {
     return this.http
       .get<any>(this.appConfig.API + 'api/v1/order/cancle/' + id)
+      .pipe(
+        map((z) => {
+          return z;
+        })
+      );
+  }
+
+  updateCountCart(req: any): Observable<any> {
+    return this.http
+      .post<any>(this.appConfig.API + 'api/v1/order/updateCountCart', req)
       .pipe(
         map((z) => {
           return z;

@@ -43,7 +43,7 @@
 
       <div class="col-md-7">
         <div class="single-product-details mt-5 mt-lg-0">
-          <h2>{{product?.product_name}}</h2>
+          <h2>{{product?.product_name}} ({{product.amount}})</h2>
           <div class="sku_wrapper mb-4">
             Mã sản phẩm: <span class="text-muted">{{product?.product_code}} </span><br>
             Thương hiệu: <span class="text-muted">{{product?.brand_name}} </span><br>
@@ -64,8 +64,10 @@
               <input [ngModelOptions]="{standalone: true}" [(ngModel)]="countP" type="number" id="#"
                 class="input-text qty text form-control w-25 mr-3" step="1" min="1" max="9" name="quantity" value="1"
                 title="Qty" size="4">
-              <a href="javascript:void(0)" (click)="confirmProduct(product)" class="btn btn-main btn-small">Xác nhận</a>&nbsp;&nbsp;&nbsp;
-              <a href="javascript:void(0)" (click)="addToCart(product)" class="btn btn-main btn-small">Thêm vào giỏ</a>
+              <a href="javascript:void(0)" (click)="confirmProduct(product)" class="btn btn-main btn-small">Xác
+                nhận</a>&nbsp;&nbsp;&nbsp;
+              <a *ngIf="product.amount > 0" href="javascript:void(0)" (click)="addToCart(product)"
+                class="btn btn-main btn-small">Thêm vào giỏ</a>
             </div>
           </form>
 

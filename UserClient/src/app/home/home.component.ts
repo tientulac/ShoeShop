@@ -39,8 +39,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
   passingData(prod: any) {
     var lstColor = [...new Set(this.listAllProduct.filter((x: any) => x.product_id == prod.product_id).map((c: any) => c.color))];
     var lstSize = [...new Set(this.listAllProduct.filter((x: any) => x.product_id == prod.product_id).map((c: any) => c.size))];
-    console.log(lstColor);
-    console.log(lstSize);
     localStorage.setItem('lstSize', JSON.stringify(lstSize));
     localStorage.setItem('lstColor', JSON.stringify(lstColor));
   }
@@ -69,5 +67,10 @@ export class HomeComponent extends BaseComponent implements OnInit {
         this.listProduct = res.data;
       }
     );
+  }
+
+  getRangePrice(p: any) {
+    let rangePrice = this.listAllProduct?.filter((x: any) => x.product_id == p.product_id).map((x: any) => x.price);
+    return rangePrice[0] ?? 0;
   }
 }

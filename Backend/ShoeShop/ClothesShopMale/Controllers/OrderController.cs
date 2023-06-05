@@ -187,5 +187,38 @@ namespace ClothesShopMale.Controllers
                 };
             }
         }
+
+        [HttpPost]
+        [Route("api/v1/order/updateCountCart")]
+        public ResponseBase<bool> UpdateCountCart(ListCartItemDTO req)
+        {
+            try
+            {
+                if (req != null)
+                {
+                    foreach (var item in req.list_cart_item)
+                    {
+                        var _pAtt = db.ProductAttributes.FirstOrDefault(x => x.product_id == item.product_id && x.color == item.color && x.size == item.size);
+                        _pAtt.amount -= item.count;
+                        if (_pAtt.amount >= 0)
+                        {
+                            db.SubmitChanges();
+                        }
+                    }
+                }
+                return new ResponseBase<bool>
+                {
+                    data = true,
+                    status = 200
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseBase<bool>
+                {
+                    status = 500
+                };
+            }
+        }
     }
 }

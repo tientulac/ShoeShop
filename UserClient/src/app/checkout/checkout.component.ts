@@ -33,7 +33,12 @@ export class CheckoutComponent extends BaseComponent implements OnInit {
     this.getListWard({ district_id: this.districtSelected });
   }
 
-  payment() {
+  payment(): boolean {
+    let cartItem = JSON.stringify(this.cartInfo);
+    if (!(this.full_name?.length > 0) || !(this.phone?.length > 0) || !(this.townSelected)) {
+      this.toastr.warning('Bạn cần nhập đủ thông tin để tiến hành thanh toán');
+      return false;
+    }
     if (this.checkRole) {
       var req = {
         full_name: this.full_name,
@@ -41,7 +46,7 @@ export class CheckoutComponent extends BaseComponent implements OnInit {
         phone: this.phone,
         note: this.note,
         order_item: JSON.stringify(this.cartInfo),
-        type_payment: 1,
+        type_payment: this.paymentType,
         status: 0,
         account_id: JSON.parse(JSON.parse(JSON.stringify(localStorage.getItem('UserInfo')))).account_id,
         fee_ship: this.feeShip,
@@ -51,13 +56,27 @@ export class CheckoutComponent extends BaseComponent implements OnInit {
         total: this.totalPrice,
         type: 1,
       }
+
       this.orderService.insert(req).subscribe(
         (res) => {
           if (res) {
             this.toastr.success('Thành công !');
             localStorage.removeItem('Cart');
-            this.router.navigate(['/']);
-            setTimeout(window.location.reload.bind(window.location), 250);
+            let list_cart_item = {
+              list_cart_item: JSON.parse(cartItem)
+            }
+            this.orderService.updateCountCart(list_cart_item).subscribe(
+              (res) => {
+                if (res.status == 200) {
+                  this.router.navigate(['/']);
+                  setTimeout(window.location.reload.bind(window.location), 250);
+                }
+                else {
+                  this.toastr.warning('Thất bại');
+                }
+              }
+            );
+
           }
           else {
             this.toastr.warning('Thất bại !');
@@ -68,6 +87,7 @@ export class CheckoutComponent extends BaseComponent implements OnInit {
     else {
       this.toastr.warning('Bạn chưa đồng ý với các điểu khoản !');
     }
+    return true;
   }
 
   getPaymentShipper() {

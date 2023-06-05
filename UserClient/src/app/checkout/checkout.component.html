@@ -122,21 +122,16 @@
                   <form action="#">
                      <div class="form-check mb-3">
                         <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
-                           value="option1">
+                           [(ngModel)]="paymentType" [ngModelOptions]="{standalone: true}" value="1">
                         <label class="form-check-label" for="exampleRadios1">
                            Chuyển khoản
                         </label>
-
-                        <div class="alert alert-secondary mt-3" role="alert">
-                           Hiện tại hệ thống đã có trục trặc, bạn có thể chọn tiền mặt.
-                        </div>
                      </div>
 
                      <div class="form-check mb-3">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2"
-                           value="option2" checked>
-                        <label class="form-check-label" for="exampleRadios2" [(ngModel)]="paymentType"
-                           [ngModelOptions]="{standalone: true}">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="2"
+                           [(ngModel)]="paymentType" [ngModelOptions]="{standalone: true}" checked>
+                        <label class="form-check-label" for="exampleRadios2">
                            Tiền mặt
                         </label>
                      </div>
