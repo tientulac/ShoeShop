@@ -35,6 +35,10 @@ export class CheckoutComponent extends BaseComponent implements OnInit {
 
   payment(): boolean {
     let cartItem = JSON.stringify(this.cartInfo);
+    if (/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g.test(this.phone) == false) {
+      this.toastr.warning('Bạn cần nhập đúng định dạng số điện thoại');
+      return false;
+    }
     if (!(this.full_name?.length > 0) || !(this.phone?.length > 0) || !(this.townSelected)) {
       this.toastr.warning('Bạn cần nhập đủ thông tin để tiến hành thanh toán');
       return false;

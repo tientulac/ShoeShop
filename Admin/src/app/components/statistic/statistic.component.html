@@ -7,7 +7,9 @@
                     <h2 class="mb-2">{{listAccount.length ?? 0}}</h2>
                     <p>Người dùng</p>
                     <div class="pull-in sparkline-fix chart-as-background">
-                        <div id="lineChart"><canvas width="327" height="70" style="display: inline-block; width: 327px; height: 70px; vertical-align: top;"></canvas></div>
+                        <div id="lineChart"><canvas width="327" height="70"
+                                style="display: inline-block; width: 327px; height: 70px; vertical-align: top;"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -19,7 +21,9 @@
                     <h2 class="mb-2">{{listProduct.length ?? 0}}</h2>
                     <p>Sản phẩm</p>
                     <div class="pull-in sparkline-fix chart-as-background">
-                        <div id="lineChart2"><canvas width="327" height="70" style="display: inline-block; width: 327px; height: 70px; vertical-align: top;"></canvas></div>
+                        <div id="lineChart2"><canvas width="327" height="70"
+                                style="display: inline-block; width: 327px; height: 70px; vertical-align: top;"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -31,20 +35,47 @@
                     <h2 class="mb-2">{{listOrder.length ?? 0}}</h2>
                     <p>Giao dịch</p>
                     <div class="pull-in sparkline-fix chart-as-background">
-                        <div id="lineChart3"><canvas width="327" height="70" style="display: inline-block; width: 327px; height: 70px; vertical-align: top;"></canvas></div>
+                        <div id="lineChart3"><canvas width="327" height="70"
+                                style="display: inline-block; width: 327px; height: 70px; vertical-align: top;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <h2 class="text-center">
+                        Biểu đồ thống kê hóa đơn
+                    </h2>
+                    <div class="chart-container">
+                        <canvas id="MyChart">{{ chart }}</canvas>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h2 class="text-center">
+                        Biểu đồ thống kê theo size và màu sắc
+                    </h2>
+                    <div class="chart-container">
+                        <canvas id="MyChart1">{{ chart }}</canvas>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
                     <div class="card-head-row">
                         <div class="card-title">Thống kê người dùng</div>
                         <div class="card-tools">
-                            <a href="javascript:void(0)" (click)="exportExcel()" class="btn btn-info btn-border btn-round btn-sm mr-2">
+                            <a href="javascript:void(0)" (click)="exportExcel()"
+                                class="btn btn-info btn-border btn-round btn-sm mr-2">
                                 <span class="btn-label">
                                     <i class="fa fa-print"></i>
                                 </span>
@@ -55,7 +86,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive table-hover table-sales" style="overflow-y: auto;max-height:400px">
-                        <table class="table" >
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -83,23 +114,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card ">
-                <div class="card-header">
-                    <div class="card-title">Daily Product</div>
-                </div>
-                <div class="card-body pb-0">
-                    <div class="mb-4 mt-2">
-                        <h1>VND {{total_price}}</h1>
-                    </div>
-                    <div class="pull-in">
-                        <canvas id="MyChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
-<!-- 
+    <!-- 
     <div class="row">
         <div class="col-md-8">
             <div class="card">
