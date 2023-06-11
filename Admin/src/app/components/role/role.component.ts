@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '../base/base.component';
 
 @Component({
@@ -10,11 +10,11 @@ import { BaseComponent } from '../base/base.component';
 export class RoleComponent extends BaseComponent implements OnInit {
 
   AddForm = new FormGroup({
-    role_code: new FormControl(null),
-    role_name: new FormControl(null),
+    role_code: new FormControl(null, [Validators.required]),
+    role_name: new FormControl(null, [Validators.required]),
     status: new FormControl(1),
   })
-  
+
   ngOnInit(): void {
     this.getListRole();
   }
@@ -42,7 +42,7 @@ export class RoleComponent extends BaseComponent implements OnInit {
 
   showAddModal(title: any, dataEdit: any): void {
     this.isDisplay = true;
-    this.titleModal = title;
+    this.titleModal = dataEdit ? 'Cập nhật' : 'Thêm mới';
     this.selected_ID = 0;
     if (dataEdit != null) {
       this.selected_ID = dataEdit.role_id;
@@ -61,24 +61,34 @@ export class RoleComponent extends BaseComponent implements OnInit {
   }
 
   handleOk(): void {
-    var req = {
-      role_id: this.selected_ID,
-      role_code: this.AddForm.value.role_code,
-      role_name: this.AddForm.value.role_name,
-      status: this.AddForm.value.status,
-    }
-    this.roleService.save(req).subscribe(
-      (res) => {
-        if (res.status == 200) {
-          this.toastr.success('Success !');
-          this.getListRole();
-        }
-        else {
-          this.toastr.success('Fail !');
-        }
+    if (this.AddForm.valid) {
+      var req = {
+        role_id: this.selected_ID,
+        role_code: this.AddForm.value.role_code,
+        role_name: this.AddForm.value.role_name,
+        status: this.AddForm.value.status,
       }
-    );
-    this.isDisplay = false;
+      this.roleService.save(req).subscribe(
+        (res) => {
+          if (res.status == 200) {
+            this.toastr.success('Success !');
+            this.handleCancel();
+            this.getListRole();
+          }
+          else {
+            this.toastr.success('Fail !');
+          }
+        }
+      );
+    } else {
+      this.AddForm.markAllAsTouched();
+      Object.values(this.AddForm.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
   }
 
   handleCancel(): void {

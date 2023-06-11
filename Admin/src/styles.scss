@@ -4,18 +4,23 @@
 .text-upper {
     text-transform: uppercase;
 }
+
 .text-lower {
     text-transform: uppercase;
 }
+
 .fwb {
     font-weight: bold;
 }
+
 .text-center {
     text-align: center;
 }
+
 .text-left {
     text-align: left;
 }
+
 .text-right {
     text-align: right;
 }
@@ -24,12 +29,15 @@
 .fl-r {
     float: right;
 }
+
 .fl-l {
     float: left;
 }
+
 .fs-14 {
     font-size: 14px;
 }
+
 .fs-16 {
     font-size: 16px;
 }
@@ -43,6 +51,7 @@
 .mt-20 {
     margin-top: 20px;
 }
+
 .mt-10 {
     margin-top: 10px;
 }
@@ -55,5 +64,8 @@ label {
     background-image: url("https://thumbs.dreamstime.com/z/fashion-store-man-choosing-clothes-boutique-clothing-shop-interior-shopping-assistant-customer-cartoon-style-vector-193439537.jpg");
 }
 
-@import "~bootstrap/dist/css/bootstrap.css"
+.validate-form {
+    color: red;
+}
 
+@import "~bootstrap/dist/css/bootstrap.css"

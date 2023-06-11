@@ -66,28 +66,34 @@ export class CategoryComponent extends BaseComponent implements OnInit {
   }
 
   handleOk(): void {
-    if (this.AddForm.invalid) {
-      this.AddForm.markAllAsTouched();
-      return;
-    }
-    var req = {
-      category_id: this.selected_ID,
-      category_code: this.AddForm.value.category_code,
-      category_name: this.AddForm.value.category_name,
-      status: this.AddForm.value.status,
-    }
-    this.categoryService.save(req).subscribe(
-      (res) => {
-        if (res.status == 200) {
-          this.toastr.success('Success !');
-          this.getListCate();
-        }
-        else {
-          this.toastr.success('Fail !');
-        }
+    if (this.AddForm.valid) {
+      var req = {
+        category_id: this.selected_ID,
+        category_code: this.AddForm.value.category_code,
+        category_name: this.AddForm.value.category_name,
+        status: this.AddForm.value.status,
       }
-    );
-    this.isDisplay = false;
+      this.categoryService.save(req).subscribe(
+        (res) => {
+          if (res.status == 200) {
+            this.toastr.success('Success !');
+            this.handleCancel();
+            this.getListCate();
+          }
+          else {
+            this.toastr.success('Fail !');
+          }
+        }
+      );
+    } else {
+      this.AddForm.markAllAsTouched();
+      Object.values(this.AddForm.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
   }
 
   handleCancel(): void {

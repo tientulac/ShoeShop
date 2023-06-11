@@ -11,36 +11,48 @@ export class OrderComponent extends BaseComponent implements OnInit {
   accountName: any;
 
   selectedStatus!: any;
-  
+
   filterStatusOrder: any = [
-    { status: 1, name: 'Chờ xác nhận' },
-    { status: 2, name: 'Chờ lấy hàng' },
-    { status: 3, name: 'Đang giao' },
-    { status: 4, name: 'Giao thành công' },
-    { status: 5, name: 'Đã hủy' },
-  ]
-  statusOrder: any = [
+    { status: 0, name: 'Chờ xác nhận' },
     { status: 1, name: 'Chờ lấy hàng' },
     { status: 2, name: 'Đang giao' },
     { status: 3, name: 'Giao thành công' },
     { status: 4, name: 'Đã hủy' },
   ]
+  statusOrder: any = [
+    { status: 0, name: 'Chờ lấy hàng' },
+    { status: 1, name: 'Đang giao' },
+    { status: 2, name: 'Giao thành công' },
+    { status: 3, name: 'Đã hủy' },
+  ]
 
   ngOnInit(): void {
-    this.getListOrder();
+    this.getListOrder(this.getRequest());
+  }
+
+  getRequest() {
+    return {
+      order_code: this.order_code_search ?? '',
+      full_name: this.customer_search ?? '',
+      phone: this.phone_search ?? '',
+      status: this.status_search ?? null,
+      type_payment: this.payment_search ?? null,
+      created_at: this.order_date_search ?? null,
+      deleted_at: this.cancle_date_search ?? null
+    }
   }
 
   isStatusDisabled(selectedStatus: number): boolean {
     if (selectedStatus === 1) {
-      return this.statusOrder.status === 1; 
+      return this.statusOrder.status === 1;
     }
-    if (selectedStatus === 2) { 
-      return this.statusOrder.status === 1 || this.statusOrder.status === 2; 
+    if (selectedStatus === 2) {
+      return this.statusOrder.status === 1 || this.statusOrder.status === 2;
     }
-    if (selectedStatus === 3) { 
-      return this.statusOrder.status === 1 || this.statusOrder.status === 2 || this.statusOrder.status === 3; 
+    if (selectedStatus === 3) {
+      return this.statusOrder.status === 1 || this.statusOrder.status === 2 || this.statusOrder.status === 3;
     }
-    if(selectedStatus === 4){
+    if (selectedStatus === 4) {
       return this.statusOrder.status === 1 || this.statusOrder.status === 2 || this.statusOrder.status === 3 || this.statusOrder.status === 4;
     }
     else {
@@ -56,11 +68,11 @@ export class OrderComponent extends BaseComponent implements OnInit {
           (res) => {
             if (res.status == 200) {
               this.toastr.success('Delete Success !');
-              this.getListOrder();
+              this.getListOrder(this.getRequest());
             }
             else {
               this.toastr.warning('Delete Fail !');
-              this.getListOrder();
+              this.getListOrder(this.getRequest());
             }
           }
         )
@@ -77,11 +89,11 @@ export class OrderComponent extends BaseComponent implements OnInit {
           (res) => {
             if (res.status == 200) {
               this.toastr.success('Success !');
-              this.getListOrder();
+              this.getListOrder(this.getRequest());
             }
             else {
               this.toastr.warning('Fail !');
-              this.getListOrder();
+              this.getListOrder(this.getRequest());
             }
           }
         )
@@ -114,5 +126,9 @@ export class OrderComponent extends BaseComponent implements OnInit {
         this.listOrder = res.data;
       }
     );
+  }
+
+  search() {
+    this.getListOrder(this.getRequest());
   }
 }

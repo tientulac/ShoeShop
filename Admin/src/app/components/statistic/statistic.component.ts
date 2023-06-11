@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
-import { Chart } from 'chart.js'
+import Chart from 'chart.js/auto'
 
 @Component({
   selector: 'app-statistic',
@@ -16,14 +16,13 @@ export class StatisticComponent extends BaseComponent implements OnInit {
   transaction: any;
 
   ngOnInit(): void {
-    this.createChart();
-    this.getListAccount();
-    this.getListProduct();
-    this.getListOrder();
-    this.productService.getList().subscribe(
+    this.getListAccount(null);
+    this.getListProduct(null);
+    this.getListOrder(null);
+    this.productService.getList(null).subscribe(
       (res) => {
         var total = 0;
-        this.listProduct = res;
+        this.listProduct = res.data;
         this.listProduct.forEach((x: any) => {
           if (x.price > 0) {
             total = total + x.price;
@@ -31,6 +30,7 @@ export class StatisticComponent extends BaseComponent implements OnInit {
         })
         this.total_price = total;
       });
+    this.createChart();
   }
 
   exportExcel() {
@@ -38,44 +38,45 @@ export class StatisticComponent extends BaseComponent implements OnInit {
   }
 
   createChart() {
-    this.productService.getList().subscribe(
+    this.orderService.getList(null).subscribe(
       (res) => {
-        this.listProduct = res;
-        this.total_price = this.listProduct.forEach((x: any) => {
-          console.log(x.price);
-          if (x.price > 0) {
-            this.total_price += x.price;
-          }
-        });
-        this.chart = new Chart('MyChart', {
-          type: 'bar',
-          data: {
-            labels: this.listProduct.map((x: any) => x.product_name),
+        this.chart = new Chart("MyChart", {
+          type: 'bar', //this denotes tha type of chart
+          data: {// values on X-Axis
+            labels: res.data.map((x: any) => 'HĐ00' + x.order_id),
             datasets: [
               {
-                data: this.listProduct.map((x: any) => x.price),
-                borderColor: '#3cb371',
-                backgroundColor: "#17a2b8",
-              }
+                label: "Thành tiền",
+                data: res.data.map((x: any) => x.total),
+                backgroundColor: '#1890ff'
+              },
             ]
           },
           options: {
-            legend: {
-              display: false
-            },
-            scales: {
-              xAxes: [{
-                display: true
-              }],
-              yAxes: [{
-                display: true
-              }],
-            }
+            aspectRatio: 2.5
           }
         });
+        this.productService.getAllAttribute().subscribe(
+          (res) => {
+            this.chart = new Chart("MyChart1", {
+              type: 'doughnut', //this denotes tha type of chart
+              data: {// values on X-Axis
+                labels: res.data.map((x: any) => `${x.size} - ${x.color}`),
+                datasets: [
+                  {
+                    label: "Giá tiền",
+                    data: res.data.map((x: any) => x.price),
+                    backgroundColor: res.data.map((x: any) => x.color)
+                  },
+                ]
+              },
+              options: {
+                aspectRatio: 2.5
+              }
+            });
+          }
+        );
       }
-    )
-
+    );
   }
-
 }

@@ -15,15 +15,35 @@ namespace ClothesShopMale.Controllers
     {
         private LinqDataContext db = new LinqDataContext();
 
-        [HttpGet]
-        [Route("api/v1/account")]
-        public ResponseBase<List<sp_Account_LoadResult>> GetList()
+        [HttpPost]
+        [Route("api/v1/account/get-list")]
+        public ResponseBase<List<sp_Account_LoadResult>> GetList(AccountDTO req)
         {
             try
             {
+                var list = db.sp_Account_Load().ToList();
+                if (req != null)
+                {
+                    if (!String.IsNullOrEmpty(req.user_name))
+                    {
+                        list = list.Where(x => x.user_name.ToLower().Contains(req.user_name)).ToList();
+                    }
+                    if (!String.IsNullOrEmpty(req.phone))
+                    {
+                        list = list.Where(x => x.phone.Contains(req.phone)).ToList();
+                    }
+                    if (!String.IsNullOrEmpty(req.full_name))
+                    {
+                        list = list.Where(x => x.full_name.ToLower().Contains(req.full_name)).ToList();
+                    }
+                    if (!String.IsNullOrEmpty(req.email))
+                    {
+                        list = list.Where(x => x.email.ToLower().Contains(req.email)).ToList();
+                    }
+                }
                 return new ResponseBase<List<sp_Account_LoadResult>>
                 {
-                    data = db.sp_Account_Load().ToList(),
+                    data = list,
                     status = 200,
                 };
             }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '../base/base.component';
 
 @Component({
@@ -10,12 +10,11 @@ import { BaseComponent } from '../base/base.component';
 export class DiscountComponent extends BaseComponent implements OnInit {
 
   AddForm = new FormGroup({
-    discount_code: new FormControl(null),
-    discount_name: new FormControl(null),
-    value: new FormControl(null),
-    created_at: new FormControl(null),
-    start_date: new FormControl(null),
-    end_date: new FormControl(null),
+    discount_code: new FormControl(null, [Validators.required]),
+    discount_name: new FormControl(null, [Validators.required]),
+    value: new FormControl(null, [Validators.required]),
+    start_date: new FormControl(null, [Validators.required]),
+    end_date: new FormControl(null, [Validators.required]),
     status: new FormControl(1),
   })
 
@@ -46,7 +45,7 @@ export class DiscountComponent extends BaseComponent implements OnInit {
 
   showAddModal(title: any, dataEdit: any): void {
     this.isDisplay = true;
-    this.titleModal = title;
+    this.titleModal = !dataEdit ? 'Thêm mới' : 'Cập nhật';
     this.selected_ID = 0;
     if (dataEdit != null) {
       this.selected_ID = dataEdit.discount_id;
@@ -54,7 +53,6 @@ export class DiscountComponent extends BaseComponent implements OnInit {
         discount_code: !dataEdit ? '' : dataEdit.discount_code,
         discount_name: !dataEdit ? '' : dataEdit.discount_name,
         value: !dataEdit ? '' : dataEdit.value,
-        created_at: !dataEdit ? '' : dataEdit.created_at,
         end_date: !dataEdit ? '' : dataEdit.end_date,
         start_date: !dataEdit ? '' : dataEdit.start_date,
         status: !dataEdit ? 1 : dataEdit.status,
@@ -69,28 +67,38 @@ export class DiscountComponent extends BaseComponent implements OnInit {
   }
 
   handleOk(): void {
-    var req = {
-      discount_id: this.selected_ID,
-      discount_code: this.AddForm.value.discount_code,
-      discount_name: this.AddForm.value.discount_name,
-      value: this.AddForm.value.value,
-      created_at: this.AddForm.value.created_at,
-      end_date: this.AddForm.value.end_date,
-      start_date: this.AddForm.value.start_date,
-      status: this.AddForm.value.status,
-    }
-    this.discountService.save(req).subscribe(
-      (res) => {
-        if (res) {
-          this.toastr.success('Success !');
-          this.getListDiscount();
-        }
-        else {
-          this.toastr.success('Fail !');
-        }
+    if (this.AddForm.valid) {
+      var req = {
+        discount_id: this.selected_ID,
+        discount_code: this.AddForm.value.discount_code,
+        discount_name: this.AddForm.value.discount_name,
+        value: this.AddForm.value.value,
+        created_at: new Date(),
+        end_date: this.AddForm.value.end_date,
+        start_date: this.AddForm.value.start_date,
+        status: this.AddForm.value.status,
       }
-    );
-    this.isDisplay = false;
+      this.discountService.save(req).subscribe(
+        (res) => {
+          if (res) {
+            this.toastr.success('Success !');
+            this.handleCancel();
+            this.getListDiscount();
+          }
+          else {
+            this.toastr.success('Fail !');
+          }
+        }
+      );
+    } else {
+      this.AddForm.markAllAsTouched();
+      Object.values(this.AddForm.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
   }
 
   handleCancel(): void {

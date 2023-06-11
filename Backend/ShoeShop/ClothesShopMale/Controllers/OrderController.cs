@@ -12,46 +12,49 @@ namespace ClothesShopMale.Controllers
     {
         private LinqDataContext db = new LinqDataContext();
 
-        [HttpGet]
-        [Route("api/v1/order")]
-        public ResponseBase<List<sp_LoadOrderResult>> GetList()
+        [HttpPost]
+        [Route("api/v1/order/get-list")]
+        public ResponseBase<List<sp_LoadOrderResult>> GetList(Order req)
         {
             try
             {
-                //var list = db.Orders.Where(x => x.type == 1).Select(o => new OrderDTO
-                //{
-                //    order_id = o.order_id,
-                //    account_id = o.account_id.GetValueOrDefault(),
-                //    cusomter_type = o.cusomter_type,
-                //    order_code = o.order_code,
-                //    seller = o.seller,
-                //    phone_seller = o.phone_seller,
-                //    coupon = o.coupon.GetValueOrDefault(),
-                //    payment_type = o.payment_type.GetValueOrDefault(),
-                //    bought_type = o.bought_type,
-                //    waiting = o.waiting.GetValueOrDefault(),
-                //    data_cart = o.data_cart,
-                //    address = o.address,
-                //    full_name = o.full_name,
-                //    note = o.note,
-                //    order_item = o.order_item,
-                //    phone = o.phone,
-                //    status = o.status.GetValueOrDefault(),
-                //    type_payment = o.type_payment.GetValueOrDefault(),
-                //    fee_ship = o.fee_ship.GetValueOrDefault(),
-                //    id_city = o.id_city.GetValueOrDefault(),
-                //    id_district = o.id_district.GetValueOrDefault(),
-                //    id_ward = o.id_ward.GetValueOrDefault(),
-                //    total = o.total.GetValueOrDefault(),
-                //    created_at = o.created_at.GetValueOrDefault(),
-                //    updated_at = o.updated_at.GetValueOrDefault(),
-                //    deleted_at = o.deleted_at.GetValueOrDefault(),
-                //    type = o.type.GetValueOrDefault()
-                //}).ToList();
+                var list = db.sp_LoadOrder().ToList();
+
+                if (req != null)
+                {
+                    if (!String.IsNullOrEmpty(req.order_code))
+                    {
+                        list = list.Where(x => $"HD00{x.order_id}" == req.order_code).ToList();
+                    }
+                    if (!String.IsNullOrEmpty(req.full_name))
+                    {
+                        list = list.Where(x => x.full_name.ToLower().Contains(req.full_name.ToLower())).ToList();
+                    }
+                    if (!String.IsNullOrEmpty(req.phone))
+                    {
+                        list = list.Where(x => x.phone.ToLower().Contains(req.phone.ToLower())).ToList();
+                    }
+                    if (req.status != null)
+                    {
+                        list = list.Where(x => x.status == req.status).ToList();
+                    }
+                    if (req.type_payment != null)
+                    {
+                        list = list.Where(x => x.type_payment == req.type_payment).ToList();
+                    }
+                    if (req.created_at != null)
+                    {
+                        list = list.Where(x => x.created_at == req.created_at).ToList();
+                    }
+                    if (req.deleted_at != null)
+                    {
+                        list = list.Where(x => x.deleted_at == req.deleted_at).ToList();
+                    }
+                }
 
                 return new ResponseBase<List<sp_LoadOrderResult>>
                 {
-                    data = db.sp_LoadOrder().ToList(),
+                    data = list,
                     status = 200
                 };
             }

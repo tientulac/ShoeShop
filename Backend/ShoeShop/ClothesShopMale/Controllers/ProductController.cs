@@ -12,15 +12,13 @@ namespace ClothesShopMale.Controllers
     {
         private LinqDataContext db = new LinqDataContext();
 
-        [HttpGet]
-        [Route("api/v1/product")]
-        public ResponseBase<List<ProductDTO>> GetList()
+        [HttpPost]
+        [Route("api/v1/product/get-list")]
+        public ResponseBase<List<ProductDTO>> GetList(ProductDTO req)
         {
             try
             {
-                return new ResponseBase<List<ProductDTO>>
-                {
-                    data = (from a in db.Products
+                var list = (from a in db.Products
                             select new ProductDTO
                             {
                                 product_id = a.product_id,
@@ -35,7 +33,29 @@ namespace ClothesShopMale.Controllers
                                 product_code = a.product_code,
                                 category_name = db.Categories.Where(x => x.category_id == a.category_id).FirstOrDefault().category_name ?? "",
                                 brand_name = db.Brands.Where(x => x.brand_id == a.brand_id).FirstOrDefault().brand_name ?? "",
-                            }).ToList(),
+                            }).ToList();
+                if (req != null)
+                {
+                    if (!String.IsNullOrEmpty(req.product_code))
+                    {
+                        list = list.Where(x => x.product_code.Contains(req.product_code)).ToList();
+                    }
+                    if (!String.IsNullOrEmpty(req.product_name))
+                    {
+                        list = list.Where(x => x.product_name.ToLower().Contains(req.product_name.ToLower())).ToList();
+                    }
+                    if (req.category_id != null)
+                    {
+                        list = list.Where(x => x.category_id == req.category_id).ToList();
+                    }
+                    if (req.brand_id != null)
+                    {
+                        list = list.Where(x => x.brand_id == req.brand_id).ToList();
+                    }
+                }
+                return new ResponseBase<List<ProductDTO>>
+                {
+                    data = list,
                     status = 200
                 };
             }

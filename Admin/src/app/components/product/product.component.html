@@ -9,6 +9,9 @@
                 <div class="ml-md-auto py-2 py-md-0">
                     <a href="javascript:void(0)" class="btn btn-secondary btn-round"
                         (click)="showAddModal('Add', null)">Thêm mới</a>
+                    <a href="javascript:void(0)" class="btn btn-primary btn-round" (click)="search()"><i
+                            class="fa fa-search" aria-hidden="true"></i>
+                        Tìm kiếm</a>
                 </div>
             </div>
         </div>
@@ -20,6 +23,41 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
+                                <div class="row">
+                                    <nz-form-item class="col-md-3">
+                                        <label>Mã sản phẩm</label>
+                                        <input nz-input placeholder="Nhập" [(ngModel)]="product_code_search" />
+                                    </nz-form-item>
+                                    <nz-form-item class="col-md-3">
+                                        <label>Tên sản phẩm</label>
+                                        <input nz-input placeholder="Nhập" [(ngModel)]="product_name_search" />
+                                    </nz-form-item>
+                                    <nz-form-item class="col-md-3">
+                                        <label>Danh mục</label>
+                                        <nz-select style="width: 100%" nzShowSearch nzAllowClear nzPlaceHolder="Chọn"
+                                            [(ngModel)]="category_search">
+                                            <nz-option nzLabel="Tất cả" [nzValue]="null"></nz-option>
+                                            <nz-option *ngFor="let c of listCate" nzLabel="{{c.category_name}}"
+                                                [nzValue]="c.category_id"></nz-option>
+                                        </nz-select>
+                                    </nz-form-item>
+                                    <nz-form-item class="col-md-3">
+                                        <label>Thương hiệu</label>
+                                        <nz-select style="width: 100%" nzShowSearch nzAllowClear nzPlaceHolder="Chọn"
+                                            [(ngModel)]="brand_search">
+                                            <nz-option nzLabel="Tất cả" [nzValue]="null"></nz-option>
+                                            <nz-option *ngFor="let c of listBrand" nzLabel="{{c.brand_name}}"
+                                                [nzValue]="c.brand_id"></nz-option>
+                                        </nz-select>
+                                    </nz-form-item>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-12">
+                                    <input type="text" style="float: right; margin-bottom: 10px;"
+                                        placeholder="Tìm kiếm nhanh..." [(ngModel)]="searchString"
+                                        [ngModelOptions]="{standalone: true}">
+                                </div>
                                 <div class="table-responsive table-hover table-sales">
                                     <nz-table #basicTable [nzData]="listProduct">
                                         <thead>
@@ -86,30 +124,28 @@
         <form class="form-horizontal" [formGroup]="AddForm">
             <div class="row">
                 <div class="col-md-12">
-                    <label class="row col-md-10">Mã sản phẩm</label>
-                    <input type="text" class="form-control" [(ngModel)]="SKU_code" placeholder="nhập..." disabled
+                    <label class="col-md-12">Mã sản phẩm</label>
+                    <input nz-input [(ngModel)]="SKU_code" placeholder="nhập..." disabled
                         [ngModelOptions]="{standalone: true}">
                 </div>
-                <div class="col-md-12">
-                    <nz-form-item class="row">
-                        <label class="col-md-12">Tên</label>
-                        <nz-form-control nzErrorTip="Tên không được để trống." nzHasFeedback>
-                            <input nz-input formControlName="product_name" placeholder="nhập..." class="form-control">
-                        </nz-form-control>
-                    </nz-form-item>
-                </div>
-                <nz-form-item class="row" style="margin-top: -7px;">
+                <nz-form-item class="col-md-12">
+                    <label class="col-md-12">Tên</label>
+                    <nz-form-control nzErrorTip="Tên không được để trống." nzHasFeedback>
+                        <input nz-input formControlName="product_name" placeholder="nhập...">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item class="col-md-12">
                     <label class="col-md-12">Danh mục</label>
                     <nz-form-control nzErrorTip="Danh mục không được để trống." nzHasFeedback>
-                        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn danh mục"
-                            formControlName="category_id">
+                        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn danh mục" formControlName="category_id"
+                            style="width: 100%;">
                             <nz-option *ngFor="let c of listCate" [nzLabel]="c.category_name" [nzValue]="c.category_id">
                                 {{c.category_name}}</nz-option>
                         </nz-select>
                     </nz-form-control>
                 </nz-form-item>
 
-                <nz-form-item class="row" style="margin-top: -7px;">
+                <nz-form-item class="col-md-12">
                     <label class="col-md-12">Thương hiệu</label>
                     <nz-form-control nzErrorTip="Thương hiệu không được để trống." nzHasFeedback>
                         <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn thương hiệu"
@@ -119,13 +155,11 @@
                         </nz-select>
                     </nz-form-control>
                 </nz-form-item>
-                <div class="col-md-12" style="margin-top: -7px;">
-                    <nz-form-item class="row">
-                        <label class="col-md-10">Xuất xứ</label>
-                        <nz-form-control nzErrorTip="Xuất xứ không được để trống." nzHasFeedback>
-                            <input type="text" class="form-control" formControlName="origin" placeholder="nhập...">
-                        </nz-form-control>
-                    </nz-form-item>
+                <div class="col-md-12">
+                    <label class="col-md-12">Xuất xứ</label>
+                    <nz-form-control nzErrorTip="Xuất xứ không được để trống." nzHasFeedback>
+                        <input nz-input formControlName="origin" placeholder="nhập...">
+                    </nz-form-control>
                 </div>
             </div>
         </form>
@@ -159,11 +193,12 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-3">
-                                <label class="col-md-12">Size (Kích cỡ)</label>
+                                <label>Size (Kích cỡ)</label>
                                 <nz-select style="width: 100%;" nzPlaceHolder="Chọn kích cỡ" [(ngModel)]="sizeSelected">
                                     <nz-option *ngFor="let item of listOfOption" [nzLabel]="item" [nzValue]="item">
                                     </nz-option>
                                 </nz-select>
+                                <p class="validate-form" *ngIf="!sizeSelected">Bạn chưa chọn size</p>
                             </div>
                             <div class="col-md-3">
                                 <form class="form-inline" style="padding-top: 12px;">
@@ -180,21 +215,24 @@
                                 <label class="row col-md-10">Màu sắc</label>
                                 <input type="color" style="width: 120px;height:36px" [(ngModel)]="colorInput"
                                     [ngModelOptions]="{standalone: true}">
+                                <p class="validate-form" *ngIf="!colorInput">Bạn chưa chọn màu</p>
                             </div>
                             <div class="col-md-2">
                                 <label class="col-md-10">Giá tiền</label>
                                 <nz-form-control nzErrorTip="Giá tiền không được để trống và chỉ được nhập số"
                                     nzHasFeedback>
-                                    <input type="text" class="form-control" [(ngModel)]="priceInput"
+                                    <input type="number" class="form-control" [(ngModel)]="priceInput"
                                         [ngModelOptions]="{standalone: true}">
+                                    <p class="validate-form" *ngIf="priceInput <= 0">Giá tiền phải > 0</p>
                                 </nz-form-control>
                             </div>
                             <div class="col-md-2">
                                 <label class="col-md-10">Số lượng</label>
                                 <nz-form-control nzErrorTip="Giá tiền không được để trống và chỉ được nhập số"
                                     nzHasFeedback>
-                                    <input type="text" class="form-control" [(ngModel)]="amountInput"
+                                    <input type="number" class="form-control" [(ngModel)]="amountInput"
                                         [ngModelOptions]="{standalone: true}">
+                                    <p class="validate-form" *ngIf="amountInput <= 0">Số lượng phải > 0</p>
                                 </nz-form-control>
                             </div>
                         </div>

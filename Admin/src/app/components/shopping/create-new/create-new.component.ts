@@ -41,8 +41,8 @@ export class CreateNewComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.getListCity();
-    this.getListProduct();
-    this.getListAccount();
+    this.getListProduct(null);
+    this.getListAccount(null);
     this.refreshOrderInfo();
     this.getListAllProduct();
     this.orderInfo.order_code = `HD${this.date.getDate()}${this.date.getMonth() + 1}${this.date.getFullYear()}${Math.random()}`;

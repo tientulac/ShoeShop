@@ -7,7 +7,8 @@
                     <h5 class="text-white op-7 mb-2">Trang chủ/Admin/Danh mục</h5>
                 </div>
                 <div class="ml-md-auto py-2 py-md-0">
-                    <a href="javascript:void(0)" class="btn btn-secondary btn-round" (click)="showAddModal('Add', null)">Thêm mới</a>
+                    <a href="javascript:void(0)" class="btn btn-secondary btn-round"
+                        (click)="showAddModal('Add', null)">Thêm mới</a>
                 </div>
             </div>
         </div>
@@ -20,14 +21,11 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive table-hover table-sales">
-                                    <!-- <div class="row">
-                                        <div class="col-6"></div>
-                                        <div class="col-6">
-                                            <input type="text" style="float: right; margin-bottom: 10px;"
-                                        placeholder="Tìm kiếm nhanh..." class="form-control" [(ngModel)]="searchString"
-                                        [ngModelOptions]="{standalone: true}">
-                                        </div>
-                                    </div>    -->
+                                    <div class="col-md-12">
+                                        <input type="text" style="float: right; margin-bottom: 10px;"
+                                            placeholder="Tìm kiếm nhanh..." [(ngModel)]="searchString"
+                                            [ngModelOptions]="{standalone: true}">
+                                    </div>
                                     <nz-table #basicTable [nzData]="listCate">
                                         <thead>
                                             <tr>
@@ -43,14 +41,18 @@
                                                 <td>{{ data.category_id }}</td>
                                                 <td>{{ data.category_code }}</td>
                                                 <td>{{ data.category_name }}</td>
-                                                <td [style]="data.status == 1 ? 'font-weight: bold; color: green' : 'font-weight: bold;color:yellow'">{{data.status == 1 ? 'Mới' : 'Cũ'}}</td>
+                                                <td
+                                                    [style]="data.status == 1 ? 'font-weight: bold; color: green' : 'font-weight: bold;color:yellow'">
+                                                    {{data.status == 1 ? 'Mới' : 'Cũ'}}</td>
                                                 <td>
                                                     <button class="btn btn-sm btn-outline-warning" placement="left"
-                                                        style="margin-right: 0.5rem;" (click)="showAddModal('Update', data)">
+                                                        style="margin-right: 0.5rem;"
+                                                        (click)="showAddModal('Update', data)">
                                                         <i class="fas fa-edit"></i>
                                                     </button>
                                                     <button class="btn btn-sm btn-outline-danger" placement="left"
-                                                        style="margin-right: 0.1rem;" nzType="dashed" (click)="showConfirm(data.category_id)">
+                                                        style="margin-right: 0.1rem;" nzType="dashed"
+                                                        (click)="showConfirm(data.category_id)">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </button>
                                                 </td>
@@ -70,21 +72,22 @@
 
 <nz-modal [(nzVisible)]="isDisplay" [nzTitle]="titleModal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
     <ng-container *nzModalContent>
-        <form class="form-horizontal" [formGroup]="AddForm">       
+        <form class="form-horizontal" [formGroup]="AddForm">
             <div class="row">
-              <div class="col-md-12">
-                <label class="require">Code</label>
-                  <input type="text" class="form-control" formControlName="category_code" placeholder="nhập..." readonly>   
-              </div>
-              <div class="col-md-12">
-                <nz-form-item class="row">
-                    <label style="margin-top: 10px;">Tên</label>
-                    <nz-form-control nzErrorTip="Tên không được để trống." nzHasFeedback>
-                      <input nz-input formControlName="category_name" placeholder="nhập..." class="form-control">
-                    </nz-form-control>
-                  </nz-form-item>
-              </div>
+                <div class="col-md-12">
+                    <label class="require">Code</label>
+                    <input type="text" class="form-control" formControlName="category_code" placeholder="nhập..."
+                        readonly>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item class="row">
+                        <label style="margin-top: 10px;">Tên</label>
+                        <nz-form-control nzErrorTip="Không được để trống." nzHasFeedback>
+                            <input nz-input formControlName="category_name" placeholder="nhập..." class="form-control">
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
             </div>
-          </form>
-      </ng-container>
+        </form>
+    </ng-container>
 </nz-modal>

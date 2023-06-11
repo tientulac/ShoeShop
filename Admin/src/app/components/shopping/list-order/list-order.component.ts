@@ -17,7 +17,7 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
   ngOnInit(): void {
     this.getListData();
     this.getListCity();
-    this.getListProduct();
+    this.getListProduct(null);
     this.getListAllProduct();
   }
 

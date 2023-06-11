@@ -20,7 +20,7 @@ export class BrandComponent extends BaseComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    this.code_random = 'BRAND_'+this.makeRandomeCode(8);
+    this.code_random = 'BRAND_' + this.makeRandomeCode(8);
     this.getListBrand();
   }
 
@@ -68,29 +68,36 @@ export class BrandComponent extends BaseComponent implements OnInit {
   }
 
   handleOk(): void {
-    if (this.AddForm.invalid) {
-      this.AddForm.markAllAsTouched();
-      return;
-    }
-    var req = {
-      brand_id: this.selected_ID,
-      brand_code: this.AddForm.value.brand_code,
-      brand_name: this.AddForm.value.brand_name,
-      image: this.AddForm.value.image,
-      status: this.AddForm.value.status,
-    }
-    this.brandService.save(req).subscribe(
-      (res) => {
-        if (res.status == 200) {
-          this.toastr.success('Success !');
-          this.getListBrand();
-        }
-        else {
-          this.toastr.success('Fail !');
-        }
+    if (this.AddForm.valid) {
+      var req = {
+        brand_id: this.selected_ID,
+        brand_code: this.AddForm.value.brand_code,
+        brand_name: this.AddForm.value.brand_name,
+        image: this.AddForm.value.image,
+        status: this.AddForm.value.status,
       }
-    );
-    this.isDisplay = false;
+      this.brandService.save(req).subscribe(
+        (res) => {
+          if (res.status == 200) {
+            this.toastr.success('Success !');
+            this.handleCancel();
+            this.getListBrand();
+          }
+          else {
+            this.toastr.success('Fail !');
+          }
+        }
+      );
+    }
+    else {
+      this.AddForm.markAllAsTouched();
+      Object.values(this.AddForm.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
   }
 
   handleCancel(): void {

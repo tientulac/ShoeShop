@@ -7,7 +7,8 @@
                     <h5 class="text-white op-7 mb-2">Trang chủ/Admin/Mã giảm giá</h5>
                 </div>
                 <div class="ml-md-auto py-2 py-md-0">
-                    <a href="javascript:void(0)" class="btn btn-secondary btn-round" (click)="showAddModal('Add', null)">Thêm mới</a>
+                    <a href="javascript:void(0)" class="btn btn-secondary btn-round"
+                        (click)="showAddModal('Add', null)">Thêm mới</a>
                 </div>
             </div>
         </div>
@@ -20,14 +21,11 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive table-hover table-sales">
-                                    <!-- <div class="row">
-                                        <div class="col-6"></div>
-                                        <div class="col-6">
-                                            <input type="text" style="float: right; margin-bottom: 10px;"
-                                        placeholder="Tìm kiếm nhanh..." class="form-control" [(ngModel)]="searchString"
-                                        [ngModelOptions]="{standalone: true}">
-                                        </div>
-                                    </div>       -->
+                                    <div class="col-md-12">
+                                        <input type="text" style="float: right; margin-bottom: 10px;"
+                                            placeholder="Tìm kiếm nhanh..." [(ngModel)]="searchString"
+                                            [ngModelOptions]="{standalone: true}">
+                                    </div>
                                     <nz-table #basicTable [nzData]="listDiscount">
                                         <thead>
                                             <tr>
@@ -47,7 +45,9 @@
                                                 <td>{{ data.discount_id }}</td>
                                                 <td>{{ data.discount_code }}</td>
                                                 <td>{{ data.discount_name }}</td>
-                                                <td [style]="data.status == 1 ? 'font-weight: bold; color: green' : 'font-weight: bold;color:yellow'">{{data.status == 1 ? 'Mới' : 'Cũ'}}</td>
+                                                <td
+                                                    [style]="data.status == 1 ? 'font-weight: bold; color: green' : 'font-weight: bold;color:yellow'">
+                                                    {{data.status == 1 ? 'Mới' : 'Cũ'}}</td>
                                                 <td>{{ data.value | number }}</td>
                                                 <td>{{ data.created_at | date: 'dd/MM/yyy' }}</td>
                                                 <td>{{ data.start_date | date: 'dd/MM/yyy' }}</td>
@@ -58,7 +58,8 @@
                                                         <i class="fas fa-edit"></i>
                                                     </button> -->
                                                     <button class="btn btn-sm btn-outline-danger" placement="left"
-                                                        style="margin-right: 0.1rem;" nzType="dashed" (click)="showConfirm(data.discount_id)">
+                                                        style="margin-right: 0.1rem;" nzType="dashed"
+                                                        (click)="showConfirm(data.discount_id)">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </button>
                                                 </td>
@@ -78,29 +79,49 @@
 
 <nz-modal [(nzVisible)]="isDisplay" [nzTitle]="titleModal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
     <ng-container *nzModalContent>
-        <form class="form-horizontal" [formGroup]="AddForm">       
+        <form class="form-horizontal" [formGroup]="AddForm">
             <div class="row">
-              <div class="col-md-12">
-                <label class="col-md-10 require">Code</label>
-                  <input type="text" class="form-control" formControlName="discount_code" placeholder="nhập...">   
-              </div>
-              <div class="col-md-12">
-                <label class="col-md-10">Tên</label>
-                <input type="text" class="form-control" formControlName="discount_name" placeholder="nhập...">
-              </div>
-              <div class="col-md-6">
-                <label class="col-md-10">Ngày bắt đầu</label>
-                <input type="date" class="form-control" formControlName="start_date" >
-              </div>
-              <div class="col-md-6">
-                <label class="col-md-10">Ngày kết thúc</label>
-                <input type="date" class="form-control" formControlName="end_date" >
-              </div>
-              <div class="col-md-12">
-                <label class="col-md-10">Giá trị</label>
-                <input type="text" class="form-control" formControlName="value" >
-              </div>
+                <div class="col-md-12">
+                    <nz-form-item class="row">
+                        <label>Mã</label>
+                        <nz-form-control nzErrorTip="Không được để trống" nzHasFeedback>
+                            <input nz-input formControlName="discount_code" placeholder="nhập...">
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item class="row">
+                        <label>Tên</label>
+                        <nz-form-control nzErrorTip="Không được để trống" nzHasFeedback>
+                            <input nz-input formControlName="discount_name" placeholder="nhập...">
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <label>Ngày bắt đầu</label>
+                        <nz-form-control nzErrorTip="Không được để trống" nzHasFeedback>
+                            <nz-date-picker style="width: 100%" formControlName="start_date"></nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-6">
+                    <nz-form-item>
+                        <label>Ngày kết thúc</label>
+                        <nz-form-control nzErrorTip="Không được để trống" nzHasFeedback>
+                            <nz-date-picker style="width: 100%" formControlName="end_date"></nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div class="col-md-12">
+                    <nz-form-item class="row">
+                        <label style="margin-top: 10px;">Giá trị</label>
+                        <nz-form-control nzErrorTip="Không được để trống" nzHasFeedback>
+                            <input nz-input formControlName="value" placeholder="nhập...">
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
             </div>
-          </form>
-      </ng-container>
+        </form>
+    </ng-container>
 </nz-modal>

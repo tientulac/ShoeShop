@@ -25,9 +25,18 @@ export class AccountComponent extends BaseComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    this.getListAccount();
+    this.getListAccount(this.getRequest());
     this.getListRole();
     this.getPosition();
+  }
+
+  getRequest() {
+    return {
+      user_name: this.user_name_search,
+      phone: this.phone_search,
+      full_name: this.full_name_search,
+      email: this.email_search
+    }
   }
 
   showConfirm(id: any): void {
@@ -39,11 +48,13 @@ export class AccountComponent extends BaseComponent implements OnInit {
           (res) => {
             if (res.status == 200) {
               this.toastr.success('Delete Success !');
-              this.getListAccount();
+              this.getListAccount(this.getRequest());
+              this.handleCancel();
             }
             else {
               this.toastr.warning('Delete Fail !');
-              this.getListAccount();
+              this.getListAccount(this.getRequest());
+              this.handleCancel();
             }
           }
         )
@@ -53,7 +64,7 @@ export class AccountComponent extends BaseComponent implements OnInit {
 
   showAddModal(title: any, dataEdit: any): void {
     this.isDisplay = true;
-    this.titleModal = title;
+    this.titleModal = dataEdit ? 'Cập nhật' : 'Thêm mới';
     this.selected_ID = 0;
     if (dataEdit != null) {
       this.selected_ID = dataEdit.account_id;
@@ -77,42 +88,48 @@ export class AccountComponent extends BaseComponent implements OnInit {
   }
 
   handleOk(): void {
-    if (this.AddForm.invalid) {
-      this.AddForm.markAllAsTouched();
-      return;
-    }
-    var req = {
-      account_id: this.selected_ID,
-      address: this.AddForm.value.address,
-      phone: this.AddForm.value.phone,
-      full_name: this.AddForm.value.full_name,
-      email: this.AddForm.value.email,
-      admin: this.AddForm.value.admin,
-      active: this.AddForm.value.active,
-      role_code: this.AddForm.value.role_code,
-      city: this.AddForm.value.city,
-      town: this.AddForm.value.town,
-      district: this.AddForm.value.district,
-      user_name: this.AddForm.value.user_name,
-      password: this.AddForm.value.password,
-    }
-    this.accountService.save(req).subscribe(
-      (res) => {
-        if (res.status == 200) {
-          this.toastr.success('Success !');
-          this.getListAccount();
-        }
-        else {
-          this.toastr.success('Fail !');
-        }
+    if (this.AddForm.valid) {
+      var req = {
+        account_id: this.selected_ID,
+        address: this.AddForm.value.address,
+        phone: this.AddForm.value.phone,
+        full_name: this.AddForm.value.full_name,
+        email: this.AddForm.value.email,
+        admin: this.AddForm.value.admin,
+        active: this.AddForm.value.active,
+        role_code: this.AddForm.value.role_code,
+        city: this.AddForm.value.city,
+        town: this.AddForm.value.town,
+        district: this.AddForm.value.district,
+        user_name: this.AddForm.value.user_name,
+        password: this.AddForm.value.password,
       }
-    );
-    this.isDisplay = false;
+      this.accountService.save(req).subscribe(
+        (res) => {
+          if (res.status == 200) {
+            this.toastr.success('Success !');
+            this.getListAccount(this.getRequest());
+            this.handleCancel();
+          }
+          else {
+            this.toastr.success('Fail !');
+          }
+        }
+      );
+    } else {
+      this.AddForm.markAllAsTouched();
+      Object.values(this.AddForm.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
   }
 
   handleCancel(): void {
     console.log('Button cancel clicked!');
-    this.isDisplay = false;
+    this.modal.closeAll();
   }
 
   selectCity() {
@@ -121,5 +138,9 @@ export class AccountComponent extends BaseComponent implements OnInit {
 
   selectDistrict() {
     this.listTown = this.listDistrict.filter((x: any) => x.name == this.AddForm.value.district)[0].wards;
+  }
+
+  search() {
+    this.getListAccount(this.getRequest());
   }
 }

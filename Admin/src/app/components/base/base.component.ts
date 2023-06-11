@@ -93,6 +93,21 @@ export class BaseComponent {
   listOfOption: any = [];
   isDisplayAttribute: any = false;
   customerShopping: any = '';
+  order_code_search: any = '';
+  customer_search: any = '';
+  phone_search: any = '';
+  status_search: any = null;
+  payment_search: any = null;
+  order_date_search: any = null;
+  cancle_date_search: any = null;
+  product_code_search: any = '';
+  product_name_search: any = '';
+  category_search: any = null;
+  brand_search: any = null;
+  user_name_search: any = '';
+  full_name_search: any = '';
+  email_search: any = '';
+
 
   constructor(
     public titleService: Title,
@@ -250,8 +265,8 @@ export class BaseComponent {
     )
   }
 
-  getListOrder = () => {
-    this.orderService.getList().subscribe(
+  getListOrder = (req: any) => {
+    this.orderService.getList(req).subscribe(
       (res) => {
         this.listOrder = res.data.filter((x: any) => x.type == 1);
         if (this.listOrder.length > 0) {
@@ -277,8 +292,8 @@ export class BaseComponent {
     )
   }
 
-  getListProduct = () => {
-    this.productService.getList().subscribe(
+  getListProduct = (req: any) => {
+    this.productService.getList(req).subscribe(
       (res) => {
         this.listProduct = res.data;
         this.productService.getListSize().subscribe(
@@ -347,12 +362,12 @@ export class BaseComponent {
 
   listPhoneName: any;
   listSeller: any;
-  getListAccount = () => {
-    this.accountService.getList().subscribe(
+  getListAccount = (req: any) => {
+    this.accountService.getList(req).subscribe(
       (res) => {
         this.listAccount = res.data;
         this.listSeller = this.listAccount.map((x: any) => `${x.phone ?? 'None'} - ${x.full_name}`);
-        this.orderService.getList().subscribe(
+        this.orderService.getList(null).subscribe(
           (res) => {
             this.listPhoneName = res.data.filter((x: any) => x.cusomter_type != null).map((x: any) => x.cusomter_type)
           }

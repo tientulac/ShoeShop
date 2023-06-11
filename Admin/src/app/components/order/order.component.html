@@ -6,6 +6,11 @@
                     <h2 class="text-white pb-2 fw-bold">Hoá đơn</h2>
                     <h5 class="text-white op-7 mb-2">Trang chủ/Admin/Hoá đơn</h5>
                 </div>
+                <div class="ml-md-auto py-2 py-md-0">
+                    <a href="javascript:void(0)" class="btn btn-secondary btn-round" (click)="search()"><i
+                            class="fa fa-search" aria-hidden="true"></i>
+                        Tìm kiếm</a>
+                </div>
             </div>
         </div>
     </div>
@@ -16,23 +21,57 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
+                                <div class="row">
+                                    <nz-form-item class="col-md-3">
+                                        <label>Mã hóa đơn</label>
+                                        <input nz-input placeholder="Nhập" [(ngModel)]="order_code_search" />
+                                    </nz-form-item>
+                                    <nz-form-item class="col-md-3">
+                                        <label>Khách hàng</label>
+                                        <input nz-input placeholder="Nhập" [(ngModel)]="customer_search" />
+                                    </nz-form-item>
+                                    <nz-form-item class="col-md-3">
+                                        <label>Số điện thoại</label>
+                                        <input nz-input placeholder="Nhập" [(ngModel)]="phone_search" />
+                                    </nz-form-item>
+                                    <nz-form-item class="col-md-3">
+                                        <label>Trạng thái</label>
+                                        <nz-select style="width: 100%" nzShowSearch nzAllowClear nzPlaceHolder="Chọn"
+                                            [(ngModel)]="status_search">
+                                            <nz-option nzLabel="Tất cả" [nzValue]="null"></nz-option>
+                                            <nz-option nzLabel="Chờ xác nhận" [nzValue]="0"></nz-option>
+                                            <nz-option nzLabel="Chờ lấy hàng" [nzValue]="1"></nz-option>
+                                            <nz-option nzLabel="Đang giao" [nzValue]="2"></nz-option>
+                                            <nz-option nzLabel="Giao thành công" [nzValue]="3"></nz-option>
+                                            <nz-option nzLabel="Đã hủy" [nzValue]="4"></nz-option>
+                                        </nz-select>
+                                    </nz-form-item>
+                                    <nz-form-item class="col-md-3">
+                                        <label>Loại chuyển khoản</label>
+                                        <nz-select style="width: 100%" nzShowSearch nzAllowClear nzPlaceHolder="Chọn"
+                                            [(ngModel)]="payment_search">
+                                            <nz-option nzLabel="Tất cả" [nzValue]="null"></nz-option>
+                                            <nz-option nzLabel="Tiền mặt" [nzValue]="1"></nz-option>
+                                            <nz-option nzLabel="Chuyển khoản" [nzValue]="2"></nz-option>
+                                        </nz-select>
+                                    </nz-form-item>
+                                    <nz-form-item class="col-md-3">
+                                        <label>Ngày đặt</label>
+                                        <nz-date-picker style="width: 100%" [(ngModel)]="order_date_search"></nz-date-picker>
+                                    </nz-form-item>
+                                    <nz-form-item class="col-md-3">
+                                        <label>Ngày hủy</label>
+                                        <nz-date-picker style="width: 100%" [(ngModel)]="cancle_date_search"></nz-date-picker>
+                                    </nz-form-item>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
                                 <div class="table-responsive table-hover table-sales">
-                                    <!-- <div class="row">
-                                        <div class="col-4">
-                                            <label style="font-weight: bold;">Trạng thái đơn hàng</label>
-                                            <select class="form-control" placeholder="Lọc theo trạng thái" [(ngModel)]="selectedStatus" (change)="filter()">
-                                                <option value="" >Tất cả</option>
-                                                <option *ngFor="let c of filterStatusOrder" [value]="c.status">{{c.name}}</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-4"></div>
-                                        <div class="col-4">
-                                            <label style="font-weight: bold;">Tìm kiếm nhanh</label>
-                                            <input type="text" style="float: right; margin-bottom: 10px;"
-                                        placeholder="Tìm kiếm nhanh..." class="form-control" [(ngModel)]="searchString"
-                                        [ngModelOptions]="{standalone: true}">
-                                        </div>
-                                    </div>       -->
+                                    <div class="col-md-12">
+                                        <input type="text" style="float: right; margin-bottom: 10px;"
+                                            placeholder="Tìm kiếm nhanh..." [(ngModel)]="searchString"
+                                            [ngModelOptions]="{standalone: true}">
+                                    </div>
                                     <nz-table #basicTable [nzData]="listOrder" style="margin-top: 10px;">
                                         <thead>
                                             <tr>
@@ -102,7 +141,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

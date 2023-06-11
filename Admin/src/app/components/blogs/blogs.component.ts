@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '../base/base.component';
 
 @Component({
@@ -13,10 +13,10 @@ export class BlogsComponent extends BaseComponent implements OnInit {
   isDisplayContent: any;
 
   AddForm = new FormGroup({
-    title: new FormControl(null),
-    descrip: new FormControl(null),
+    title: new FormControl(null, Validators.required),
+    descrip: new FormControl(null, Validators.required),
   })
-  
+
   ngOnInit(): void {
     this.getListBlog();
   }
@@ -55,23 +55,33 @@ export class BlogsComponent extends BaseComponent implements OnInit {
   }
 
   handleOk(): void {
-    var req = {
-      title: this.AddForm.value.title,
-      descript: this.AddForm.value.descrip,
-      content_html: this.dataBlog,
-    }
-    this.blogService.save(req).subscribe(
-      (res) => {
-        if (res.status == 200) {
-          this.toastr.success('Success !');
-          this.getListBlog();
-        }
-        else {
-          this.toastr.success('Fail !');
-        }
+    if (this.AddForm.valid) {
+      var req = {
+        title: this.AddForm.value.title,
+        descript: this.AddForm.value.descrip,
+        content_html: this.dataBlog,
       }
-    );
-    this.isDisplay = false;
+      this.blogService.save(req).subscribe(
+        (res) => {
+          if (res.status == 200) {
+            this.toastr.success('Success !');
+            this.handleCancel();
+            this.getListBlog();
+          }
+          else {
+            this.toastr.success('Fail !');
+          }
+        }
+      );
+    } else {
+      this.AddForm.markAllAsTouched();
+      Object.values(this.AddForm.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
   }
 
   handleCancel(): void {

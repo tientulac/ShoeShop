@@ -41,6 +41,15 @@ export class ProductComponent extends BaseComponent implements OnInit {
     },
   ];
 
+  getRequest() {
+    return {
+      product_code: this.product_code_search ?? '',
+      product_name: this.product_name_search ?? '',
+      category_id: this.category_search ?? null,
+      brand_id: this.brand_search ?? null
+    }
+  }
+
   AddForm = new FormGroup({
     // amount: new FormControl(null, [Validators.required, Validators.pattern(/^\d+$/), Validators.min(1)]),
     brand_id: new FormControl(null, [Validators.required]),
@@ -54,12 +63,12 @@ export class ProductComponent extends BaseComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    this.getListProduct();
+    this.getListProduct(this.getRequest());
     this.getListCate();
     this.getListBrand();
     this.getProductImage();
     this.getAttribute();
-    for (let i = 2; i <= 21; i++) {
+    for (let i = 2; i <= 1000; i++) {
       var _img = {
         img: `/assets/images/${i}.jpg`,
         checked: false
@@ -69,36 +78,41 @@ export class ProductComponent extends BaseComponent implements OnInit {
   }
 
   addAttribute() {
-    let req = {
-      size: this.sizeSelected,
-      color: this.colorInput,
-      price: this.priceInput,
-      product_id: this.selected_ID,
-      amount: this.amountInput
-    };
-    this.productService.getListAll().subscribe(
-      (res) => {
-        this.listAllProduct = res.data;
-        if (this.listAllProduct.filter((x: any) => x.size == req.size && x.color == req.color).length > 0) {
-          this.toastr.warning('Sản phẩm này đã được thêm màu và size');
-          return false;
-        }
-        else {
-          this.productService.insertAttribute(req).subscribe(
-            (res) => {
-              if (res.status == 200) {
-                this.toastr.success('Thành công');
-                this.getAttributeByProduct();
+    if (!this.sizeSelected || !this.colorInput || !this.priceInput || !this.amountInput) {
+      this.toastr.warning('Bạn cần nhập đầy đủ thông tin');
+    }
+    else {
+      let req = {
+        size: this.sizeSelected,
+        color: this.colorInput,
+        price: this.priceInput,
+        product_id: this.selected_ID,
+        amount: this.amountInput
+      };
+      this.productService.getListAll().subscribe(
+        (res) => {
+          this.listAllProduct = res.data;
+          if (this.listAllProduct.filter((x: any) => x.size == req.size && x.color == req.color).length > 0) {
+            this.toastr.warning('Sản phẩm này đã được thêm màu và size');
+            return false;
+          }
+          else {
+            this.productService.insertAttribute(req).subscribe(
+              (res) => {
+                if (res.status == 200) {
+                  this.toastr.success('Thành công');
+                  this.getAttributeByProduct();
+                }
+                else {
+                  this.toastr.success('Thất bại');
+                }
               }
-              else {
-                this.toastr.success('Thất bại');
-              }
-            }
-          );
-          return true;
+            );
+            return true;
+          }
         }
-      }
-    )
+      )
+    }
   }
 
   showConfirm(id: any): void {
@@ -110,11 +124,11 @@ export class ProductComponent extends BaseComponent implements OnInit {
           (res) => {
             if (res.status == 200) {
               this.toastr.success('Delete Success !');
-              this.getListProduct();
+              this.getListProduct(this.getRequest());
             }
             else {
               this.toastr.warning('Delete Fail !');
-              this.getListProduct();
+              this.getListProduct(this.getRequest());
             }
           }
         )
@@ -206,38 +220,43 @@ export class ProductComponent extends BaseComponent implements OnInit {
   }
 
   handleOk(): void {
-    if (this.AddForm.invalid) {
-      this.AddForm.markAllAsTouched();
-      return;
-    }
-    var req = {
-      product_id: this.selected_ID,
-      product_code: this.SKU_code,
-      // amount: this.AddForm.value.amount,
-      brand_id: this.AddForm.value.brand_id,
-      category_id: this.AddForm.value.category_id,
-      // gender: this.AddForm.value.gender,
-      origin: this.AddForm.value.origin,
-      product_name: this.AddForm.value.product_name,
-      status: this.AddForm.value.status,
-      // price: this.AddForm.value.price,
-      size: this.sizeSelected,
-      color: this.colorInput
-    }
-
-    this.productService.save(req).subscribe(
-      (res) => {
-        if (res.status == 200) {
-          this.toastr.success('Success !');
-          this.getListProduct();
-        }
-        else {
-          this.toastr.success('Fail !');
-        }
+    if (this.AddForm.valid) {
+      var req = {
+        product_id: this.selected_ID,
+        product_code: this.SKU_code,
+        // amount: this.AddForm.value.amount,
+        brand_id: this.AddForm.value.brand_id,
+        category_id: this.AddForm.value.category_id,
+        // gender: this.AddForm.value.gender,
+        origin: this.AddForm.value.origin,
+        product_name: this.AddForm.value.product_name,
+        status: this.AddForm.value.status,
+        // price: this.AddForm.value.price,
+        size: this.sizeSelected,
+        color: this.colorInput
       }
-    );
-    this.isDisplay = false;
-    this.isDisplayImage = false;
+
+      this.productService.save(req).subscribe(
+        (res) => {
+          if (res.status == 200) {
+            this.toastr.success('Success !');
+            this.handleCancel();
+            this.getListProduct(this.getRequest());
+          }
+          else {
+            this.toastr.success('Fail !');
+          }
+        }
+      );
+    } else {
+      this.AddForm.markAllAsTouched();
+      Object.values(this.AddForm.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
   }
 
   onItemChange(value: any) {
@@ -249,11 +268,16 @@ export class ProductComponent extends BaseComponent implements OnInit {
   }
 
   addSize() {
-    if (this.listOfOption.filter((x: any) => x == this.newSize).length > 0) {
-      this.toastr.warning('Kích cỡ này đã được thêm');
+    if (!this.newSize) {
+      this.toastr.warning('Bạn cần nhập size');
     }
     else {
-      this.listOfOption.push(this.newSize);
+      if (this.listOfOption.filter((x: any) => x == this.newSize).length > 0) {
+        this.toastr.warning('Kích cỡ này đã được thêm');
+      }
+      else {
+        this.listOfOption.push(this.newSize);
+      }
     }
   }
 
@@ -285,5 +309,9 @@ export class ProductComponent extends BaseComponent implements OnInit {
         }
       }
     );
+  }
+
+  search() {
+    this.getListProduct(this.getRequest());
   }
 }
