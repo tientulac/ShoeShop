@@ -26,38 +26,40 @@
                                     <div class="col-md-12">
                                         <h4 class="text-center">Thông tin khách hàng</h4>
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-12">
+                                                <label class="col-md-12">Mã HĐ</label>
+                                                <input type="text" class="form-control" placeholder="nhập..." readonly
+                                                    [value]="orderInfo.order_code">
+                                            </div>
+
+                                            <div class="col-md-5">
                                                 <label class="col-md-12">Thêm khách hàng</label>
-                                                <input type="text" nz-input placeholder="Nhập SĐT - Họ tên"
+                                                <input type="text" style="width: 285px" nz-input placeholder="Nhập SĐT - Họ tên"
                                                     [(ngModel)]="customerShopping" />
+                                            </div>
+                                            <div class="col-md-1">
+                                                <label class="col-md-12"></label>
+                                                <button class="btn btn-sm btn-primary" (click)="addPhoneName()"><i
+                                                        class="fa fa-plus"></i></button>
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="col-md-12">Khách hàng</label>
                                                 <nz-select style="width: 100%;" nzShowSearch nzAllowClear
-                                                    [(ngModel)]="orderInfo.cusomter_type" nzPlaceHolder="Chọn">
+                                                    [(ngModel)]="orderInfo.full_name" nzPlaceHolder="Chọn">
                                                     <nz-option nzLabel="Khách lẻ" nzValue="Khách lẻ">Khách lẻ
                                                     </nz-option>
                                                     <nz-option *ngFor="let c of listPhoneName" nzLabel="{{c}}"
                                                         nzValue="{{c}}">{{c}}</nz-option>
                                                 </nz-select>
                                             </div>
-                                            <div class="col-md-2">
-                                                <label class="col-md-12"></label>
-                                                <button class="btn btn-sm btn-primary" (click)="addPhoneName()"><i
-                                                        class="fa fa-plus"></i></button>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <label class="col-md-12">Mã HĐ</label>
-                                                <input type="text" class="form-control" placeholder="nhập..." readonly
-                                                    [value]="orderInfo.order_code">
-                                            </div>
+                                            
+                                           
                                             <div class="col-md-12">
                                                 <label class="col-md-12">Người bán</label>
-                                                <nz-select style="width: 100%;" nzShowSearch nzAllowClear
-                                                    [(ngModel)]="full_name" nzPlaceHolder="Chọn">
-                                                    <nz-option *ngFor="let c of listSeller" nzLabel="{{c}}"
-                                                        nzValue="{{c}}">{{c}}</nz-option>
-                                                </nz-select>
+                                                <input style="width: 100%;" [(ngModel)]="full_name" class="form-control" disabled/>
+                                                    <!-- <nz-option *ngFor="let c of listSeller" nzLabel="{{c}}"
+                                                        nzValue="{{c}}">{{c}}</nz-option> -->
+                                                
                                             </div>
                                             <div class="col-md-6" *ngIf="selectedOption === 'online'">
                                                 <label class="col-md-12 mb-1">Tỉnh/ Thành phố</label>
@@ -85,7 +87,7 @@
                                                         {{c.WardName}}</nz-option>
                                                 </nz-select>
                                             </div>
-                                            <div class="col-md-12">
+                                            <div class="col-md-12" *ngIf="selectedOption === 'online'">
                                                 <label class="col-md-12">Địa chỉ chi tiết</label>
                                                 <textarea nz-input placeholder="nhập..."
                                                     [nzAutosize]="{ minRows: 5, maxRows: 8 }"
@@ -105,10 +107,10 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="col-md-12">Phương thức mua hàng</label>
-                                                <nz-select style="width: 100%;" nzShowSearch nzAllowClear
+                                                <nz-select style="width: 100%; margin-top: 8px;" nzShowSearch nzAllowClear
                                                     [(ngModel)]="selectedOption" [(ngModel)]="orderInfo.bought_type"
                                                     nzPlaceHolder="Chọn">
-                                                    <nz-option nzLabel="offline" nzValue="offline">Tiền mặt</nz-option>
+                                                    <nz-option nzLabel="Tại quầy" nzValue="offline">Tại quầy</nz-option>
                                                     <nz-option nzLabel="online" nzValue="online">Online</nz-option>
                                                 </nz-select>
                                             </div>
@@ -122,7 +124,7 @@
                                                 </nz-select>
                                             </div>
                                             <div class="col-md-12">
-                                                <label nz-checkbox [(ngModel)]="orderInfo.waiting">Chờ thanh
+                                                <label nz-checkbox [(ngModel)]="orderInfo.status">Chờ thanh
                                                     toán</label>
                                             </div>
                                             <div class="col-md-12">

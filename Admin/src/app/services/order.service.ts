@@ -80,6 +80,16 @@ export class OrderService {
         })
       );
   }
+  
+  getByIdOrderInfor(order_infor_id: any): Observable<any> {
+    return this.http
+      .get<any>(this.appConfig.API + 'api/v1/orderInfor/getById/' + order_infor_id)
+      .pipe(
+        map((z) => {
+          return z;
+        })
+      );
+  }
 
   updateItemOrderInfo(req: any): Observable<any> {
     return this.http

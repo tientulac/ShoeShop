@@ -9,21 +9,23 @@ import { BaseComponent } from '../base/base.component';
 export class OrderComponent extends BaseComponent implements OnInit {
 
   accountName: any;
-
   selectedStatus!: any;
+  statusFilter: any;
 
   filterStatusOrder: any = [
     { status: 0, name: 'Chờ xác nhận' },
     { status: 1, name: 'Chờ lấy hàng' },
     { status: 2, name: 'Đang giao' },
-    { status: 3, name: 'Giao thành công' },
+    { status: 3, name: 'Hoàn thành' },
     { status: 4, name: 'Đã hủy' },
+    { status: 5, name: 'Chờ thanh toán' },
   ]
+
   statusOrder: any = [
-    { status: 0, name: 'Chờ lấy hàng' },
-    { status: 1, name: 'Đang giao' },
-    { status: 2, name: 'Giao thành công' },
-    { status: 3, name: 'Đã hủy' },
+    { status: 1, name: 'Chờ lấy hàng' },
+    { status: 2, name: 'Đang giao' },
+    { status: 3, name: 'Hoàn thành' },
+    { status: 4, name: 'Đã hủy' },
   ]
 
   ngOnInit(): void {
@@ -41,24 +43,10 @@ export class OrderComponent extends BaseComponent implements OnInit {
       deleted_at: this.cancle_date_search ?? null
     }
   }
-
-  isStatusDisabled(selectedStatus: number): boolean {
-    if (selectedStatus === 1) {
-      return this.statusOrder.status === 1;
-    }
-    if (selectedStatus === 2) {
-      return this.statusOrder.status === 1 || this.statusOrder.status === 2;
-    }
-    if (selectedStatus === 3) {
-      return this.statusOrder.status === 1 || this.statusOrder.status === 2 || this.statusOrder.status === 3;
-    }
-    if (selectedStatus === 4) {
-      return this.statusOrder.status === 1 || this.statusOrder.status === 2 || this.statusOrder.status === 3 || this.statusOrder.status === 4;
-    }
-    else {
-      return false;
-    }
+  checkStatus(selectedStatus: number) {
+    this.statusOrder = this.statusFilter.filter((x: any) => x.status != selectedStatus)
   }
+
   showConfirm(id: any): void {
     this.modal.confirm({
       nzTitle: '<i>Do you Want to delete these items?</i>',
@@ -124,6 +112,7 @@ export class OrderComponent extends BaseComponent implements OnInit {
     this.productService.getOrderByFilter(req).subscribe(
       (res) => {
         this.listOrder = res.data;
+        console.log(res.data)
       }
     );
   }

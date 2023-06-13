@@ -269,6 +269,54 @@ namespace ClothesShopMale.Controllers
         }
 
         [HttpGet]
+        [Route("api/v1/product/colors")]
+        public ResponseBase<List<ColorDto>> GetListColor()
+        {
+            try
+            {
+                var data = db.ProductAttributes.Select(x => x.color).ToList() ?? new List<string>();
+                var listString = new List<string>();
+                var listResult = new List<ColorDto>();
+                var count = 0;
+                if (data.Count > 0)
+                {
+                    data.ForEach(x =>
+                    {
+                        var size = x.Split(',');
+                        listString.AddRange(size);
+                    });
+                }
+
+                if (listString.Count > 0)
+                {
+                    foreach (var str in listString.Distinct())
+                    {
+                        count++;
+                        listResult.Add(new ColorDto
+                        {
+                            id = count,
+                            name = str,
+                            color = str
+                        });
+                    }
+                }
+
+                return new ResponseBase<List<ColorDto>>
+                {
+                    data = listResult.Distinct().OrderBy(x => x.color).ToList(),
+                    status = 200
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseBase<List<ColorDto>>
+                {
+                    status = 500
+                };
+            }
+        }
+
+        [HttpGet]
         [Route("api/v1/product_all")]
         public ResponseBase<List<sp_ProductLoadListAllResult>> GetAllProduct()
         {

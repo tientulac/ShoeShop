@@ -16,12 +16,12 @@ export class ProductComponent extends BaseComponent implements OnInit {
   multipleValue = [];
   sizeUpdate: any = '';
   newSize: any;
-
-  selectedPrice!: any;
-  selectedBrand!: any;
-  selectedCate!: any;
-
+  newColor: any;
+  selectedPrice: any = '';
+  selectedBrand: any = '';
+  selectedCate: any = '';
   selectedIndex: any;
+  isEdit: any = false;
 
   checkboxForm = [
     {
@@ -68,13 +68,22 @@ export class ProductComponent extends BaseComponent implements OnInit {
     this.getListBrand();
     this.getProductImage();
     this.getAttribute();
-    for (let i = 2; i <= 1000; i++) {
+    for (let i = 2; i <= 30; i++) {
       var _img = {
         img: `/assets/images/${i}.jpg`,
         checked: false
       };
       this.listIndexImage.push(_img);
     }
+  }
+
+  editProduct() {
+    this.isEdit = !this.isEdit;
+    this.getAttributeByProduct();
+  }
+
+  saveChange(data: any) {
+    console.log(data);
   }
 
   addAttribute() {
@@ -278,6 +287,15 @@ export class ProductComponent extends BaseComponent implements OnInit {
       else {
         this.listOfOption.push(this.newSize);
       }
+    }
+  }
+
+  addColor() {
+    if (this.listOfOptionColor.filter((x: any) => x == this.newColor).length > 0) {
+      this.toastr.warning('Màu này đã được thêm');
+    }
+    else {
+      this.listOfOptionColor.push(this.newColor);
     }
   }
 

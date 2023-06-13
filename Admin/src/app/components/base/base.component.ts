@@ -107,7 +107,7 @@ export class BaseComponent {
   user_name_search: any = '';
   full_name_search: any = '';
   email_search: any = '';
-
+  listOfOptionColor: any;
 
   constructor(
     public titleService: Title,
@@ -268,7 +268,7 @@ export class BaseComponent {
   getListOrder = (req: any) => {
     this.orderService.getList(req).subscribe(
       (res) => {
-        this.listOrder = res.data.filter((x: any) => x.type == 1);
+        this.listOrder = res.data;
         if (this.listOrder.length > 0) {
           this.listOrder.forEach((x: any) => {
             this.positionService.getListCity().subscribe(
@@ -301,6 +301,11 @@ export class BaseComponent {
             this.listOfOption = resSize.data.map((x: any) => x.size);
           }
         );
+        this.productService.getListColor().subscribe(
+          (resColor) => {
+            this.listOfOptionColor = resColor.data.map((x: any) => x.color);
+          }
+        );
       }
     )
   }
@@ -313,6 +318,11 @@ export class BaseComponent {
         this.productService.getListSize().subscribe(
           (resSize) => {
             this.listOfOption = resSize.data.map((x: any) => x.size);
+          }
+        );
+        this.productService.getListColor().subscribe(
+          (resColor) => {
+            this.listOfOptionColor = resColor.data.map((x: any) => x.color);
           }
         );
       }
@@ -369,7 +379,7 @@ export class BaseComponent {
         this.listSeller = this.listAccount.map((x: any) => `${x.phone ?? 'None'} - ${x.full_name}`);
         this.orderService.getList(null).subscribe(
           (res) => {
-            this.listPhoneName = res.data.filter((x: any) => x.cusomter_type != null).map((x: any) => x.cusomter_type)
+            this.listPhoneName = res.data.filter((x: any) => x.full_name != null).map((x: any) => x.full_name)
           }
         );
       }

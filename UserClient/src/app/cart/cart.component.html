@@ -65,17 +65,17 @@
                     <span class="amount">
                       <span class="currencySymbol">
                         <pre wp-pre-tag-3=""></pre>
-                      </span><input style="width:60px;" type="number" [(ngModel)]="c.count" [ngModelOptions]="{standalone: true}"></span>
+                      </span><input style="width:60px;" type="number" [(ngModel)]="c.amountCart" [ngModelOptions]="{standalone: true}"></span>
                   </td>
                   <td class="product-subtotal" data-title="Total">
                     <span class="amount">
                       <span class="currencySymbol">
                         <pre wp-pre-tag-3=""></pre>
-                      </span>{{c.count*c.price | number}} VNĐ</span>
+                      </span>{{c.amountCart*c.price | number}} VNĐ</span>
                   </td>
                   <td class="product-remove" data-title="Remove">
                     <a style="font-size: 40px;font-weight: bold;" href="javascript:void(0)" class="remove" aria-label="Remove this item" data-product_id="30"
-                      data-product_sku="" (click)="removeCartItem(c.product_id, c.count*c.price)">×</a>
+                      data-product_sku="" (click)="removeCartItem(c.product_id, c.amountCart*c.price)">×</a>
                       &nbsp; &nbsp;&nbsp;
                     <a style="font-size: 30px;font-weight: bold;color:green" href="javascript:void(0)" class="remove" aria-label="Remove this item" data-product_id="30"
                       data-product_sku="" (click)="updateCountCart(c)"><i class="fa fa-check"></i></a>

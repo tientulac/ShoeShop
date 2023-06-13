@@ -167,24 +167,25 @@ namespace ClothesShopMale.Controllers
 
         [HttpPost]
         [Route("api/v1/order/orderByFilter")]
-        public ResponseBase<List<Order>> GetByFitler(FilterOrder req)
+        public ResponseBase<List<sp_LoadOrderResult>> GetByFitler(FilterOrder req)
         {
             try
             {
-                var list = db.Orders.ToList();
+                List<sp_LoadOrderResult> result = db.sp_LoadOrder().ToList();
                 if (req.status > 0)
                 {
-                    list = list.Where(x => x.status == req.status).ToList();
+                    result = result.Where(x => x.status == req.status).ToList();
                 }
-                return new ResponseBase<List<Order>>
+
+                return new ResponseBase<List<sp_LoadOrderResult>>
                 {
-                    data = list.ToList(),
+                    data = result,
                     status = 200
                 };
             }
             catch (Exception ex)
             {
-                return new ResponseBase<List<Order>>
+                return new ResponseBase<List<sp_LoadOrderResult>>
                 {
                     status = 500
                 };

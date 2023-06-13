@@ -69,7 +69,7 @@ namespace ClothesShopMale.Models
     #endregion
 		
 		public LinqDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["MisuShop_V2ConnectionString"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["MisuShop_V2ConnectionString1"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}

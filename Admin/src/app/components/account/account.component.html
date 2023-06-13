@@ -54,13 +54,12 @@
                                             <tr>
                                                 <th>ID</th>
                                                 <th>User name</th>
-                                                <th>Admin</th>
-                                                <th>Active</th>
                                                 <th>Địa chỉ</th>
                                                 <th>SĐT </th>
                                                 <th>Họ tên</th>
                                                 <th>Email</th>
                                                 <th>Quyền</th>
+                                                <th>Active</th>
                                                 <th>Hành động</th>
                                             </tr>
                                         </thead>
@@ -68,15 +67,16 @@
                                             <tr *ngFor="let data of basicTable.data | filter:searchString">
                                                 <td>{{ data.account_id }}</td>
                                                 <td>{{ data.user_name }}</td>
-                                                <td style="font-weight: bold; color:green" *ngIf="data.admin">V</td>
-                                                <td style="font-weight: bold; color:red" *ngIf="!data.admin">X</td>
-                                                <td style="font-weight: bold; color:green" *ngIf="data.active">V</td>
-                                                <td style="font-weight: bold; color:red" *ngIf="!data.active">X</td>
+                                             
                                                 <td>{{ data.town }} - {{ data.district }} - {{ data.city }}</td>
                                                 <td>{{ data.phone }}</td>
                                                 <td>{{ data.full_name }}</td>
                                                 <td>{{ data.email }}</td>
-                                                <td>{{ data.role_code }}</td>
+                                                <td *ngIf="data.role_code == 001">ADMIN</td>
+                                                <td *ngIf="data.role_code == 002">NHÂN VIÊN</td>
+                                                <td *ngIf="data.role_code == 003">KHÁCH HÀNG</td>
+                                                <td style="font-weight: bold; color:green" *ngIf="data.active">V</td>
+                                                <td style="font-weight: bold; color:red" *ngIf="!data.active">X</td>
                                                 <td>
                                                     <button class="btn btn-sm btn-outline-warning" placement="left"
                                                         style="margin-right: 0.5rem;"
