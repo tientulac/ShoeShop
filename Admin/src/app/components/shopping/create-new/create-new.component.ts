@@ -68,8 +68,21 @@ export class CreateNewComponent extends BaseComponent implements OnInit {
   }
 
   addToCart(): boolean {
-    this.productFilter = this.listAllProduct.filter((x: any) => x.product_code == this.product_code);
-    if (this.listProductCart.filter((x: any) => x.product_code == this.product_code).length > 0) {
+    if (this.product_code) {
+      this.productFilter = this.listAllProduct.filter((x: any) => x.product_code == this.product_code);
+    }
+    if (this.product_name) {
+      this.productFilter = this.listAllProduct.filter((x: any) => x.product_name.toLowerCase().includes(this.product_name));
+    }
+    if (this.size_search) {
+      this.productFilter = this.listAllProduct.filter((x: any) => x.size == this.size_search);
+    }
+    if (this.colorInput) {
+      this.productFilter = this.listAllProduct.filter((x: any) => x.color == this.colorInput);
+    }
+    let attributeCart = this.listProductCart?.map((x: any) => x.product_attribue_id) ?? [];
+    console.log(attributeCart);
+    if (this.listProductCart.filter((x: any) => x.product_code == this.product_code && x.size == this.size_search && x.color == this.colorInput).length > 0) {
       alert('Sản phẩm đã được thêm vào giỏ hàng');
       return false;
     }
@@ -80,7 +93,10 @@ export class CreateNewComponent extends BaseComponent implements OnInit {
         p.totalPayment = (p.price * p.amountCart);
         this.listProductCart.push(p);
       })
-      this.totalPayment = this.listProductCart.filter((x: any) => x.checked == true).map((o: any) => o.totalPayment).reduce((a: any, c: any) => { return a + c }) ?? 0;
+      this.totalPayment = this.listProductCart?.filter((x: any) => x.checked == true)?.map((o: any) => o.totalPayment)?.reduce((a: any, c: any) => { return a + c }) ?? 0;
+    }
+    else {
+      this.toastr.warning('Không tìm thấy sản phẩm nào phù hợp');
     }
     return true;
   }
@@ -99,9 +115,9 @@ export class CreateNewComponent extends BaseComponent implements OnInit {
   }
 
   createOrder() {
-    if(this.orderInfo.status){
+    if (this.orderInfo.status) {
       this.orderInfo.status = 5
-    }else{
+    } else {
       this.orderInfo.status = 3
     }
     this.orderInfo.seller = this.full_name;

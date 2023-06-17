@@ -46,6 +46,20 @@ namespace ClothesShopMale.Controllers
         {
             try
             {
+                if (req.product_attribue_id > 0)
+                {
+                    var _att = db.ProductAttributes?.FirstOrDefault(x => x.product_attribue_id == req.product_attribue_id) ?? null;
+                    _att.size = req.size;
+                    _att.color = req.color;
+                    _att.price = req.price;
+                    _att.amount = req.amount;
+                    db.SubmitChanges();
+                    return new ResponseBase<bool>
+                    {
+                        data = true,
+                        status = 200
+                    };
+                }
                 db.ProductAttributes.InsertOnSubmit(req);
                 db.SubmitChanges();
                 return new ResponseBase<bool>

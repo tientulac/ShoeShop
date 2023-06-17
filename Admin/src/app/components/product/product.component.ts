@@ -83,7 +83,17 @@ export class ProductComponent extends BaseComponent implements OnInit {
   }
 
   saveChange(data: any) {
-    console.log(data);
+    data.product_attribue_id = data.product_attribute_id;
+    this.productService.insertAttribute(data).subscribe(
+      (res) => {
+        if (res.status == 200) {
+          this.toastr.success('Cập nhật thành công');
+        }
+        else {
+          this.toastr.warning('Cập nhật thất bại');
+        }
+      }
+    );
   }
 
   addAttribute() {
@@ -331,5 +341,15 @@ export class ProductComponent extends BaseComponent implements OnInit {
 
   search() {
     this.getListProduct(this.getRequest());
+  }
+
+  filterAttribute() {
+    this.listAttribute = this.listAttributeFilter;
+    if (this.size_search) {
+      this.listAttribute = this.listAttributeFilter.filter((x: any) => x.size == this.size_search);
+    }
+    if (this.color_search) {
+      this.listAttribute = this.listAttributeFilter.filter((x: any) => x.color == this.color_search);
+    }
   }
 }

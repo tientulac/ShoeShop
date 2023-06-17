@@ -34,8 +34,8 @@
 
                                             <div class="col-md-5">
                                                 <label class="col-md-12">Thêm khách hàng</label>
-                                                <input type="text" style="width: 285px" nz-input placeholder="Nhập SĐT - Họ tên"
-                                                    [(ngModel)]="customerShopping" />
+                                                <input type="text" style="width: 285px" nz-input
+                                                    placeholder="Nhập SĐT - Họ tên" [(ngModel)]="customerShopping" />
                                             </div>
                                             <div class="col-md-1">
                                                 <label class="col-md-12"></label>
@@ -52,14 +52,15 @@
                                                         nzValue="{{c}}">{{c}}</nz-option>
                                                 </nz-select>
                                             </div>
-                                            
-                                           
+
+
                                             <div class="col-md-12">
                                                 <label class="col-md-12">Người bán</label>
-                                                <input style="width: 100%;" [(ngModel)]="full_name" class="form-control" disabled/>
-                                                    <!-- <nz-option *ngFor="let c of listSeller" nzLabel="{{c}}"
+                                                <input style="width: 100%;" [(ngModel)]="full_name" class="form-control"
+                                                    disabled />
+                                                <!-- <nz-option *ngFor="let c of listSeller" nzLabel="{{c}}"
                                                         nzValue="{{c}}">{{c}}</nz-option> -->
-                                                
+
                                             </div>
                                             <div class="col-md-6" *ngIf="selectedOption === 'online'">
                                                 <label class="col-md-12 mb-1">Tỉnh/ Thành phố</label>
@@ -107,9 +108,9 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="col-md-12">Phương thức mua hàng</label>
-                                                <nz-select style="width: 100%; margin-top: 8px;" nzShowSearch nzAllowClear
-                                                    [(ngModel)]="selectedOption" [(ngModel)]="orderInfo.bought_type"
-                                                    nzPlaceHolder="Chọn">
+                                                <nz-select style="width: 100%; margin-top: 8px;" nzShowSearch
+                                                    nzAllowClear [(ngModel)]="selectedOption"
+                                                    [(ngModel)]="orderInfo.bought_type" nzPlaceHolder="Chọn">
                                                     <nz-option nzLabel="Tại quầy" nzValue="offline">Tại quầy</nz-option>
                                                     <nz-option nzLabel="online" nzValue="online">Online</nz-option>
                                                 </nz-select>
@@ -153,14 +154,42 @@
                                         <h4 class="text-center">Giỏ hàng</h4>
                                         <div class="row">
                                             <form class="form-inline">
-                                                <div class="form-group mx-sm-3 mb-2">
+                                                <div class="form-group col-md-3">
                                                     <label for="inputPassword2" class="sr-only">Mã sản phẩm</label>
-                                                    <input type="text" class="form-control" id="inputPassword2"
-                                                        placeholder="Mã sản phẩm" [(ngModel)]="product_code"
+                                                    <input nz-input type="text" placeholder="Mã sản phẩm"
+                                                        [(ngModel)]="product_code"
                                                         [ngModelOptions]="{standalone: true}">
                                                 </div>
-                                                <button type="submit" class="btn btn-primary mb-2"
-                                                    (click)="addToCart()">Thêm giỏ hàng</button>
+                                                <div class="form-group col-md-3">
+                                                    <label for="inputPassword2" class="sr-only">Tên sản phẩm</label>
+                                                    <input nz-input type="text" placeholder="Tên sản phẩm"
+                                                        [(ngModel)]="product_name"
+                                                        [ngModelOptions]="{standalone: true}">
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <nz-select style="width: 100%; margin-top: 2px;"
+                                                        nzPlaceHolder="Size (Kích cỡ)" [(ngModel)]="size_search" [ngModelOptions]="{standalone: true}">
+                                                        <nz-option *ngFor="let item of listOfOption" [nzLabel]="item"
+                                                            [nzValue]="item">
+                                                        </nz-option>
+                                                    </nz-select>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <select class="form-select"
+                                                        style="width: 100%; height: 35px; border-radius: 8px; background-color: rgb(247, 242, 242);"
+                                                        [(ngModel)]="colorInput" [ngModelOptions]="{standalone: true}">
+                                                        <option [ngValue]="null">Tất cả</option>
+                                                        <option *ngFor="let item of listOfOptionColor"
+                                                            [ngStyle]="{ 'color': item}" [value]="item">
+                                                            {{item}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <button style="float: right;" type="submit"
+                                                        class="btn btn-primary mb-2" (click)="addToCart()">Thêm giỏ
+                                                        hàng</button>
+                                                </div>
                                             </form>
                                             <div class="table-responsive table-hover table-sales">
                                                 <table class="table">
@@ -198,7 +227,8 @@
                                                                         class="fa fa-times" aria-hidden="true"></i>
                                                                 </a>
                                                                 &nbsp;&nbsp;&nbsp;&nbsp; -->
-                                                                <input type="checkbox" [checked]="c.checked" (change)="changeAmount(c)" [(ngModel)]="c.checked">
+                                                                <input type="checkbox" [checked]="c.checked"
+                                                                    (change)="changeAmount(c)" [(ngModel)]="c.checked">
                                                                 <!-- <a href="javascript:void(0)" (click)="changeAmount(c)"
                                                                     style="font-weight: bold; color: green;"><i
                                                                         class="fa fa-check" aria-hidden="true"></i></a> -->

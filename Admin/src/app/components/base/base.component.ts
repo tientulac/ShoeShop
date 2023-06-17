@@ -108,7 +108,7 @@ export class BaseComponent {
   full_name_search: any = '';
   email_search: any = '';
   listOfOptionColor: any;
-
+  product_name: any = '';
   constructor(
     public titleService: Title,
     public spinner: NgxSpinnerService,
@@ -156,6 +156,8 @@ export class BaseComponent {
   priceInput: any;
   amountInput: any;
   listOrderInfo: any = [];
+  size_search: any = null;
+  color_search: any = null;
 
   refreshOrderInfo() {
     return this.orderInfo = {
@@ -394,10 +396,12 @@ export class BaseComponent {
     )
   };
 
+  listAttributeFilter: any;
   getAttributeByProduct = () => {
     this.productService.getAllAttribute().subscribe(
       (res) => {
         this.listAttribute = res.data.filter((x: any) => x.product_id == this.selected_ID);
+        this.listAttributeFilter = this.listAttribute;
       }
     )
   };
