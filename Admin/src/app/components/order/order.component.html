@@ -57,11 +57,13 @@
                                     </nz-form-item>
                                     <nz-form-item class="col-md-3">
                                         <label>Ngày đặt</label>
-                                        <nz-date-picker style="width: 100%" [(ngModel)]="order_date_search" placeholder="Chọn ngày"></nz-date-picker>
+                                        <nz-date-picker style="width: 100%" [(ngModel)]="order_date_search"
+                                            placeholder="Chọn ngày"></nz-date-picker>
                                     </nz-form-item>
                                     <nz-form-item class="col-md-3">
                                         <label>Ngày hủy</label>
-                                        <nz-date-picker style="width: 100%" [(ngModel)]="cancle_date_search" placeholder="Chọn ngày"></nz-date-picker>
+                                        <nz-date-picker style="width: 100%" [(ngModel)]="cancle_date_search"
+                                            placeholder="Chọn ngày"></nz-date-picker>
                                     </nz-form-item>
                                 </div>
                             </div>
@@ -103,7 +105,8 @@
                                                     'font-weight: bold;color:red'">
                                                     {{data.status == 0 ? 'Chờ xác nhận' : data.status == 1 ? 'Chờ lấy
                                                     hàng' :
-                                                    data.status == 2 ? 'Đang giao' : data.status == 3 ? 'Hoàn thành' : data.status == 4 ?
+                                                    data.status == 2 ? 'Đang giao' : data.status == 3 ? 'Hoàn thành' :
+                                                    data.status == 4 ?
                                                     'Đã huỷ': 'Chờ thanh toán'}}</td>
 
                                                 <td
@@ -113,16 +116,19 @@
                                                 <td>{{ data.created_at | date: 'dd/MM/yyyy'}}</td>
                                                 <td [style]="
                                                     data.type == 1? 'font-weight: bold; color: #c7c726' : 
-                                                    'font-weight: bold; color: green'">{{ data.type == 1? "Online": "Tại quầy"}}</td>
+                                                    'font-weight: bold; color: green'">{{ data.type == 1? "Online":
+                                                    "Tại quầy"}}</td>
                                                 <td>
                                                     <button class="btn btn-sm btn-outline-primary" placement="left"
-                                                    nzType="dashed" (click)="showDetail(data)">
-                                                    <i class="fas fa-eye"></i>
+                                                        nzType="dashed" (click)="showDetail(data)">
+                                                        <i class="fas fa-eye"></i>
                                                     </button>
-                                                    <button *ngIf="data.status == 0" class="btn btn-sm btn-outline-warning" placement="left" style="margin-left: 0.5rem;">
+                                                    <button *ngIf="data.status == 0 && data.type == 1"
+                                                        class="btn btn-sm btn-outline-warning" placement="left"
+                                                        style="margin-left: 0.5rem;">
                                                         <i class="fas fa-edit"></i>
                                                     </button>
-                                                    <a nz-dropdown [nzDropdownMenu]="menu" *ngIf="data.type != 2"
+                                                    <a nz-dropdown [nzDropdownMenu]="menu" *ngIf="setDisplayEdit(data)"
                                                         style="margin-left: 0.5rem;">
                                                         <button class="btn btn-sm btn-outline-warning" placement="left"
                                                             style="margin-right: 0.1rem;" nzType="dashed">
@@ -132,9 +138,9 @@
                                                     <nz-dropdown-menu #menu="nzDropdownMenu">
                                                         <ul nz-menu nzSelectable>
                                                             <li *ngFor="let item of statusOrder"
-                                                                (change)="checkStatus(data)" nz-menu-item
-                                                                >
-                                                                <p *ngIf="item.status != data.status">{{item.name}}</p></li>
+                                                                (click)="checkStatus(data, item)" nz-menu-item>
+                                                                <p *ngIf="item.status > data.status">{{item.name}}</p>
+                                                            </li>
                                                         </ul>
                                                     </nz-dropdown-menu>
                                                 </td>
@@ -189,7 +195,7 @@
                     </td>
                     <td>{{data.amountCart | number}}</td>
                     <td>{{data.price}}</td>
-                    <td>{{data.total}}</td>
+                    <td>{{orderInfo.total}}</td>
                 </tr>
             </tbody>
         </nz-table>

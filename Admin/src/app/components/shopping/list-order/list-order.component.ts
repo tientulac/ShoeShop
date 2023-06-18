@@ -14,7 +14,7 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
   to_search: any = null;
   total: any = 0;
   selectedOption: any;
-  
+
   isEditing: boolean = false;
 
   ngOnInit(): void {
@@ -87,9 +87,9 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
   }
 
   save(hd: any) {
-    if(hd.status){
+    if (hd.status) {
       hd.status = 5
-    }else{
+    } else {
       hd.status = 3
     }
     this.orderService.createOrderInfor(hd).subscribe(
@@ -126,8 +126,8 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
     this.listProductCart = JSON.parse(hd.order_item);
     this.total = 0;
     this.sumCart();
-    this.is_waiting = hd.waiting;
     this.selected_ID = hd.order_id;
+    this.status_order = hd.status;
   }
 
   changeSum() {

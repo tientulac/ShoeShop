@@ -43,8 +43,25 @@ export class OrderComponent extends BaseComponent implements OnInit {
       deleted_at: this.cancle_date_search ?? null
     }
   }
-  checkStatus(selectedStatus: number) {
-    this.statusOrder = this.statusFilter.filter((x: any) => x.status != selectedStatus)
+  checkStatus(order: any, selectedStatus: any) {
+    this.modal.confirm({
+      nzTitle: '<i>Bạn có muốn thay đổi trạng thái ?</i>',
+      // nzContent: '<b>Some descriptions</b>',
+      nzOnOk: () => {
+        this.orderService.updateStatus(order.order_id, selectedStatus.status).subscribe(
+          (res) => {
+            if (res.status == 200) {
+              this.toastr.success('Thành công !');
+              this.getListOrder(this.getRequest());
+              this.handleCancel();
+            }
+            else {
+              this.toastr.warning('Thất bại !');
+            }
+          }
+        )
+      }
+    });
   }
 
   showConfirm(id: any): void {
@@ -119,5 +136,12 @@ export class OrderComponent extends BaseComponent implements OnInit {
 
   search() {
     this.getListOrder(this.getRequest());
+  }
+
+  setDisplayEdit(order: any): boolean {
+    if ((order.status == 3) || (order.status == 4)) {
+      return false;
+    }
+    return true;
   }
 }

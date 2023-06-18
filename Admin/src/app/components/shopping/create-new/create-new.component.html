@@ -168,7 +168,8 @@
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <nz-select style="width: 100%; margin-top: 2px;"
-                                                        nzPlaceHolder="Size (Kích cỡ)" [(ngModel)]="size_search" [ngModelOptions]="{standalone: true}">
+                                                        nzPlaceHolder="Size (Kích cỡ)" [(ngModel)]="size_search"
+                                                        [ngModelOptions]="{standalone: true}">
                                                         <nz-option *ngFor="let item of listOfOption" [nzLabel]="item"
                                                             [nzValue]="item">
                                                         </nz-option>
@@ -221,17 +222,19 @@
                                                             <td
                                                                 [style]="c.status == 1 ? 'font-weight: bold; color: green' : 'font-weight: bold;color:yellow'">
                                                                 {{c.status == 1 ? 'Mới' : 'Cũ'}}</td>
-                                                            <td>
+                                                            <td style="white-space: nowrap;">
                                                                 <!-- <a href="javascript:void(0)" (click)="deleteCart(c)"
                                                                     style="font-weight: bold; color: red;"><i
                                                                         class="fa fa-times" aria-hidden="true"></i>
                                                                 </a>
                                                                 &nbsp;&nbsp;&nbsp;&nbsp; -->
                                                                 <input type="checkbox" [checked]="c.checked"
-                                                                    (change)="changeAmount(c)" [(ngModel)]="c.checked">
-                                                                <!-- <a href="javascript:void(0)" (click)="changeAmount(c)"
-                                                                    style="font-weight: bold; color: green;"><i
-                                                                        class="fa fa-check" aria-hidden="true"></i></a> -->
+                                                                    (change)="changeAmount(c)"
+                                                                    [(ngModel)]="c.checked">&nbsp;&nbsp;
+                                                                <a placement="left" style="margin-right: 0.5rem; color: red;"
+                                                                    nzType="dashed">
+                                                                    <i class="fas fa-trash-alt"></i>
+                                                                </a>
                                                             </td>
                                                         </tr>
                                                     </tbody>

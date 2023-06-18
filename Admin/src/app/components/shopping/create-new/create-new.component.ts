@@ -28,15 +28,20 @@ export class CreateNewComponent extends BaseComponent implements OnInit {
   }
 
   newTab(): void {
-    let tab = {
-      name: 'Hóa đơn ' + (this.tabs.length + 1),
-    };
-    this.tabs.push(
-      tab
-    );
-    this.refreshOrderInfo();
-    this.orderInfo.order_code = `HD${this.date.getDate()}${this.date.getMonth() + 1}${this.date.getFullYear()}${Math.random()}`;
-    this.index = this.tabs.length - 1;
+    if (this.tabs.length > 4) {
+      this.toastr.warning('Bạn chỉ được tạo tối đa 5 hóa đơn');
+    }
+    else {
+      let tab = {
+        name: 'Hóa đơn ' + (this.tabs.length + 1),
+      };
+      this.tabs.push(
+        tab
+      );
+      this.refreshOrderInfo();
+      this.orderInfo.order_code = `HD${this.date.getDate()}${this.date.getMonth() + 1}${this.date.getFullYear()}${Math.random()}`;
+      this.index = this.tabs.length - 1;
+    }
   }
 
   ngOnInit(): void {

@@ -79,7 +79,7 @@ export class ProductComponent extends BaseComponent implements OnInit {
 
   editProduct() {
     this.isEdit = !this.isEdit;
-    this.getAttributeByProduct();
+    this.filterAttribute();
   }
 
   saveChange(data: any) {

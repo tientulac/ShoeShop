@@ -89,7 +89,6 @@ export class BaseComponent {
   product_code: any;
   productFilter: any;
   listProductCart: any = [];
-  is_waiting: any = false;
   listOfOption: any = [];
   isDisplayAttribute: any = false;
   customerShopping: any = '';
@@ -158,7 +157,7 @@ export class BaseComponent {
   listOrderInfo: any = [];
   size_search: any = null;
   color_search: any = null;
-
+  status_order: any = null;
   refreshOrderInfo() {
     return this.orderInfo = {
       order_infor_id: 0,
