@@ -130,6 +130,10 @@ export class ProductsingleComponent extends BaseComponent implements OnInit {
       }
     }
     if (this.token) {
+      if (this.countP > p.amount) {
+        this.toastr.warning('số lượng bạn cần mua lớn hơn số lượng trong kho');
+        return false;
+      }
       var cartItem = {
         id: Math.random(),
         product_id: p.product_id,
@@ -191,7 +195,12 @@ export class ProductsingleComponent extends BaseComponent implements OnInit {
       // );
     }
     else {
-      this.toastr.warning('Bạn cần đăng nhập để thêm giỏ hàng !');
+      this.toastr.warning('Bạn cần đăng nhập để mua hàng. Vui lòng đăng nhập "<a href="#/login">TẠI ĐÂY</a><br>Bạn chưa có tài khoản ? "<a href="#/signup">ĐĂNG KÝ NGAY</a>"',
+        undefined, {
+        enableHtml: true,
+        closeButton: true,
+        timeOut: 10000
+      });
     }
     return true;
   }
