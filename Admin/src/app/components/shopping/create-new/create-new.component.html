@@ -48,9 +48,11 @@
                                                     [(ngModel)]="orderInfo.full_name" nzPlaceHolder="Chọn">
                                                     <nz-option nzLabel="Khách lẻ" nzValue="Khách lẻ">Khách lẻ
                                                     </nz-option>
-                                                    <nz-option *ngFor="let c of listPhoneName" nzLabel="{{c}}"
-                                                        nzValue="{{c}}">{{c}}</nz-option>
+                                                    <nz-option *ngFor="let c of listPhoneName" [nzLabel]="c"
+                                                        [nzValue]="c">{{c}}</nz-option>
                                                 </nz-select>
+                                                <p class="validate-form" *ngIf="!orderInfo.full_name">Bạn chưa chọn
+                                                    khách hàng</p>
                                             </div>
 
 
@@ -71,6 +73,7 @@
                                                         [nzValue]="c.ProvinceID">
                                                         {{c.ProvinceName}}</nz-option>
                                                 </nz-select>
+                                                <p class="validate-form" *ngIf="!citySelected">Bạn chưa chọn Tỉnh</p>
                                                 <label class="col-md-12">Quận/ Huyện</label>
                                                 <nz-select style="width: 100%;" nzShowSearch nzAllowClear
                                                     [(ngModel)]="districtSelected" nzPlaceHolder="Chọn huyện"
@@ -79,6 +82,7 @@
                                                         [nzValue]="c.DistrictID">
                                                         {{c.DistrictName}}</nz-option>
                                                 </nz-select>
+                                                <p class="validate-form" *ngIf="!districtSelected">Bạn chưa chọn Huyện</p>
                                                 <label class="col-md-12">Xã</label>
                                                 <nz-select style="width: 100%;" nzShowSearch nzAllowClear
                                                     [(ngModel)]="townSelected" nzPlaceHolder="Chọn xã"
@@ -114,6 +118,8 @@
                                                     <nz-option nzLabel="Tại quầy" nzValue="offline">Tại quầy</nz-option>
                                                     <nz-option nzLabel="online" nzValue="online">Online</nz-option>
                                                 </nz-select>
+                                                <p class="validate-form" *ngIf="!orderInfo.bought_type">Bạn chưa chọn phương
+                                                    thức mua hàng</p>
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="col-md-12 mb-2">Phương thức thanh toán</label>
@@ -123,6 +129,8 @@
                                                     <nz-option nzLabel="Chuyển khoản" [nzValue]="2">Chuyển
                                                         khoản</nz-option>
                                                 </nz-select>
+                                                <p class="validate-form" *ngIf="!orderInfo.payment_type">Bạn chưa chọn
+                                                    phương thức thanh toán</p>
                                             </div>
                                             <div class="col-md-12">
                                                 <label nz-checkbox [(ngModel)]="orderInfo.status">Chờ thanh
@@ -179,7 +187,6 @@
                                                     <select class="form-select"
                                                         style="width: 100%; height: 35px; border-radius: 8px; background-color: rgb(247, 242, 242);"
                                                         [(ngModel)]="colorInput" [ngModelOptions]="{standalone: true}">
-                                                        <option [ngValue]="null">Tất cả</option>
                                                         <option *ngFor="let item of listOfOptionColor"
                                                             [ngStyle]="{ 'color': item}" [value]="item">
                                                             {{item}}
@@ -231,7 +238,8 @@
                                                                 <input type="checkbox" [checked]="c.checked"
                                                                     (change)="changeAmount(c)"
                                                                     [(ngModel)]="c.checked">&nbsp;&nbsp;
-                                                                <a placement="left" style="margin-right: 0.5rem; color: red;"
+                                                                <a (click)="deleteCart(c)" placement="left"
+                                                                    style="margin-right: 0.5rem; color: red;"
                                                                     nzType="dashed">
                                                                     <i class="fas fa-trash-alt"></i>
                                                                 </a>

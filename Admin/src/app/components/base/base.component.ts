@@ -371,16 +371,16 @@ export class BaseComponent {
     )
   };
 
-  listPhoneName: any;
+  listPhoneName: any = [];
   listSeller: any;
   getListAccount = (req: any) => {
     this.accountService.getList(req).subscribe(
       (res) => {
         this.listAccount = res.data;
-        this.listSeller = this.listAccount.map((x: any) => `${x.phone ?? 'None'} - ${x.full_name}`);
+        this.listSeller = this.listAccount?.map((x: any) => `${x.phone ?? 'None'} - ${x.full_name}`);
         this.orderService.getList(null).subscribe(
           (res) => {
-            this.listPhoneName = res.data.filter((x: any) => x.full_name != null).map((x: any) => x.full_name)
+            this.listPhoneName = res.data?.filter((x: any) => x.full_name != null).map((x: any) => x.full_name) ?? [];
           }
         );
       }
@@ -413,13 +413,32 @@ export class BaseComponent {
     );
   }
 
-  addPhoneName() {
+  addPhoneName(): boolean {
     if (this.customerShopping) {
+      if (this.customerShopping == 'Khách lẻ') {
+        this.toastr.warning('Loại khách hàng này đã được thêm');
+        return false;
+      }
+
+      let arr_name = this.customerShopping.split('-');
+      let countDup = 0;
+      this.listPhoneName?.forEach((x: any) => {
+        let info = x.split('-');
+        if (arr_name[0]?.trim() == info[0]?.trim() && arr_name[1]?.trim() == info[1]?.trim()) {
+          countDup++;
+        }
+      });
+      if (countDup > 0) {
+        this.toastr.warning('Loại khách hàng đã được thêm');
+        return false;
+      }
       this.listPhoneName.push(this.customerShopping);
       this.toastr.success('Thành công');
+      return false;
     }
     else {
       this.toastr.warning('Bạn chưa nhập khách hàng');
+      return false;
     }
   }
 
