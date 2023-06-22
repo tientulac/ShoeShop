@@ -74,17 +74,18 @@ export class CreateNewComponent extends BaseComponent implements OnInit {
   }
 
   addToCart(): boolean {
+    this.productFilter = this.listAllProduct;
     if (this.product_code) {
-      this.productFilter = this.listAllProduct.filter((x: any) => x.product_code == this.product_code);
+      this.productFilter = this.productFilter.filter((x: any) => x.product_code == this.product_code);
     }
     if (this.product_name) {
-      this.productFilter = this.listAllProduct.filter((x: any) => x.product_name.toLowerCase().includes(this.product_name));
+      this.productFilter = this.productFilter.filter((x: any) => x.product_name.toLowerCase().includes(this.product_name));
     }
     if (this.size_search) {
-      this.productFilter = this.listAllProduct.filter((x: any) => x.size == this.size_search);
+      this.productFilter = this.productFilter.filter((x: any) => x.size == this.size_search);
     }
     if (this.colorInput) {
-      this.productFilter = this.listAllProduct.filter((x: any) => x.color == this.colorInput);
+      this.productFilter = this.productFilter.filter((x: any) => x.color == this.colorInput);
     }
     let listAttributeCartId = this.listProductCart.map((x: any) => x.product_attribue_id) ?? [];
     for (let att of this.productFilter) {
@@ -102,6 +103,9 @@ export class CreateNewComponent extends BaseComponent implements OnInit {
         else {
           this.toastr.warning('Không tìm thấy sản phẩm nào phù hợp');
         }
+      }
+      else {
+        this.toastr.warning('Bạn đã thêm sản phẩm này rồi');
       }
     }
 

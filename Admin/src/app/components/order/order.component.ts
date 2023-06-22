@@ -11,6 +11,7 @@ export class OrderComponent extends BaseComponent implements OnInit {
   accountName: any;
   selectedStatus!: any;
   statusFilter: any;
+  isEdit: any = false;
 
   filterStatusOrder: any = [
     { status: 0, name: 'Chờ xác nhận' },
@@ -29,6 +30,8 @@ export class OrderComponent extends BaseComponent implements OnInit {
   ]
 
   ngOnInit(): void {
+    this.getListProduct(null);
+    this.getListAllProduct();
     this.getListOrder(this.getRequest());
   }
 
@@ -112,6 +115,13 @@ export class OrderComponent extends BaseComponent implements OnInit {
     this.listProductCart = JSON.parse(hd.order_item);
   }
 
+  showEdit(hd: any) {
+    this.colorInput = null;
+    this.isEdit = true;
+    this.orderInfo = hd;
+    this.listProductCart = JSON.parse(hd.order_item);
+  }
+
   handleOk(): void {
     console.log('Button ok clicked!');
     this.isDisplay = false;
@@ -120,6 +130,35 @@ export class OrderComponent extends BaseComponent implements OnInit {
   handleCancel(): void {
     console.log('Button cancel clicked!');
     this.isDisplay = false;
+    this.isEdit = false;
+  }
+
+  sumCart() {
+    this.total = 0;
+    this.listProductCart.forEach((data: any) => {
+      this.total += data.price * data.amountCart;
+    });
+  }
+
+  updateItem() {
+    this.sumCart();
+    var req = {
+      order_id: this.orderInfo.order_id,
+      order_item: JSON.stringify(this.listProductCart),
+      total: this.total,
+    }
+    this.orderService.updateItemOrderInfo(req).subscribe(
+      (res: any) => {
+        if (res.status == 200) {
+          this.toastr.success('Cập nhật thành công');
+          this.getListOrder(this.getRequest());
+          this.handleCancel();
+        }
+        else {
+          this.toastr.success('Thất bại');
+        }
+      }
+    );
   }
 
   filter() {
@@ -129,7 +168,6 @@ export class OrderComponent extends BaseComponent implements OnInit {
     this.productService.getOrderByFilter(req).subscribe(
       (res) => {
         this.listOrder = res.data;
-        console.log(res.data)
       }
     );
   }
@@ -143,5 +181,51 @@ export class OrderComponent extends BaseComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  addToCart(): boolean {
+    if (this.product_code) {
+      this.productFilter = this.listAllProduct.filter((x: any) => x.product_code == this.product_code);
+    }
+    if (this.product_name) {
+      this.productFilter = this.listAllProduct.filter((x: any) => x.product_name.toLowerCase().includes(this.product_name));
+    }
+    if (this.size_search) {
+      this.productFilter = this.listAllProduct.filter((x: any) => x.size == this.size_search);
+    }
+    if (this.colorInput) {
+      this.productFilter = this.listAllProduct.filter((x: any) => x.color == this.colorInput);
+    }
+    let listAttributeCartId = this.listProductCart.map((x: any) => x.product_attribue_id) ?? [];
+    for (let att of this.productFilter) {
+      if (!listAttributeCartId.includes(att.product_attribue_id)) {
+        if (this.productFilter) {
+          this.productFilter.forEach((p: any) => {
+            p.amountCart = 1;
+            p.totalPayment = 0;
+            p.totalPayment = (p.price * p.amountCart);
+            this.listProductCart.push(p);
+          })
+          this.toastr.success('Thêm sản phẩm thành công')
+        }
+        else {
+          this.toastr.warning('Không tìm thấy sản phẩm nào phù hợp');
+        }
+      }
+      else {
+        this.toastr.warning('Sản phẩm này đã được thêm');
+      }
+    }
+    return true;
+  }
+
+  deleteCart(data: any): void {
+    this.modal.confirm({
+      nzTitle: '<i>Bạn có chắc muốn xóa sản phẩm này?</i>',
+      // nzContent: '<b>Some descriptions</b>',
+      nzOnOk: () => {
+        this.listProductCart = this.listProductCart.filter((x: any) => x.product_attribue_id != data.product_attribue_id);
+      }
+    });
   }
 }

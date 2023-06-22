@@ -177,12 +177,12 @@
     </div>
 </div>
 
-<nz-modal [(nzVisible)]="isDisplay" nzTitle="Giỏ hàng" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
+<nz-modal [(nzVisible)]="isDisplay" nzTitle="Giỏ hàng" (nzOnCancel)="handleCancel()" (nzOnOk)="saveItem()"
     [nzWidth]="1000">
     <ng-container *nzModalContent>
         <div class="col-md-12" *ngIf="status_order == 5">
-            <button nz-button [nzType]="'primary'" style="float: left;" (click)="saveItem()"><span><i
-                        class="fas fa-plus"></i>&nbsp;Lưu</span></button>
+            <!-- <button nz-button [nzType]="'primary'" style="float: left;" (click)="saveItem()"><span><i
+                        class="fas fa-plus"></i>&nbsp;Lưu</span></button> -->
             <br>
             <br>
             <br>

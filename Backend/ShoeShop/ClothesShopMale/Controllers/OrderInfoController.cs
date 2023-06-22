@@ -101,7 +101,7 @@ namespace ClothesShopMale.Controllers
                 if (req.order_id > 0)
                 {
                     var order = db.Orders.Where(x => x.order_id == req.order_id).FirstOrDefault();
-                    order.data_cart = req.data_cart;
+                    order.order_item = req.order_item;
                     order.total = req.total;
                     db.SubmitChanges();
                 }

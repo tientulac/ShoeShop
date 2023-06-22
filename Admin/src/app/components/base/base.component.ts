@@ -108,6 +108,8 @@ export class BaseComponent {
   email_search: any = '';
   listOfOptionColor: any;
   product_name: any = '';
+  total: any = 0;
+  
   constructor(
     public titleService: Title,
     public spinner: NgxSpinnerService,
@@ -274,13 +276,13 @@ export class BaseComponent {
           this.listOrder.forEach((x: any) => {
             this.positionService.getListCity().subscribe(
               (res: any) => {
-                x.city_name = res.data.filter((c: any) => c.ProvinceID == x.id_city)[0].ProvinceName;
+                x.city_name = res.data?.filter((c: any) => c.ProvinceID == x.id_city)[0]?.ProvinceName ?? "";
                 this.positionService.getListDistrict({ province_id: x.id_city }).subscribe(
                   (res: any) => {
-                    x.district_name = res.data.filter((d: any) => d.DistrictID == x.id_district)[0].DistrictName;
+                    x.district_name = res.data?.filter((d: any) => d.DistrictID == x.id_district)[0]?.DistrictName ?? '';
                     this.positionService.getListWard({ district_id: x.id_district }).subscribe(
                       (res: any) => {
-                        x.ward_name = res.data.filter((w: any) => w.WardCode == x.id_ward.toString())[0].WardName;
+                        x.ward_name = res.data?.filter((w: any) => w.WardCode == x.id_ward.toString())[0]?.WardName ?? '';
                       }
                     );
                   }

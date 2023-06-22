@@ -12,7 +12,6 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
   code_search: any = '';
   from_search: any = null;
   to_search: any = null;
-  total: any = 0;
   selectedOption: any;
 
   isEditing: boolean = false;
@@ -104,10 +103,10 @@ export class ListOrderComponent extends BaseComponent implements OnInit {
     )
   }
 
-  handleOk(): void {
-    this.saveItem();
-    this.isDisplay = false;
-  }
+  // handleOk(): void {
+  //   this.saveItem();
+  //   this.isDisplay = false;
+  // }
 
   handleCancel(): void {
     console.log('Button cancel clicked!');
